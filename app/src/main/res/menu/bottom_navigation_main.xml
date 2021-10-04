@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/navigation_photos"
+        android:title="@string/navigation_photos"
+        android:icon="@drawable/ic_image" />
+    <item android:id="@+id/navigation_album"
+        android:title="@string/navigation_album"
+        android:icon="@drawable/ic_photo_library" />
+    <item android:id="@+id/navigation_favorite"
+        android:title="@string/navigation_favorite"
+        android:icon="@drawable/ic_favorite" />
+</menu>

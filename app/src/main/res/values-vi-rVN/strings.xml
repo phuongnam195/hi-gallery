@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hi Gallery</string>
+    <string name="main_title">Thư viện</string>
+    <string name="settings_title">Cài đặt</string>
+    <string name="navigation_photos">Ảnh</string>
+    <string name="navigation_album">Album</string>
+    <string name="navigation_favorite">Yêu thích</string>
+</resources>

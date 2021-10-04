@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hi Gallery</string>
+    <string name="main_title">Gallery</string>
+    <string name="settings_title">Settings</string>
+    <string name="navigation_photos">Photos</string>
+    <string name="navigation_album">Album</string>
+    <string name="navigation_favorite">Favorites</string>
+</resources>
