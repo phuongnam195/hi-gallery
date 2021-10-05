@@ -6,24 +6,27 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.PopupMenu;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends Activity {
+    private FrameLayout frameBody;
+    private View currentBody;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocaleHelper.loadSelectedLanguage(this);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
+        handleBottomNavigation();
+        frameBody = (FrameLayout) findViewById(R.id.body_main);
+        currentBody = getLayoutInflater().inflate(R.layout.frame_all_images, null);
+        frameBody.addView(currentBody);
     }
 
     @Override
@@ -31,13 +34,14 @@ public class MainActivity extends Activity {
         try {
             super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == 1  && resultCode == RESULT_OK) {
+            if (requestCode == 1 && resultCode == RESULT_OK) {
                 boolean languageSwitched = data.getBooleanExtra("languageSwitched", false);
                 if (languageSwitched) {
                     refreshActivity();
                 }
             }
-        } catch (Exception ignore) { }
+        } catch (Exception ignore) {
+        }
     }
 
     public void showPopupMenu(View view) {
@@ -57,7 +61,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        popup.show(); //showing popup menu
+        popup.show();
     }
 
     public void openCamera(View view) {
@@ -70,22 +74,30 @@ public class MainActivity extends Activity {
         startActivityForResult(intent, 1);
     }
 
-    private BottomNavigationView.OnItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_photos:
-                    break;
-                case R.id.navigation_album:
-                    break;
-                case R.id.navigation_favorite:
-                    break;
+    private void handleBottomNavigation() {
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_bar_main);
+        MenuItem favoriteItem = (MenuItem) findViewById(R.id.navigation_favorite);
+        navigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setChecked(true);
+                frameBody.removeView(currentBody);
+                switch (item.getItemId()) {
+                    case R.id.navigation_photos:
+                        currentBody = getLayoutInflater().inflate(R.layout.frame_all_images, null);
+                        break;
+                    case R.id.navigation_album:
+                        currentBody = getLayoutInflater().inflate(R.layout.frame_album, null);
+                        break;
+                    case R.id.navigation_favorite:
+                        currentBody = getLayoutInflater().inflate(R.layout.frame_favorite, null);
+                        break;
+                }
+                frameBody.addView(currentBody);
+                return false;
             }
-            return false;
-        }
-    };
+        });
+    }
 
     private void refreshActivity() {
         Intent intent = new Intent(this, MainActivity.class);

@@ -33,7 +33,9 @@ public class LocaleHelper {
     public static void loadSelectedLanguage(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String language = preferences.getString(SELECTED_LANGUAGE, "");
-        setLocale(context, language);
+        if (!language.isEmpty()) {
+            setLocale(context, language);
+        }
     }
 
     private static void saveSelectedLanguage(Context context, String language) {

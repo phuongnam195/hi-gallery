@@ -38,10 +38,10 @@ public class SettingsActivity extends Activity {
 
     public void switchLanguage(View view) {
         String currentLanguage = LocaleHelper.getLocale(getBaseContext()).getLanguage();
+
         if (currentLanguage.equals(new Locale("en").getLanguage())) {
             LocaleHelper.setLocale(this, "vi");
         }
-
         if (currentLanguage.equals(new Locale("vi").getLanguage())) {
             LocaleHelper.setLocale(this, "en");
         }

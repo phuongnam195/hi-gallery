@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/appbar_main"
+        android:layout_width="0dp"
         android:layout_height="@dimen/appbar_height"
         android:background="@color/primary"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/body_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/title_main_appbar"
@@ -42,7 +47,7 @@
                 app:elevation="0dp"
                 app:pressedTranslationZ="0dp"
                 app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_photo_camera"
+                app:srcCompat="@drawable/ic_baseline_photo_camera"
                 app:tint="#FFFFFF" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,22 +63,33 @@
                 app:elevation="0dp"
                 app:pressedTranslationZ="0dp"
                 app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_more_vert"
+                app:srcCompat="@drawable/ic_baseline_more_vert"
                 app:tint="#FFFFFF" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/grid_images"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/body_main"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_main">
+
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
+        android:id="@+id/bottom_bar_main"
+        android:layout_width="0dp"
         android:layout_height="@dimen/appbar_height"
-        app:menu="@menu/bottom_navigation_main" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/body_main"
+        app:menu="@menu/bottom_navigation_main">
 
-</LinearLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
