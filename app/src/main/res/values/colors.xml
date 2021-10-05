@@ -10,4 +10,5 @@
 
     <color name="primary">#FF03A9F4</color>
     <color name="ripple_button">#17000000</color>
+    <color name="divider">#EFEFEF</color>
 </resources>

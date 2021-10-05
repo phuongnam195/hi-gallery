@@ -6,4 +6,10 @@
     <string name="navigation_photos">Ảnh</string>
     <string name="navigation_album">Album</string>
     <string name="navigation_favorite">Yêu thích</string>
+    <string name="settings_language_title">Ngôn ngữ</string>
+    <string name="settings_language_subtitle">Tiếng Việt</string>
+    <string name="settings_about_title">Giới thiệu</string>
+    <string name="settings_language_action">Chuyển sang Tiếng Anh</string>
+    <string name="main_appbar_camera">Mở máy ảnh</string>
+    <string name="main_appbar_more">Nhiều hơn</string>
 </resources>

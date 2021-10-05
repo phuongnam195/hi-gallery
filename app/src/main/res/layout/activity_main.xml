@@ -37,6 +37,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:onClick="openCamera"
+                android:tooltipText="@string/main_appbar_camera"
                 app:backgroundTint="@color/primary"
                 app:elevation="0dp"
                 app:pressedTranslationZ="0dp"
@@ -52,6 +53,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:onClick="showPopupMenu"
+                android:tooltipText="@string/main_appbar_more"
                 app:backgroundTint="@color/primary"
                 app:elevation="0dp"
                 app:pressedTranslationZ="0dp"
@@ -65,7 +67,7 @@
     <View
         android:id="@+id/grid_images"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
