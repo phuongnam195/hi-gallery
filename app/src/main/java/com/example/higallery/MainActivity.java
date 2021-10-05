@@ -3,6 +3,7 @@ package com.example.higallery;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,25 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.loadSelectedLanguage(this);
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == 1  && resultCode == RESULT_OK) {
+                boolean languageSwitched = data.getBooleanExtra("languageSwitched", false);
+                if (languageSwitched) {
+                    refreshActivity();
+                }
+            }
+        } catch (Exception ignore) { }
     }
 
     public void showPopupMenu(View view) {
@@ -36,9 +52,6 @@ public class MainActivity extends Activity {
                     case R.id.menu_item_settings:
                         openSettings(view);
                         break;
-                    case R.id.menu_item_about:
-                        Toast.makeText(MainActivity.this, "Team 2", Toast.LENGTH_SHORT).show();
-                        break;
                 }
                 return true;
             }
@@ -48,15 +61,13 @@ public class MainActivity extends Activity {
     }
 
     public void openCamera(View view) {
-        Toast.makeText(MainActivity.this, "Chưa code", Toast.LENGTH_SHORT).show();
-
-//        Intent intent = new Intent("android.provider.MediaStore.ACTION_IMAGE_CAPTURE");
-//        startActivity(intent);
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+        startActivity(intent);
     }
 
     public void openSettings(View view) {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     private BottomNavigationView.OnItemSelectedListener mOnNavigationItemSelectedListener
@@ -75,4 +86,10 @@ public class MainActivity extends Activity {
             return false;
         }
     };
+
+    private void refreshActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        finish();
+        startActivity(intent);
+    }
 }

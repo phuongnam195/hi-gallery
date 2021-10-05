@@ -2,7 +2,16 @@
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Gallery</string>
     <string name="settings_title">Settings</string>
+
+    <string name="main_appbar_camera">Open Camera</string>
+    <string name="main_appbar_more">More</string>
+
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>
     <string name="navigation_favorite">Favorites</string>
+
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_subtitle">English</string>
+    <string name="settings_language_action">Switch to Vietnamese</string>
+    <string name="settings_about_title">About</string>
 </resources>
