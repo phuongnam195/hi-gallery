@@ -76,7 +76,6 @@ public class MainActivity extends Activity {
 
     private void handleBottomNavigation() {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_bar_main);
-        MenuItem favoriteItem = (MenuItem) findViewById(R.id.navigation_favorite);
         navigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
