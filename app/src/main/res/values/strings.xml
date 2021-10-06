@@ -5,6 +5,7 @@
 
     <string name="main_appbar_camera">Open Camera</string>
     <string name="main_appbar_more">More</string>
+    <string name="main_appbar_more_vault">Vault</string>
 
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>

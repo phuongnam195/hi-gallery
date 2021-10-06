@@ -53,6 +53,9 @@ public class MainActivity extends Activity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.menu_item_vault:
+                        openVault(view);
+                        break;
                     case R.id.menu_item_settings:
                         openSettings(view);
                         break;
@@ -67,6 +70,10 @@ public class MainActivity extends Activity {
     public void openCamera(View view) {
         Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         startActivity(intent);
+    }
+
+    public void openVault(View view) {
+        // Lợi code
     }
 
     public void openSettings(View view) {
