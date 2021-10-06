@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable/ic_baseline_favorite.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable/ic_baseline_image.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable/ic_baseline_more_vert.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable/ic_baseline_photo_library.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/drawable/style_shape.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android Studio/hi-gallery/app/src/main/res/layout/activity_login.xml" value="0.12708333333333333" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.25925925925925924" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_favorite.xml" value="0.13240740740740742" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_more_vert.xml" value="0.13425925925925927" />

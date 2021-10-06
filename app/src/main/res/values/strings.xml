@@ -15,4 +15,6 @@
     <string name="settings_language_subtitle">English</string>
     <string name="settings_language_action">Switch to Vietnamese</string>
     <string name="settings_about_title">About</string>
+
+    <string name="login_slogan">Hi you!</string>
 </resources>

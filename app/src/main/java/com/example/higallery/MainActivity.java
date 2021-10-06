@@ -73,7 +73,9 @@ public class MainActivity extends Activity {
     }
 
     public void openVault(View view) {
-        // Lợi code
+        // Lợi code - UI-login
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
     }
 
     public void openSettings(View view) {
