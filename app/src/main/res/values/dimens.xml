@@ -4,4 +4,6 @@
     <dimen name="settings_title_size">20sp</dimen>
     <dimen name="settings_subtitle_size">16sp</dimen>
     <dimen name="settings_action_size">16sp</dimen>
+
+    <dimen name="login_vault_number_width">120dp</dimen>
 </resources>
