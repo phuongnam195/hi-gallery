@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.higallery">
 
-    <uses-permission android:name="android.permission.CAMERA"> </uses-permission>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -13,17 +13,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HiGallery">
         <activity
+            android:name=".activities.VaultAlbumActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.LoginVaultActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:configChanges="locale|orientation">
+            android:configChanges="locale|orientation"
+            android:launchMode="singleTop"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" android:configChanges="locale|orientation"/>
-
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:configChanges="locale|orientation" />
     </application>
 
 </manifest>

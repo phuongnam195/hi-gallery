@@ -1,21 +1,32 @@
 package com.example.higallery;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.higallery.activities.LoginVaultActivity;
+import com.example.higallery.activities.SettingsActivity;
+import com.example.higallery.fragments.AlbumFragment;
+import com.example.higallery.fragments.AllImagesFragment;
+import com.example.higallery.fragments.FavoriteFragment;
+import com.example.higallery.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends Activity {
-    private FrameLayout frameBody;
-    private View currentBody;
+public class MainActivity extends FragmentActivity {
+    private final Fragment fragment1 = new AllImagesFragment();
+    private final Fragment fragment2 = new AlbumFragment();
+    private final Fragment fragment3 = new FavoriteFragment();
+    private final FragmentManager fm = getSupportFragmentManager();
+    private Fragment currentFragment;
+    private int currentNavID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +34,12 @@ public class MainActivity extends Activity {
         LocaleHelper.loadSelectedLanguage(this);
         setContentView(R.layout.activity_main);
 
+        fm.beginTransaction().add(R.id.body_main, fragment3, "3").hide(fragment3).commit();
+        fm.beginTransaction().add(R.id.body_main, fragment2, "2").hide(fragment2).commit();
+        fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
+        currentFragment = fragment1;
+        currentNavID = R.id.navigation_photos;
         handleBottomNavigation();
-        frameBody = (FrameLayout) findViewById(R.id.body_main);
-        currentBody = getLayoutInflater().inflate(R.layout.frame_all_images, null);
-        frameBody.addView(currentBody);
     }
 
     @Override
@@ -73,7 +86,9 @@ public class MainActivity extends Activity {
     }
 
     public void openVault(View view) {
-        // Lợi code
+        // Lợi code - UI-login
+        Intent intent = new Intent(this, LoginVaultActivity.class);
+        startActivity(intent);
     }
 
     public void openSettings(View view) {
@@ -86,24 +101,31 @@ public class MainActivity extends Activity {
         navigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
-                frameBody.removeView(currentBody);
+                if (item.getItemId() == currentNavID) {
+                    return false;
+                }
+                currentNavID = item.getItemId();
                 switch (item.getItemId()) {
                     case R.id.navigation_photos:
-                        currentBody = getLayoutInflater().inflate(R.layout.frame_all_images, null);
-                        break;
+                        fm.beginTransaction().hide(currentFragment).show(fragment1).commit();
+                        currentFragment = fragment1;
+                        return true;
+
                     case R.id.navigation_album:
-                        currentBody = getLayoutInflater().inflate(R.layout.frame_album, null);
-                        break;
+                        fm.beginTransaction().hide(currentFragment).show(fragment2).commit();
+                        currentFragment = fragment2;
+                        return true;
+
                     case R.id.navigation_favorite:
-                        currentBody = getLayoutInflater().inflate(R.layout.frame_favorite, null);
-                        break;
+                        fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
+                        currentFragment = fragment3;
+                        return true;
                 }
-                frameBody.addView(currentBody);
                 return false;
             }
         });
     }
+
 
     private void refreshActivity() {
         Intent intent = new Intent(this, MainActivity.class);

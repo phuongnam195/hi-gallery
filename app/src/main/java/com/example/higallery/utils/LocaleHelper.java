@@ -1,4 +1,4 @@
-package com.example.higallery;
+package com.example.higallery.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
