@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.higallery.activities.EditActivity;
 import com.example.higallery.activities.LoginVaultActivity;
 import com.example.higallery.activities.SettingsActivity;
 import com.example.higallery.fragments.AlbumFragment;
@@ -94,6 +95,11 @@ public class MainActivity extends FragmentActivity {
     public void openSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivityForResult(intent, 1);
+    }
+
+    public void openEdit(View view){
+        Intent intent = new Intent(this, EditActivity.class);
+        startActivity(intent);
     }
 
     private void handleBottomNavigation() {

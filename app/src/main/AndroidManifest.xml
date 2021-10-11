@@ -16,6 +16,9 @@
             android:name=".activities.VaultAlbumActivity"
             android:exported="true" />
         <activity
+            android:name=".activities.EditActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.LoginVaultActivity"
             android:exported="true" />
         <activity

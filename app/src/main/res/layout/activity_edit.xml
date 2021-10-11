@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/main_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="Photo Editor"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="30dp"></TextView>
+
+        <Button
+            android:id="@+id/selectImageButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Select image"></Button>
+
+        <Button
+            android:id="@+id/takePhotoButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Take photo"></Button>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

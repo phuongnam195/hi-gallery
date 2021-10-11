@@ -35,6 +35,22 @@
             android:orientation="horizontal">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/edit_main_appbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="openEdit"
+                android:tooltipText="@string/main_appbar_camera"
+                app:backgroundTint="@color/primary"
+                app:elevation="0dp"
+                app:pressedTranslationZ="0dp"
+                app:rippleColor="@color/ripple_button"
+                app:srcCompat="@drawable/ic_baseline_edit"
+                app:tint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/camera_main_appbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
