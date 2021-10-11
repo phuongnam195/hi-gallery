@@ -19,6 +19,7 @@
 
     <string name="login_vault_title">Thư mục bí mật</string>
     <string name="login_vault_subtitle">Vui lòng nhập mật khẩu.</string>
+    <string name="login_vault_password_incorrect">Mật khẩu không đúng. Hãy thử lại!</string>
     <string name="login_vault_forgot">Quên</string>
     <string name="login_vault_delete">Xóa</string>
 </resources>
