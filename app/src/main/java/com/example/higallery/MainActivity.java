@@ -15,13 +15,13 @@ import androidx.fragment.app.FragmentManager;
 import com.example.higallery.activities.LoginVaultActivity;
 import com.example.higallery.activities.SettingsActivity;
 import com.example.higallery.fragments.AlbumFragment;
-import com.example.higallery.fragments.AllImagesFragment;
+import com.example.higallery.fragments.AllPhotosFragment;
 import com.example.higallery.fragments.FavoriteFragment;
 import com.example.higallery.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends FragmentActivity {
-    private final Fragment fragment1 = new AllImagesFragment();
+    private final Fragment fragment1 = new AllPhotosFragment();
     private final Fragment fragment2 = new AlbumFragment();
     private final Fragment fragment3 = new FavoriteFragment();
     private final FragmentManager fm = getSupportFragmentManager();

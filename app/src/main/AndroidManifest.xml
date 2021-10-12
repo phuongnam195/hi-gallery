@@ -13,22 +13,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HiGallery">
         <activity
-            android:name=".activities.VaultAlbumActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.LoginVaultActivity"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:configChanges="locale|orientation"
-            android:launchMode="singleTop"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.PhotoDetailActivity"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.VaultAlbumActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.LoginVaultActivity"
+            android:exported="true" />
+
         <activity
             android:name=".activities.SettingsActivity"
             android:configChanges="locale|orientation" />
