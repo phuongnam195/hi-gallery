@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="background_color" format="color"/>
+        <attr name="primary_color" format="color"/>
+        <attr name="on_primary_color" format="color"/>
+        <attr name="secondary_color" format="color"/>
+        <attr name="inactive_color" format="color"/>
+<!--        <attr name="text_color" format="color"/>-->
+        <attr name="ripple_color" format="color"/>
+        <attr name="divider_color" format="color"/>
+    </declare-styleable>
+</resources>

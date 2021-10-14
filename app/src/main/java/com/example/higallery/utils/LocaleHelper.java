@@ -9,35 +9,19 @@ import android.preference.PreferenceManager;
 import java.util.Locale;
 
 public class LocaleHelper {
-    private static final String SELECTED_LANGUAGE = "LocaleHelper.selectedLanguage";
-
     public static Locale getLocale(Context context) {
         return context.getResources().getConfiguration().getLocales().get(0);
     }
 
     @SuppressWarnings("deprecation")
     public static void setLocale(Context context, String language) {
+        if (getLocale(context).getLanguage().equals(language)) {
+            return;
+        }
         Resources activityRes = context.getResources();
         Configuration activityConf = activityRes.getConfiguration();
         Locale newLocale = new Locale(language);
         activityConf.setLocale(newLocale);
         activityRes.updateConfiguration(activityConf, activityRes.getDisplayMetrics());
-
-        saveSelectedLanguage(context, language);
-    }
-
-    public static void loadSelectedLanguage(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String language = preferences.getString(SELECTED_LANGUAGE, "");
-        if (!language.isEmpty()) {
-            setLocale(context, language);
-        }
-    }
-
-    private static void saveSelectedLanguage(Context context, String language) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(SELECTED_LANGUAGE, language);
-        editor.apply();
     }
 }
