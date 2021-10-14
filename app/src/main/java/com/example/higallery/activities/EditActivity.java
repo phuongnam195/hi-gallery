@@ -7,22 +7,29 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PersistableBundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Button;
 import android.widget.Toast;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.net.Uri;
 import android.app.Dialog;
+import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,8 +102,18 @@ public class EditActivity extends AppCompatActivity{
     }
 
     private static final int REQUEST_PICK_IMAGE = 12345;
+    private ImageView imageView;
 
     private void init(){
+
+        // Kiểm tra version
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
+
+        imageView = findViewById(R.id.imageView);
+
         // Kiểm tra xem thiết bị có camera ko, k có thì ẩn nút chụp
         if(!EditActivity.this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             findViewById(R.id.takePhotoButton).setVisibility(View.GONE);
@@ -153,6 +170,13 @@ public class EditActivity extends AppCompatActivity{
     }
 
     private boolean editMode = false;
+    private Bitmap bitmap;
+    private int width = 0;
+    private int height = 0;
+    private static final int MAX_PIXEL_COUNT = 2048;
+
+    private int[] pixels; // Lưu pixel của hình ảnh
+    private int pixelCount = 0; // đếm số pixel của hình ảnh
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -189,6 +213,64 @@ public class EditActivity extends AppCompatActivity{
         findViewById(R.id.main_screen).setVisibility(View.GONE);
         findViewById(R.id.editScreen).setVisibility(View.VISIBLE);
 
-        dialog.cancel();//Load xong thi dong dialog
+
+
+        // Tạo luồng (thread) để hiện ảnh vừa load) -- Load bitmap
+        new Thread(){
+            public void run(){
+                bitmap = null;
+                final BitmapFactory.Options bmpOptions = new BitmapFactory.Options();
+                bmpOptions.inBitmap = bitmap;
+                bmpOptions.inJustDecodeBounds = true; // Vua voi man hinh
+                try(InputStream input = getContentResolver().openInputStream(imageUri)){
+                    bitmap = BitmapFactory.decodeStream(input, null, bmpOptions);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                bmpOptions.inJustDecodeBounds = false;
+
+                width = bmpOptions.outWidth;
+                height = bmpOptions.outHeight;
+
+                //Nếu resizeScale > 1 thì bộ giải mã sẽ hiển thị hình ảnh nhỏ hơn để vừa với màn hình (độ phân giải nhỏ hơn) -- gán vào inSampleSize
+                int resizeScale = 1;
+                if(width > MAX_PIXEL_COUNT){
+                    resizeScale = width / MAX_PIXEL_COUNT;
+                }else if(height > MAX_PIXEL_COUNT){
+                    resizeScale = height / MAX_PIXEL_COUNT;
+                }
+                if(width/resizeScale > MAX_PIXEL_COUNT || height/resizeScale > MAX_PIXEL_COUNT){
+                    resizeScale++;
+                }
+                bmpOptions.inSampleSize = resizeScale;
+                InputStream input = null;
+                try{
+                    input = getContentResolver().openInputStream(imageUri);
+                }catch (FileNotFoundException e){
+                    e.printStackTrace();
+                    recreate();
+                    return;
+                }
+                bitmap = BitmapFactory.decodeStream(input, null, bmpOptions);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.setImageBitmap(bitmap); // Hiển thị ảnh lên View
+                        dialog.cancel();//Load xong thi dong dialog
+                    }
+                });
+                width = bitmap.getWidth();
+                height = bitmap.getHeight();
+                bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+                pixelCount = width*height;
+                pixels = new int[pixelCount];
+
+                //Copy tung pixel vao mang
+                bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            }
+        }.start(); // Chạy thread vừa code
+
     }
 }
