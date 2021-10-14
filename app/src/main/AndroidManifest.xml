@@ -6,23 +6,18 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="locale|orientation"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HiGallery">
-        <activity
-            android:name=".activities.VaultAlbumActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.LoginVaultActivity"
-            android:exported="true" />
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:configChanges="locale|orientation"
-            android:launchMode="singleTop"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +25,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.PhotoActivity"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.VaultAlbumActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.LoginVaultActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".activities.SettingsActivity"
-            android:configChanges="locale|orientation" />
+            android:exported="true" />
     </application>
 
 </manifest>

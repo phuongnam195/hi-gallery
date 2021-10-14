@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/edit_action_photo"
+        android:icon="@drawable/ic_baseline_edit"
+        android:title="@string/photo_edit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/new_album_action_photo"
+        android:title="@string/photo_new_album" />
+    <item
+        android:id="@+id/secure_action_photo"
+        android:title="@string/photo_secure" />
+    <item
+        android:id="@+id/set_as_action_photo"
+        android:title="@string/photo_set_as" />
+    <item
+        android:id="@+id/details_action_photo"
+        android:title="@string/photo_details"
+        app:showAsAction="never" />
+</menu>

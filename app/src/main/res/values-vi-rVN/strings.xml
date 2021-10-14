@@ -21,4 +21,14 @@
     <string name="login_vault_subtitle">Vui lòng nhập mật khẩu.</string>
     <string name="login_vault_forgot">Quên</string>
     <string name="login_vault_delete">Xóa</string>
+    <string name="photo_edit">Sửa</string>
+    <string name="photo_details">Chi tiết</string>
+    <string name="photo_delete">Xóa</string>
+    <string name="photo_set_as">Đặt làm</string>
+    <string name="photo_secure">Thêm vào Bí mật</string>
+    <string name="photo_new_album">Album mới</string>
+    <string name="photo_unfavorite">Bỏ yêu thích</string>
+    <string name="photo_favorite">Yêu thích</string>
+    <string name="photo_share">Chia sẻ…</string>
+    <string name="settings_darktheme_title">Giao diện tối</string>
 </resources>

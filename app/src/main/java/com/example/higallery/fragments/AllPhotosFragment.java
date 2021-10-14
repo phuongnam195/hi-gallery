@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.higallery.R;
 
-public class AllImagesFragment extends Fragment {
+public class AllPhotosFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
@@ -20,11 +20,11 @@ public class AllImagesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AllImagesFragment() { }
+    public AllPhotosFragment() { }
 
     // TODO: Rename and change types and number of parameters
-    public static AllImagesFragment newInstance(String param1, String param2) {
-        AllImagesFragment fragment = new AllImagesFragment();
+    public static AllPhotosFragment newInstance(String param1, String param2) {
+        AllPhotosFragment fragment = new AllPhotosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -45,6 +45,6 @@ public class AllImagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_images, container, false);
+        return inflater.inflate(R.layout.fragment_all_photos, container, false);
     }
 }

@@ -1,207 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:textAlignment="center">
+    android:textAlignment="center"
+    android:background="?attr/background_color"
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/appbar_height"
-        android:background="@color/primary"
-        android:orientation="horizontal">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/return_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="goBack"
-            app:backgroundTint="@color/primary"
-            app:elevation="0dp"
-            app:pressedTranslationZ="0dp"
-            app:rippleColor="@color/ripple_button"
-            app:srcCompat="?attr/actionModeCloseDrawable"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/title_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/settings_title"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/language_settings"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/appbar_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:focusable="auto"
-        android:onClick="switchLanguage"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp">
+        android:background="?attr/primary_color"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppBarTheme"
+        android:visibility="visible"
+        app:title="@string/settings_title"
+        app:titleTextColor="?attr/on_primary_color" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/content_settings_language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/title_settings_language"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_language_title"
-                android:textColor="@color/black"
-                android:textSize="@dimen/settings_title_size" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="4dp" />
-
-            <TextView
-                android:id="@+id/subtitle_settings_language"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_language_subtitle"
-                android:textSize="@dimen/settings_subtitle_size" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/action_setting_language"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="end"
-            android:text="@string/settings_language_action"
-            android:textSize="@dimen/settings_action_size" />
+            android:orientation="vertical" >
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/language_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:focusable="auto"
+                android:onClick="switchLanguage"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
 
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="@color/divider" />
+                <LinearLayout
+                    android:id="@+id/content_settings_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/about_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="auto"
-        android:onClick="openAbout"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp">
+                    <TextView
+                        android:id="@+id/title_settings_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_language_title"
+                        android:textSize="@dimen/settings_title_size" />
 
-        <TextView
-            android:id="@+id/title_settings_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_about_title"
-            android:textColor="@color/black"
-            android:textSize="@dimen/settings_title_size" />
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="4dp" />
 
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/subtitle_settings_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_language_subtitle"
+                        android:textSize="@dimen/settings_subtitle_size" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="@color/divider" />
+                </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/temp1_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="auto"
-        android:onClick="function1"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp">
+                <TextView
+                    android:id="@+id/action_setting_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:text="@string/settings_language_action"
+                    android:textSize="@dimen/settings_action_size" />
 
-        <TextView
-            android:id="@+id/title_settings_temp1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nút thứ nhất"
-            android:textColor="@color/black"
-            android:textSize="@dimen/settings_title_size" />
+            </LinearLayout>
 
-    </LinearLayout>
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
 
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="@color/divider" />
+            <LinearLayout
+                android:id="@+id/darktheme_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="auto"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
 
-    <LinearLayout
-        android:id="@+id/temp2_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="auto"
-        android:onClick="function2"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp">
+                <TextView
+                    android:id="@+id/title_settings_darktheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_darktheme_title"
+                    android:textSize="@dimen/settings_title_size" />
 
-        <TextView
-            android:id="@+id/title_settings_temp2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nút thứ hai"
-            android:textColor="@color/black"
-            android:textSize="@dimen/settings_title_size" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-    </LinearLayout>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_setting_darktheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:theme="@style/SwitchColor"
+                    tools:checked="false" />
 
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="@color/divider" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/temp3_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="auto"
-        android:onClick="function3"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp">
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
 
-        <TextView
-            android:id="@+id/title_settings_temp3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nút thứ ba"
-            android:textColor="@color/black"
-            android:textSize="@dimen/settings_title_size" />
+            <LinearLayout
+                android:id="@+id/about_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="auto"
+                android:onClick="openAbout"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/title_settings_about"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_about_title"
+                    android:textSize="@dimen/settings_title_size" />
 
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="@color/divider" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
+
+            <LinearLayout
+                android:id="@+id/temp1_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="auto"
+                android:onClick="function1"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    android:id="@+id/title_settings_temp1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nút thứ nhất"
+                    android:textSize="@dimen/settings_title_size" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
+
+            <LinearLayout
+                android:id="@+id/temp3_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="auto"
+                android:onClick="function3"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    android:id="@+id/title_settings_temp3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nút thứ ba"
+                    android:textSize="@dimen/settings_title_size" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
