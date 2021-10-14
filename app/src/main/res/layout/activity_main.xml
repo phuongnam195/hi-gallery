@@ -2,87 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/appbar_main"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/appbar_height"
-        android:background="@color/primary"
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/primary_color"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppBarTheme"
         app:layout_constraintBottom_toTopOf="@+id/body_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/title_main_appbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="15dp"
-            android:text="@string/main_title"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/camera_main_appbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:onClick="openCamera"
-                android:tooltipText="@string/main_appbar_camera"
-                app:backgroundTint="@color/primary"
-                app:elevation="0dp"
-                app:pressedTranslationZ="0dp"
-                app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_baseline_photo_camera"
-                app:tint="#FFFFFF" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/more_main_appbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:onClick="showPopupMenu"
-                android:tooltipText="@string/main_appbar_more"
-                app:backgroundTint="@color/primary"
-                app:elevation="0dp"
-                app:pressedTranslationZ="0dp"
-                app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_baseline_more_vert"
-                app:tint="#FFFFFF" />
-        </LinearLayout>
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_main"
+        app:title="@string/main_title"
+        app:titleTextColor="?attr/on_primary_color" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/body_main"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar_main"
+        android:background="?attr/background_color"
+        app:layout_constraintBottom_toTopOf="@+id/bottombar_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar_main"
         app:menu="@menu/bottom_navigation_main" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_bar_main"
+        android:id="@+id/bottombar_main"
         android:layout_width="0dp"
         android:layout_height="@dimen/appbar_height"
+        android:background="?attr/background_color"
+        app:itemIconTint="@drawable/item_bottom_bar_color"
+        app:itemTextColor="@drawable/item_bottom_bar_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

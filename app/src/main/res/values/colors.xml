@@ -8,8 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="dark">#FF181820</color>
     <color name="primary">#FF03A9F4</color>
+    <color name="secondary">#9459EA</color>
+    <color name="grey">#666666</color>
+
     <color name="ripple_button">#17000000</color>
-    <color name="divider">#EFEFEF</color>
+    <color name="divider_light">#EFEFEF</color>
+    <color name="divider_dark">#EFEFEF</color>
     <color name="login_vault_background">#1C1C1C</color>
 </resources>

@@ -3,13 +3,13 @@ package com.example.higallery;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.higallery.activities.LoginVaultActivity;
@@ -20,7 +20,7 @@ import com.example.higallery.fragments.FavoriteFragment;
 import com.example.higallery.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private final Fragment fragment1 = new AllPhotosFragment();
     private final Fragment fragment2 = new AlbumFragment();
     private final Fragment fragment3 = new FavoriteFragment();
@@ -31,25 +31,59 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.loadSelectedLanguage(this);
+        setConfiguration();
         setContentView(R.layout.activity_main);
 
-        fm.beginTransaction().add(R.id.body_main, fragment3, "3").hide(fragment3).commit();
-        fm.beginTransaction().add(R.id.body_main, fragment2, "2").hide(fragment2).commit();
-        fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
-        currentFragment = fragment1;
-        currentNavID = R.id.navigation_photos;
-        handleBottomNavigation();
+        setupAppBar();
+        setupBody();
+        setupBottomBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (Configuration.alreadyChanged()) {
+            refreshActivity();
+            Configuration.appliedChanges();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Configuration.save(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.camera_menu_item_main:
+                openCamera();
+                return true;
+            case R.id.vault_menu_item_main:
+                openVault();
+                return true;
+            case R.id.settings_menu_item_main:
+                openSettings();
+                return true;
+        }
+        return false;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             super.onActivityResult(requestCode, resultCode, data);
-
             if (requestCode == 1 && resultCode == RESULT_OK) {
-                boolean languageSwitched = data.getBooleanExtra("languageSwitched", false);
-                if (languageSwitched) {
+                boolean isChanged = data.getBooleanExtra("isChanged", false);
+                if (isChanged) {
                     refreshActivity();
                 }
             }
@@ -57,47 +91,27 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void showPopupMenu(View view) {
-        PopupMenu popup = new PopupMenu(MainActivity.this, view);
-        popup.getMenuInflater()
-                .inflate(R.menu.popup_menu_main, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_item_vault:
-                        openVault(view);
-                        break;
-                    case R.id.menu_item_settings:
-                        openSettings(view);
-                        break;
-                }
-                return true;
-            }
-        });
-
-        popup.show();
+    // Áp dụng các cài đặt
+    private void setConfiguration() {
+        Configuration.load(this);
+        Configuration.set(this);
     }
 
-    public void openCamera(View view) {
-        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
-        startActivity(intent);
+    private void setupAppBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_main);
+        setSupportActionBar(toolbar);
     }
 
-    public void openVault(View view) {
-        // Lợi code - UI-login
-        Intent intent = new Intent(this, LoginVaultActivity.class);
-        startActivity(intent);
+    private void setupBody() {
+        fm.beginTransaction().add(R.id.body_main, fragment3, "3").hide(fragment3).commit();
+        fm.beginTransaction().add(R.id.body_main, fragment2, "2").hide(fragment2).commit();
+        fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
+        currentFragment = fragment1;
+        currentNavID = R.id.navigation_photos;
     }
 
-    public void openSettings(View view) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivityForResult(intent, 1);
-    }
-
-    private void handleBottomNavigation() {
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_bar_main);
+    private void setupBottomBar() {
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottombar_main);
         navigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -126,6 +140,21 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    public void openCamera() {
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+        startActivity(intent);
+    }
+
+    public void openVault() {
+        // Lợi code - UI-login
+        Intent intent = new Intent(this, LoginVaultActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 
     private void refreshActivity() {
         Intent intent = new Intent(this, MainActivity.class);
