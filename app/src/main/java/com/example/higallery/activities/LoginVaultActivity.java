@@ -18,7 +18,7 @@ import com.example.higallery.R;
 
 public class LoginVaultActivity extends Activity {
     private final int PIN_LENGTH = 4;
-    private final String CORRECT_PIN = "1234";
+    private final String CORRECT_PIN = "1111";
 
     private RadioButton[] dots = new RadioButton[PIN_LENGTH];
     private String currentPIN = "";
@@ -61,7 +61,7 @@ public class LoginVaultActivity extends Activity {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Tránh trường hợp đang xác thực mã PIN mà người dùng vẫn nhập
+                    //Tránh trường hợp đang xác thực mã PIN mà người dùng vẫn nhập
                     if (currentPIN.length() == PIN_LENGTH) {
                         return;
                     }
