@@ -80,6 +80,15 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/notification_login_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:layout_marginTop="50dp"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +96,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1.2"
             android:orientation="vertical"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:paddingHorizontal="20dp">
             <LinearLayout
                 android:id="@+id/keyboard_vault"
                 android:layout_width="match_parent"
@@ -104,27 +114,33 @@
 
                     <Button
                         android:id="@+id/num1_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="1"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/num2_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="2"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/num3_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="3"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
@@ -139,27 +155,33 @@
 
                     <Button
                         android:id="@+id/num4_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="4"
                         android:textColor="@color/white"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"/>
 
                     <Button
                         android:id="@+id/num5_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="5"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/num6_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="6"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
@@ -174,27 +196,33 @@
 
                     <Button
                         android:id="@+id/num7_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="7"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/num8_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="8"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/num9_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="9"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
@@ -209,9 +237,11 @@
 
                     <Button
                         android:id="@+id/forgot_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:onClick="onForgot"
                         android:text="@string/login_vault_forgot"
                         android:textColor="@color/white"
@@ -219,18 +249,22 @@
 
                     <Button
                         android:id="@+id/num0_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:text="0"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <Button
                         android:id="@+id/delete_vault"
-                        android:layout_width="@dimen/login_vault_number_width"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
+                        android:background="@drawable/login_vault_ripple_button"
                         android:onClick="onDelete"
                         android:paddingHorizontal="20dp"
                         android:text="@string/login_vault_delete"
