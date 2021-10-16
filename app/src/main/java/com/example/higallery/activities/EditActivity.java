@@ -3,7 +3,9 @@ package com.example.higallery.activities;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -23,6 +25,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,22 @@ public class EditActivity extends AppCompatActivity{
 
     Button selectImage;
     Button takePhoto;
+    Button saveImage;
+    Button backButton;
+
+    //Button up and down
+    Button upButton;
+    Button downButton;
+    Button backUpDown;
+
+    //DS cac filter
+    Button brightness; // Do sang
+    Button blackAndWhite; // Trang den
+    Button negative; // Am ban
+    Button warm; // Do am
+
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -49,10 +68,21 @@ public class EditActivity extends AppCompatActivity{
 
         selectImage = (Button)findViewById(R.id.selectImageButton) ;
         takePhoto = (Button)findViewById(R.id.takePhotoButton);
+        blackAndWhite = (Button)findViewById(R.id.blackAndWhite);
+        saveImage = (Button)findViewById(R.id.saveImage);
+        backButton = (Button) findViewById(R.id.backButton);
 
+        //Button up and down
+        upButton =(Button)findViewById(R.id.up) ;
+        downButton=(Button)findViewById(R.id.down);
+        backUpDown = (Button)findViewById(R.id.backToFilter);
+        //Do sang
+        brightness = (Button)findViewById(R.id.brightness);
+        // Am ban
+        negative = (Button)findViewById(R.id.negative);
+        //Do am
+        warm = (Button)findViewById(R.id.warm);
         init();
-
-
     }
 
     // Tạo biến để kiểm tra quyền
@@ -73,14 +103,22 @@ public class EditActivity extends AppCompatActivity{
         return false;
     }
 
+    static {
+        System.loadLibrary("photoEditor");
+    }
+    private static native void blackAndWhite(int[] pixels, int width, int height);
+    private static native void BrightnessUp(int[] pixels, int width, int height);
+    private static native void BrightnessDown(int[] pixels, int width, int height);
+    private static native void negative(int[] pixels, int width, int height);
+    private static native void WarmDown(int[] pixels, int width, int height);
+    private static native void WarmUp(int[] pixels, int width, int height);
+
     @Override
     public void onResume(){
         super.onResume();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notPermissions()){
             requestPermissions(PERMISSION, REQUEST_PERMISSION);
         }
-
-
     }
 
 //    @Override
@@ -103,6 +141,19 @@ public class EditActivity extends AppCompatActivity{
 
     private static final int REQUEST_PICK_IMAGE = 12345;
     private ImageView imageView;
+
+
+    //Nut back thuong
+    public  void onBackPressed(){
+        if (editMode){
+            findViewById(R.id.editScreen).setVisibility(View.GONE);
+            findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
+            editMode = false;
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
 
     private void init(){
 
@@ -154,6 +205,158 @@ public class EditActivity extends AppCompatActivity{
                 }
             }
         });
+
+        saveImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+                final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE){
+                            final File outFile = createImageFile();
+                            try(FileOutputStream out = new FileOutputStream(outFile)){
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                                imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
+                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+                                Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+                builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.editScreen).setVisibility(View.GONE);
+                findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
+                editMode = false;
+            }
+        });
+
+        brightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.filtersGroup).setVisibility(View.GONE);
+                findViewById(R.id.UpDown).setVisibility(View.VISIBLE);
+                editBrightness = true;
+            }
+        });
+
+        blackAndWhite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    public void run(){
+                        blackAndWhite(pixels, width, height);
+                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
+                }.start();
+            }
+        });
+
+        negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    public void run(){
+                        negative(pixels, width, height);
+                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
+                }.start();
+            }
+        });
+
+        warm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.filtersGroup).setVisibility(View.GONE);
+                findViewById(R.id.UpDown).setVisibility(View.VISIBLE);
+                editWarm = true;
+            }
+        });
+
+        backUpDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editBrightness = false;
+                editWarm = false;
+                findViewById(R.id.UpDown).setVisibility(View.GONE);
+                findViewById(R.id.filtersGroup).setVisibility(View.VISIBLE);
+            }
+        });
+
+        downButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    public void run(){
+                        //Do here
+                        if(editBrightness){
+                            BrightnessDown(pixels, width, height);
+                        }
+                        if(editWarm){
+                            WarmDown(pixels, width, height);
+                        }
+
+                        //end
+                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
+                }.start();
+            }
+        });
+
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    public void run(){
+                        if(editBrightness){
+                            BrightnessUp(pixels, width, height);
+                        }
+                        if(editWarm){
+                            WarmUp(pixels, width, height);
+                        }
+                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
+                }.start();
+            }
+        });
     }
 
     private static final int REQUEST_IMAGE_CAPTURE = 1012; //Giá trị để check trong hàm onActivityResult
@@ -170,6 +373,8 @@ public class EditActivity extends AppCompatActivity{
     }
 
     private boolean editMode = false;
+    private boolean editBrightness = false;
+    private boolean editWarm = false;
     private Bitmap bitmap;
     private int width = 0;
     private int height = 0;
@@ -212,7 +417,7 @@ public class EditActivity extends AppCompatActivity{
         editMode = true;
         findViewById(R.id.main_screen).setVisibility(View.GONE);
         findViewById(R.id.editScreen).setVisibility(View.VISIBLE);
-
+        findViewById(R.id.UpDown).setVisibility(View.GONE);
 
 
         // Tạo luồng (thread) để hiện ảnh vừa load) -- Load bitmap

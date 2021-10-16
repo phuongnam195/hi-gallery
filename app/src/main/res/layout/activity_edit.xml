@@ -47,6 +47,7 @@
             android:layout_weight="1"/>
 
         <LinearLayout
+            android:id="@+id/filtersGroup"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
@@ -55,15 +56,108 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="feature1"/>
+                android:text="🔙"
+                android:layout_marginRight="20px"
+                android:id="@+id/backButton"/>
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3.5">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <Button
+                        android:id="@+id/blackAndWhite"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="B/W"
+                        android:layout_marginRight="10px"
+                        android:layout_marginLeft="10px"/>
+
+                    <Button
+                        android:id="@+id/negative"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="⚡"
+                        android:layout_marginRight="10px"
+                        android:layout_marginLeft="10px"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/brightness"
+                        android:text="🔆"
+                        android:layout_marginRight="10px"
+                        android:layout_marginLeft="10px"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/warm"
+                        android:text="🟧"
+                        android:layout_marginRight="10px"
+                        android:layout_marginLeft="10px"/>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
+
+
+
+
 
             <Button
+                android:id="@+id/saveImage"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="feature2"/>
+                android:layout_marginLeft="20px"
+                android:text="☑"/>
+
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/UpDown">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔙"
+                android:id="@+id/backToFilter"
+                android:layout_marginRight="60px"
+                android:layout_marginLeft="60px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="up"
+                android:id="@+id/up"
+                android:layout_marginRight="60px"
+                android:layout_marginLeft="60px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="down"
+                android:id="@+id/down"
+                android:layout_marginRight="60px"
+                android:layout_marginLeft="60px"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
