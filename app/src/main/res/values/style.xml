@@ -6,7 +6,6 @@
         <item name="on_primary_color">@color/white</item>
         <item name="secondary_color">@color/secondary</item>
         <item name="inactive_color">@color/grey</item>
-        <!--        <item name="text_color">@color/black</item>-->
         <item name="divider_color">@color/divider_light</item>
 
         <item name="android:textColorPrimary">@color/white</item>
@@ -25,8 +24,7 @@
         <item name="on_primary_color">@color/white</item>
         <item name="secondary_color">@color/secondary</item>
         <item name="inactive_color">@color/grey</item>
-        <!--        <item name="text_color">@color/white</item>-->
-        <item name="divider_color">@color/dark</item>
+        <item name="divider_color">@color/divider_dark</item>
 
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>

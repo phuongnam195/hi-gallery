@@ -16,5 +16,4 @@
     <color name="ripple_button">#17000000</color>
     <color name="divider_light">#EFEFEF</color>
     <color name="divider_dark">#EFEFEF</color>
-    <color name="login_vault_background">#1C1C1C</color>
 </resources>

@@ -45,6 +45,7 @@ public class VaultAlbumActivity extends Activity {
     byte[] bytesOfImage = null;
     //Input byte array to convert to bitmap, then show image to screen()
     Bitmap bitmapOfImage = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,20 +67,19 @@ public class VaultAlbumActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //Check permission read external store
-                if(ContextCompat.checkSelfPermission(
+                if (ContextCompat.checkSelfPermission(
                         VaultAlbumActivity.this,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 )
                         != PackageManager.PERMISSION_GRANTED
-                ){
+                ) {
                     //When permission is not granted, then request grand
                     ActivityCompat.requestPermissions(
                             VaultAlbumActivity.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                             100
                     );
-                }
-                else{
+                } else {
                     //When permission is granted, then choose image
                     selectImage();
                 }
@@ -90,7 +90,7 @@ public class VaultAlbumActivity extends Activity {
         btnEncrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(bitmapOfImage != null) {
+                if (bitmapOfImage != null) {
                     try {
                         //Encrypto
                         bytesOfImage = EncryptAndDecryptImage.encryptImage(bitmapOfImage);
@@ -112,7 +112,7 @@ public class VaultAlbumActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //Get code of image to decrypto, to show
-                if(bytesOfImage != null) {
+                if (bytesOfImage != null) {
                     try {
                         //Decrypt
                         bitmapOfImage = EncryptAndDecryptImage.decryptImage(bytesOfImage);
@@ -134,7 +134,7 @@ public class VaultAlbumActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(VaultAlbumActivity.this, "Dang ma hoa va luu", Toast.LENGTH_SHORT).show();
-                if(bitmapOfImage != null){
+                if (bitmapOfImage != null) {
                     //Encrypt
                     try {
                         bytesOfImage = EncryptAndDecryptImage.encryptImage(bitmapOfImage);
@@ -158,7 +158,7 @@ public class VaultAlbumActivity extends Activity {
         btnDecryptAndOpenFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(bytesOfImage == null){
+                if (bytesOfImage == null) {
                     bytesOfImage = readFile();
 
                     if (bytesOfImage != null) {
@@ -231,25 +231,25 @@ public class VaultAlbumActivity extends Activity {
         return bytes;
     }
 
+    // Credit 2 hàm bên dưới: https://www.youtube.com/watch?v=R_OSC0-nSIg
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             selectImage();
-        }
-        else{
+        } else {
             Toast.makeText(VaultAlbumActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    //When selected image, This function will call to encrypto
+    //When selected image, This function will call to encrypt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //After choocse image, if image existed
-        if(requestCode == 100 && resultCode == RESULT_OK && data != null){
+        //After choose image, if image existed
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
 
             try {
@@ -257,12 +257,11 @@ public class VaultAlbumActivity extends Activity {
                 bitmapOfImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
                 //Show image to screen
-               ivImageView.setImageBitmap(bitmapOfImage);
+                ivImageView.setImageBitmap(bitmapOfImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             Toast.makeText(VaultAlbumActivity.this, "Input failure!", Toast.LENGTH_SHORT).show();
         }
     }

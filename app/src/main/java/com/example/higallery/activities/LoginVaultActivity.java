@@ -45,7 +45,6 @@ public class LoginVaultActivity extends Activity {
             dots[i] = (RadioButton) findViewById(resID);
         }
 
-
         //Get notification Textview
         notificationLoginVault = (TextView) findViewById(R.id.notification_login_vault);
         notificationLoginVault.setText(R.string.login_vault_subtitle);
@@ -71,7 +70,7 @@ public class LoginVaultActivity extends Activity {
                     dots[currentPIN.length() - 1].setChecked(true);
 
                     //Status of notification when input first word
-                    if(currentPIN.length() == 1){
+                    if (currentPIN.length() == 1) {
                         notificationLoginVault.setText("");
                     }
 
