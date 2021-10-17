@@ -22,6 +22,13 @@
     <string name="login_vault_forgot">Forgot</string>
     <string name="login_vault_delete">Del</string>
 
+    <string name="signup_vault_invalid_email">Invalid email. Please enter again!</string>
+    <string name="signup_vault_email_exists">Email exists. Maybe restore!</string>
+    <string name="signup_vault_pin_not_match">PINs do not match. Please retype!</string>
+    <string name="signup_vault_pin_too_short">PIN length is 6. Please enter again!</string>
+    <string name="signup_vault_unknown_error">Unknown error. Please try again!</string>
+    <string name="restore_vault_wrong_pin">Wrong PIN. Please enter again!</string>
+
     <string name="photo_edit">Edit</string>
     <string name="photo_details">Details</string>
     <string name="photo_secure">Add to Vault</string>

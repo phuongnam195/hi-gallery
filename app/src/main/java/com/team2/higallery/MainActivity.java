@@ -1,4 +1,4 @@
-package com.example.higallery;
+package com.team2.higallery;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +12,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.higallery.activities.LoginVaultActivity;
-import com.example.higallery.activities.SettingsActivity;
-import com.example.higallery.fragments.AlbumFragment;
-import com.example.higallery.fragments.AllPhotosFragment;
-import com.example.higallery.fragments.FavoriteFragment;
-import com.example.higallery.utils.LocaleHelper;
+import com.team2.higallery.activities.LoginVaultActivity;
+import com.team2.higallery.activities.SettingsActivity;
+import com.team2.higallery.activities.SignUpVaultActivity;
+import com.team2.higallery.fragments.AlbumFragment;
+import com.team2.higallery.fragments.AllPhotosFragment;
+import com.team2.higallery.fragments.FavoriteFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.team2.higallery.utils.Account;
 
 public class MainActivity extends AppCompatActivity {
     private final Fragment fragment1 = new AllPhotosFragment();
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setupAppBar();
         setupBody();
         setupBottomBar();
+
+        Account.auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -146,9 +151,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openVault() {
-        // Lợi code - UI-login
-        Intent intent = new Intent(this, LoginVaultActivity.class);
-        startActivity(intent);
+        FirebaseUser currentUser = Account.auth.getCurrentUser();
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        if (currentUser != null) {
+            Intent intent = new Intent(this, LoginVaultActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, SignUpVaultActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void openSettings() {

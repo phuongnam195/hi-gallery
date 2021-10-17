@@ -1,4 +1,4 @@
-package com.example.higallery;
+package com.team2.higallery;
 
 import android.content.Context;
 

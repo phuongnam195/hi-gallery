@@ -1,10 +1,8 @@
-package com.example.higallery.activities;
+package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -15,11 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.higallery.Configuration;
-import com.example.higallery.utils.LocaleHelper;
-import com.example.higallery.R;
-
-import java.util.Locale;
+import com.team2.higallery.Configuration;
+import com.team2.higallery.R;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override

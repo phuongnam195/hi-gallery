@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background_color"
+    tools:context=".activities.SignUpVaultActivity">
+
+    <TextView
+        android:id="@+id/title_signup_vault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chào mừng đến với thư mục bí mật"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_signup_vault">
+
+        <TextView
+            android:id="@+id/email_label_signup_vault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email của bạn:" />
+
+        <EditText
+            android:id="@+id/email_input_signup_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:textColor="?android:attr/textColor" />
+
+        <TextView
+            android:id="@+id/pin_label_signup_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã pin (6 số):" />
+
+        <EditText
+            android:id="@+id/pin_input_signup_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:textColor="?android:attr/textColor" />
+
+        <TextView
+            android:id="@+id/retype_pin_label_signup_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nhập lại mã pin:" />
+
+        <EditText
+            android:id="@+id/retype_pin_input_signup_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:textColor="?android:attr/textColor" />
+
+        <LinearLayout
+            android:id="@+id/restore_start_signup_vault"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/restore_signup_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="restore"
+                android:text="Phục hồi" />
+
+            <Button
+                android:id="@+id/start_signup_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="start"
+                android:text="Bắt đầu" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

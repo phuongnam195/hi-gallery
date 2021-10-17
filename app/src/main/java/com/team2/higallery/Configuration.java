@@ -1,12 +1,10 @@
-package com.example.higallery;
+package com.team2.higallery;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import androidx.annotation.NonNull;
-
-import com.example.higallery.utils.LocaleHelper;
+import com.team2.higallery.utils.LocaleHelper;
 
 public class Configuration {
     private static final String SELECTED_LANGUAGE = "language";

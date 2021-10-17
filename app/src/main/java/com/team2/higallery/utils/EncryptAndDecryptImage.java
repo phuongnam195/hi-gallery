@@ -1,17 +1,14 @@
-package com.example.higallery.utils;
+package com.team2.higallery.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class EncryptAndDecryptImage {
-    public static byte[] encryptImage(Bitmap bitmap)   throws FileNotFoundException, IOException {
+    public static byte[] encryptImage(Bitmap bitmap) throws IOException {
         //Convert Bitmap to Byte array
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);

@@ -1,279 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LoginVaultActivity">
+    android:background="@color/black"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="@color/black">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/avatar_login_vault"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/login_vault_avatar" />
+
+        <TextView
+            android:id="@+id/title_login_vault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/login_vault_title"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/pin_login_vault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:clickable="false"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/avatar_login_vault"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/login_vault_avatar" />
-
-            <TextView
-                android:id="@+id/title_login_vault"
+            <RadioButton
+                android:id="@+id/dot0_login_vault"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/login_vault_title"
-                android:textColor="@color/white"
-                android:textSize="25dp" />
-
-            <LinearLayout
-                android:id="@+id/pin_login_vault"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginHorizontal="@dimen/vault_login_dot_margin"
+                android:buttonTint="@color/white"
                 android:clickable="false"
-                android:orientation="horizontal">
+                android:minWidth="0dp" />
 
-                <RadioButton
-                    android:id="@+id/dot0_login_vault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:buttonTint="@color/white"
-                    android:clickable="false"
-                    android:minWidth="0dp" />
-
-                <RadioButton
-                    android:id="@+id/dot1_login_vault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:buttonTint="@color/white"
-                    android:clickable="false"
-                    android:minWidth="0dp" />
-
-                <RadioButton
-                    android:id="@+id/dot2_login_vault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:buttonTint="@color/white"
-                    android:clickable="false"
-                    android:minWidth="0dp" />
-
-                <RadioButton
-                    android:id="@+id/dot3_login_vault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:buttonTint="@color/white"
-                    android:clickable="false"
-                    android:minWidth="0dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/notification_login_vault"
+            <RadioButton
+                android:id="@+id/dot1_login_vault"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginHorizontal="@dimen/vault_login_dot_margin"
+                android:buttonTint="@color/white"
+                android:clickable="false"
+                android:minWidth="0dp" />
+
+            <RadioButton
+                android:id="@+id/dot2_login_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/vault_login_dot_margin"
+                android:buttonTint="@color/white"
+                android:clickable="false"
+                android:minWidth="0dp" />
+
+            <RadioButton
+                android:id="@+id/dot3_login_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/vault_login_dot_margin"
+                android:buttonTint="@color/white"
+                android:clickable="false"
+                android:minWidth="0dp" />
+
+            <RadioButton
+                android:id="@+id/dot4_login_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/vault_login_dot_margin"
+                android:layout_weight="1"
+                android:buttonTint="@color/white"
+                android:clickable="false"
+                android:minWidth="0dp" />
+
+            <RadioButton
+                android:id="@+id/dot5_login_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/vault_login_dot_margin"
+                android:layout_weight="1"
+                android:buttonTint="@color/white"
+                android:clickable="false"
+                android:minWidth="0dp" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:paddingHorizontal="20dp">
-            <LinearLayout
-                android:id="@+id/keyboard_vault"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/num1_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="1"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-
-                    <Button
-                        android:id="@+id/num2_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="2"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-
-                    <Button
-                        android:id="@+id/num3_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="3"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/num4_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="4"
-                        android:textColor="@color/white"
-                        android:textSize="30sp"/>
-
-                    <Button
-                        android:id="@+id/num5_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="5"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-
-                    <Button
-                        android:id="@+id/num6_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="6"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/num7_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="7"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-
-                    <Button
-                        android:id="@+id/num8_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="8"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-
-                    <Button
-                        android:id="@+id/num9_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="9"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/forgot_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:onClick="onForgot"
-                        android:text="@string/login_vault_forgot"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/num0_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
-
-                    <Button
-                        android:id="@+id/delete_vault"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/black"
-                        android:background="@drawable/login_vault_ripple_button"
-                        android:onClick="onDelete"
-                        android:paddingHorizontal="20dp"
-                        android:text="@string/login_vault_delete"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/message_login_vault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.2"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
+
+        <LinearLayout
+            android:id="@+id/keyboard_vault"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/num1_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/num2_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/num3_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="3"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/num4_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="4"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/num5_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/num6_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="6"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/num7_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="7"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/num8_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="8"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/num9_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="9"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/forgot_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:onClick="onForgot"
+                    android:text="@string/login_vault_forgot"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/num0_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/delete_vault"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_vault_ripple_button"
+                    android:backgroundTint="@color/black"
+                    android:onClick="onDelete"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/login_vault_delete"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.higallery.activities;
+package com.team2.higallery.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -6,13 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,8 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.higallery.R;
-import com.example.higallery.utils.EncryptAndDecryptImage;
+import com.team2.higallery.R;
+import com.team2.higallery.utils.EncryptAndDecryptImage;
 
 import java.io.File;
 import java.io.FileInputStream;

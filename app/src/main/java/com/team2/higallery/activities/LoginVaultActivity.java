@@ -1,6 +1,4 @@
-package com.example.higallery.activities;
-
-import static com.example.higallery.R.anim.login_vault_vibrate_animation;
+package com.team2.higallery.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,16 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.higallery.MainActivity;
-import com.example.higallery.R;
+import com.team2.higallery.R;
+import com.team2.higallery.utils.Account;
 
 public class LoginVaultActivity extends Activity {
-    private final int PIN_LENGTH = 4;
-    private final String CORRECT_PIN = "1111";
+    private final int PIN_LENGTH = 6;
 
     private RadioButton[] dots = new RadioButton[PIN_LENGTH];
     private String currentPIN = "";
-    private TextView notificationLoginVault;
+    private TextView message;
     private Button[] numkeys = new Button[10];
 
     private Animation animationForRadioGroups;
@@ -34,8 +31,7 @@ public class LoginVaultActivity extends Activity {
 
         //Add animation
         animationForRadioGroups = AnimationUtils.loadAnimation(
-                getApplicationContext(),
-                login_vault_vibrate_animation
+                getApplicationContext(), R.anim.login_vault_vibrate_animation
         );
 
         //Get radio
@@ -45,11 +41,15 @@ public class LoginVaultActivity extends Activity {
             dots[i] = (RadioButton) findViewById(resID);
         }
 
-        //Get notification Textview
-        notificationLoginVault = (TextView) findViewById(R.id.notification_login_vault);
-        notificationLoginVault.setText(R.string.login_vault_subtitle);
+        //Get message Textview
+        message = (TextView) findViewById(R.id.message_login_vault);
+        message.setText(R.string.login_vault_subtitle);
 
         //Get and set event for keyboard
+        setupKeyboard();
+    }
+
+    private void setupKeyboard() {
         for (int i = 0; i < 10; i++) {
             String btnID = "num" + String.valueOf(i) + "_vault";
             int resID = getResources().getIdentifier(btnID, "id", getPackageName());
@@ -71,7 +71,7 @@ public class LoginVaultActivity extends Activity {
 
                     //Status of notification when input first word
                     if (currentPIN.length() == 1) {
-                        notificationLoginVault.setText("");
+                        message.setText("");
                     }
 
                     //Check password when input enough
@@ -84,7 +84,7 @@ public class LoginVaultActivity extends Activity {
     }
 
     private void validatePIN() {
-        if (currentPIN.equals(CORRECT_PIN)) {
+        if (Account.checkPIN(currentPIN, this)) {
             Intent intent = new Intent(this, VaultAlbumActivity.class);
             finish();
             startActivity(intent);
@@ -100,7 +100,7 @@ public class LoginVaultActivity extends Activity {
             }
 
             //Notification for user that "password fail"
-            notificationLoginVault.setText(R.string.login_vault_password_incorrect);
+            message.setText(R.string.login_vault_password_incorrect);
         }
     }
 

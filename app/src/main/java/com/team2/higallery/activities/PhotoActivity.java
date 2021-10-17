@@ -1,4 +1,4 @@
-package com.example.higallery.activities;
+package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
@@ -14,9 +14,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.higallery.Configuration;
-import com.example.higallery.R;
+import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.team2.higallery.R;
 
 public class PhotoActivity extends AppCompatActivity {
     private ActionBar appBar;
