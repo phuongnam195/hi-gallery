@@ -15,6 +15,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    externalNativeBuild{
+        cmake{
+            path "src/main/jni/CMakeLists.txt"
+        }
+    }
 
     buildTypes {
         release {
