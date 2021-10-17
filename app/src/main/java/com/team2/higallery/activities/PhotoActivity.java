@@ -1,6 +1,7 @@
 package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
@@ -109,6 +110,8 @@ public class PhotoActivity extends AppCompatActivity {
 
     public void onEdit() {
         Toast.makeText(this, "Sửa...", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, EditActivity.class);
+        startActivity(intent);
     }
 
     public void onNewAlbum() {
