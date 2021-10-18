@@ -1,6 +1,7 @@
 package com.team2.higallery;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;

@@ -1,8 +1,17 @@
 package com.team2.higallery.fragments;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,31 +29,45 @@ public class AllPhotosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AllPhotosFragment() { }
 
-    // TODO: Rename and change types and number of parameters
-    public static AllPhotosFragment newInstance(String param1, String param2) {
-        AllPhotosFragment fragment = new AllPhotosFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public AllImagesFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        try {
+            context = getActivity();
+        } catch (IllegalStateException e) {
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_photos, container, false);
+        ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_all_images, null);
+
+        RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.photos_recycler_view);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_READ_PERMISSION_CODE);
+        } else {
+//            recyclerView.setHasFixedSize(true);
+            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), PORTRAIT_COLUMNS));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), LANDSCAPE_COLUMNS));
+            }
+
+            images = ImagesGallery.listOfImages(context);
+            galleryAdapter = new GalleryAdapter(context, images, new GalleryAdapter.PhotoClickListener() {
+                @Override
+                public void onPhotoClick(String path) {
+
+                }
+            });
+            recyclerView.setAdapter(galleryAdapter);
+        }
+
+        return layout;
     }
 }
