@@ -7,8 +7,8 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.PhotoActivity">
 
-    <ImageView
-        android:id="@+id/imageDummy"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?attr/background_color"
