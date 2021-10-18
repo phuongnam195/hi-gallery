@@ -1,7 +1,6 @@
-package com.example.higallery.activities;
+package com.team2.higallery.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -13,14 +12,10 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.Button;
 import android.widget.Toast;
 import java.io.File;
@@ -31,18 +26,15 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.net.Uri;
-import android.app.Dialog;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.higallery.MainActivity;
-import com.example.higallery.R;
+import com.team2.higallery.R;
 
 public class EditActivity extends AppCompatActivity{
-
     Button selectImage;
     Button takePhoto;
     Button saveImage;
