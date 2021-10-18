@@ -3,6 +3,7 @@ package com.team2.higallery.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,10 +15,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
+import com.team2.higallery.adapters.PhotosPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,9 @@ public class PhotoActivity extends AppCompatActivity {
         imagePaths = intent.getStringArrayListExtra("imagePaths");
         currentIndex = intent.getIntExtra("currentIndex", 0);
 
+        //tạo Viewpager
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new PhotosPagerAdapter(imagePaths,this));
         setupAppBar();
         setupBottomBar();
     }
@@ -48,8 +54,8 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ImageView imageDummy = (ImageView) findViewById(R.id.imageDummy);
-        imageDummy.setImageResource(R.drawable.ic_launcher_background);
+//        ImageView imageDummy = (ImageView) findViewById(R.id.imageDummy);
+//        imageDummy.setImageResource(R.drawable.ic_launcher_background);
     }
 
     @SuppressLint("RestrictedApi")
