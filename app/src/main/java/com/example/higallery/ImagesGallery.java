@@ -22,16 +22,12 @@ public class ImagesGallery {
         String orderBy = MediaStore.Video.Media.DATE_TAKEN;
         cursor = context.getContentResolver().query(uri, projection, null, null, orderBy + " DESC");
 
-
         column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 
         while (cursor.moveToNext()) {
             String absolutePathOfImage = cursor.getString(column_index_data);
-
             listOfAllImages.add(absolutePathOfImage);
-
         }
-
 
         return listOfAllImages;
     }

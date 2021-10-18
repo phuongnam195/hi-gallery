@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
@@ -28,25 +29,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.activity_view_image, parent, false)
-        );
+        View itemView = LayoutInflater.from(context).inflate(R.layout.thumbnail_item, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        String image = imagesPath.get(position);
-        Glide.with(context).load(image).into(holder.image);
-
+        String imagePath = imagesPath.get(position);
+        Glide.with(holder.imageView.getContext()).load(new File(imagePath)).override(300, 300).centerCrop().into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoClickListener.onPhotoClick(image);
+                photoClickListener.onPhotoClick(imagePath);
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -59,12 +58,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView image;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageView);
         }
     }
 

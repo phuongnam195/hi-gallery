@@ -7,6 +7,7 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/dot_shape.xml" value="0.12777777777777777" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.12777777777777777" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_favorite.xml" value="0.13240740740740742" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_favorite_border.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_more_vert.xml" value="0.13425925925925927" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_photo_library.xml" value="0.13425925925925927" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_favorite.xml" value="0.14635416666666667" />
@@ -16,24 +17,35 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_more_vert_black_24dp.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_photo_camera.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_photo_library.xml" value="0.14635416666666667" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/login_vault_ripple_button.xml" value="0.1390625" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_all_images.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_login_vault.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_main2.xml" value="0.13177083333333334" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_photo.xml" value="0.31153846153846154" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_photo_detail.xml" value="0.1793478260869565" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_settings.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_vault_album.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_view_image.xml" value="0.13020833333333334" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_album.xml" value="0.23731884057971014" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_all_images.xml" value="0.23731884057971014" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_all_photos.xml" value="0.13020833333333334" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_favorite.xml" value="0.23731884057971014" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/frame_album.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/frame_all_images.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/bottom_navigation_main.xml" value="0.13020833333333334" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_appbar.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_photo.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_photo_detail.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/popup_menu_main.xml" value="0.4" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/activity_vault_album.xml" value="0.1" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/activity_view_image.xml" value="0.1" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/fragment_album.xml" value="0.1" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/fragment_all_images.xml" value="0.1" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/activity_login_vault.xml" value="0.1234375" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/activity_photo.xml" value="0.1234375" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/activity_settings.xml" value="0.1234375" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/activity_vault_album.xml" value="0.1234375" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/fragment_album.xml" value="0.1234375" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/fragment_all_photos.xml" value="0.1234375" />
+        <entry key="..\:/android/hi_gallery/hi-gallery/app/src/main/res/layout/fragment_favorite.xml" value="0.1234375" />
       </map>
     </option>
   </component>
