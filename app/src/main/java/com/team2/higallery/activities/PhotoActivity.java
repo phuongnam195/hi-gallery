@@ -19,12 +19,15 @@ import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
 
+import java.util.ArrayList;
+
 public class PhotoActivity extends AppCompatActivity {
     private ActionBar appBar;
     private LinearLayout bottomBar;
     private FloatingActionButton favoriteButton;
 
-    String imageSrc;
+    int currentIndex;
+    ArrayList<String> imagePaths;
 
     private boolean dummyFavorite = false;
 
@@ -35,7 +38,8 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photo);
 
         Intent intent = getIntent();
-        imageSrc = intent.getStringExtra("path");
+        imagePaths = intent.getStringArrayListExtra("imagePaths");
+        currentIndex = intent.getIntExtra("currentIndex", 0);
 
         setupAppBar();
         setupBottomBar();

@@ -24,6 +24,7 @@ import com.team2.higallery.MainActivity;
 import com.team2.higallery.R;
 import com.team2.higallery.utils.DataUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AllPhotosFragment extends Fragment {
@@ -33,7 +34,6 @@ public class AllPhotosFragment extends Fragment {
     private static final int MY_READ_PERMISSION_CODE = 101;
 
     GalleryAdapter galleryAdapter;
-    List<String> images;
     Context context;
 
     public AllPhotosFragment() {
@@ -44,6 +44,7 @@ public class AllPhotosFragment extends Fragment {
         super.onCreate(savedInstanceState);
         try {
             context = getActivity();
+            DataUtils.getAllImagePathsFromExternalStorage(context);
         } catch (IllegalStateException e) {
         }
     }
@@ -58,18 +59,20 @@ public class AllPhotosFragment extends Fragment {
             ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_READ_PERMISSION_CODE);
         } else {
 //            recyclerView.setHasFixedSize(true);
-            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), PORTRAIT_COLUMNS));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), LANDSCAPE_COLUMNS));
             }
 
-            images = DataUtils.getAllImagePathsFromExternalStorage(context);
-            galleryAdapter = new GalleryAdapter(context, images, new GalleryAdapter.PhotoClickListener() {
+            ArrayList<String> imagePaths = DataUtils.getAllImagePathsFromExternalStorage(context);
+
+            galleryAdapter = new GalleryAdapter(context, imagePaths, new GalleryAdapter.PhotoClickListener() {
                 @Override
-                public void onPhotoClick(String path) {
+                public void onPhotoClick(int index) {
                     Intent intent = new Intent(context, PhotoActivity.class);
-                    intent.putExtra("path", path);
+                    intent.putStringArrayListExtra("imagePaths", imagePaths);
+                    intent.putExtra("currentIndex", index);
                     startActivity(intent);
                 }
             });

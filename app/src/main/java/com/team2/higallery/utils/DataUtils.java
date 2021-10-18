@@ -28,7 +28,6 @@ public class DataUtils {
         Uri uri;
         Cursor cursor;
         int column_index_data;
-        ArrayList<String> listOfAllImages = new ArrayList<>();
         uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
         String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
@@ -37,11 +36,13 @@ public class DataUtils {
 
         column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 
+        ArrayList<String> allImagePaths = new ArrayList<>();
+
         while (cursor.moveToNext()) {
             String absolutePathOfImage = cursor.getString(column_index_data);
-            listOfAllImages.add(absolutePathOfImage);
+            allImagePaths.add(absolutePathOfImage);
         }
 
-        return listOfAllImages;
+        return allImagePaths;
     }
 }

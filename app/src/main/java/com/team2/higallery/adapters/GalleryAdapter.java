@@ -13,17 +13,18 @@ import com.bumptech.glide.Glide;
 import com.team2.higallery.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> imagesPath;
+    private ArrayList<String> imagesPath;
     protected PhotoClickListener photoClickListener;
 
-    public GalleryAdapter(Context context, List<String> imagesPath, PhotoClickListener photoClickListener) {
+    public GalleryAdapter(Context context, ArrayList<String> imagePaths, PhotoClickListener photoClickListener) {
         this.context = context;
-        this.imagesPath = imagesPath;
+        this.imagesPath = imagePaths;
         this.photoClickListener = photoClickListener;
     }
 
@@ -42,7 +43,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoClickListener.onPhotoClick(imagePath);
+                photoClickListener.onPhotoClick(position);
             }
         });
     }
@@ -69,6 +70,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     }
 
     public interface PhotoClickListener {
-        void onPhotoClick(String path);
+        void onPhotoClick(int index);
     }
 }

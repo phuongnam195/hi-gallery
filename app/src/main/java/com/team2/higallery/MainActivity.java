@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.team2.higallery.models.Account;
+import com.team2.higallery.utils.DataUtils;
 
 public class MainActivity extends AppCompatActivity {
     private final Fragment fragment1 = new AllPhotosFragment();
