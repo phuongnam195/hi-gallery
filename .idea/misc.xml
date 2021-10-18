@@ -30,6 +30,10 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_appbar.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/popup_menu_main.xml" value="0.4" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/activity_vault_album.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/activity_view_image.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/fragment_album.xml" value="0.1" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/hi-gallery/app/src/main/res/layout/fragment_all_images.xml" value="0.1" />
       </map>
     </option>
   </component>

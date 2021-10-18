@@ -1,13 +1,16 @@
 package com.example.higallery;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +23,7 @@ import com.example.higallery.fragments.FavoriteFragment;
 import com.example.higallery.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private final Fragment fragment1 = new AllImagesFragment();
     private final Fragment fragment2 = new AlbumFragment();
     private final Fragment fragment3 = new FavoriteFragment();
