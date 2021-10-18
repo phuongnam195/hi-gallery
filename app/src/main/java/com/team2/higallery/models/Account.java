@@ -1,10 +1,11 @@
-package com.team2.higallery.utils;
+package com.team2.higallery.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.team2.higallery.utils.DataUtils;
 
 public class Account {
     private static final String EMAIL = "email";

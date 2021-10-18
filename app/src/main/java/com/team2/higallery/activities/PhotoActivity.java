@@ -24,6 +24,8 @@ public class PhotoActivity extends AppCompatActivity {
     private LinearLayout bottomBar;
     private FloatingActionButton favoriteButton;
 
+    String imageSrc;
+
     private boolean dummyFavorite = false;
 
     @Override
@@ -31,6 +33,9 @@ public class PhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Configuration.set(this);
         setContentView(R.layout.activity_photo);
+
+        Intent intent = getIntent();
+        imageSrc = intent.getStringExtra("path");
 
         setupAppBar();
         setupBottomBar();

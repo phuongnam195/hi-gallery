@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.higallery", appContext.getPackageName());
+        assertEquals("com.team2.higallery", appContext.getPackageName());
     }
 }

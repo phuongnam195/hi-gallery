@@ -1,6 +1,6 @@
 // Credit: https://stackoverflow.com/questions/16506275/imageview-be-a-square-with-dynamic-width
 
-package com.example.higallery;
+package com.team2.higallery.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

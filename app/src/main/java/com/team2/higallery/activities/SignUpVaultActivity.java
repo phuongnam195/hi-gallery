@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
-import com.team2.higallery.utils.Account;
+import com.team2.higallery.models.Account;
 import com.team2.higallery.utils.DataUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

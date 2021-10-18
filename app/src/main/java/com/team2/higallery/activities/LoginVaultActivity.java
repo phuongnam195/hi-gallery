@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.team2.higallery.R;
-import com.team2.higallery.utils.Account;
+import com.team2.higallery.models.Account;
 
 public class LoginVaultActivity extends Activity {
     private final int PIN_LENGTH = 6;

@@ -83,9 +83,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void function1(View view) {
         Toast.makeText(this, "Chức năng thứ nhất", Toast.LENGTH_LONG).show();
-
-        Intent intent = new Intent(this, PhotoActivity.class);
-        startActivity(intent);
     }
 
     public void function3(View view) {

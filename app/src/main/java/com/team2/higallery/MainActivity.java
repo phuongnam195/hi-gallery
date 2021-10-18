@@ -1,7 +1,6 @@
 package com.team2.higallery;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -22,7 +21,7 @@ import com.team2.higallery.fragments.FavoriteFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.team2.higallery.utils.Account;
+import com.team2.higallery.models.Account;
 
 public class MainActivity extends AppCompatActivity {
     private final Fragment fragment1 = new AllPhotosFragment();

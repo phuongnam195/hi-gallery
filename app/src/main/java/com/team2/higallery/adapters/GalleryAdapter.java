@@ -1,4 +1,4 @@
-package com.example.higallery;
+package com.team2.higallery.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.team2.higallery.R;
 
 import java.io.File;
 import java.util.List;
