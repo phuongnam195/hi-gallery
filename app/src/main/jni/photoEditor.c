@@ -137,3 +137,4 @@ Java_com_team2_higallery_activities_EditActivity_WarmUp(JNIEnv *env, jclass claz
     }
     (*env)->ReleaseIntArrayElements(env, pixels, pixels_, 0);
 }
+

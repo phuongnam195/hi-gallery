@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--    Màn hình chính: EDIT__SCREEN -->
     <LinearLayout
         android:id="@+id/main_screen"
         android:layout_width="match_parent"
@@ -33,6 +34,7 @@
             android:text="Take photo"></Button>
 
     </LinearLayout>
+    <!--    Màn hình EDIT ảnh sau khi pick  -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,6 +48,59 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
+        <!--        Danh sách nút gồm: BACK, FILTER, ROTATE, SAVE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/main_btn_group"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="🔙"
+                android:layout_marginRight="20px"
+                android:id="@+id/backButton"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Fltr"
+                android:id="@+id/filterButton"
+                android:layout_marginRight="10px"
+                android:layout_marginLeft="10px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rot"
+                android:id="@+id/rotateButton"
+                android:layout_marginRight="10px"
+                android:layout_marginLeft="10px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Flip"
+                android:id="@+id/flipButton"
+                android:layout_marginRight="10px"
+                android:layout_marginLeft="10px"/>
+
+            <Button
+                android:id="@+id/saveImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"
+                android:text="☑"/>
+
+        </LinearLayout>
+
+        <!--        Danh sách nút của chức năng FILTER -->
         <LinearLayout
             android:id="@+id/filtersGroup"
             android:layout_width="match_parent"
@@ -58,7 +113,7 @@
                 android:layout_weight="1"
                 android:text="🔙"
                 android:layout_marginRight="20px"
-                android:id="@+id/backButton"/>
+                android:id="@+id/back_Filter"/>
 
             <HorizontalScrollView
                 android:layout_width="0dp"
@@ -109,21 +164,16 @@
 
             </HorizontalScrollView>
 
-
-
-
-
             <Button
-                android:id="@+id/saveImage"
+                android:id="@+id/saveImage_Filter"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginLeft="20px"
                 android:text="☑"/>
 
-
         </LinearLayout>
-
+        <!--        Giao diện UP DOWN cho FILTER-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -158,6 +208,148 @@
 
         </LinearLayout>
 
+        <!--        Giao diện rotate-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/rotateScreen">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔙"
+                android:id="@+id/backRotate"
+                android:layout_marginRight="20px"
+                android:layout_marginLeft="20px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="90 ↪"
+                android:id="@+id/rotate90L"
+                android:layout_marginRight="20px"
+                android:layout_marginLeft="20px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="90 ↩"
+                android:id="@+id/rotate90R"
+                android:layout_marginRight="20px"
+                android:layout_marginLeft="20px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ct 📐"
+                android:id="@+id/custom"
+                android:layout_marginRight="20px"
+                android:layout_marginLeft="20px"/>
+
+        </LinearLayout>
+
+        <!--        Seek bar chỉnh góc rotate-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/seekbarScreen"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/degree"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="0 🌡"
+                android:textSize="30sp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/seekbarContain"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🔙"
+                    android:id="@+id/backSeekbar"
+
+                    android:layout_marginRight="20px"
+                    android:layout_marginLeft="20px"/>
+
+                <SeekBar
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="match_parent"
+                    android:id="@+id/angle"
+                    android:max="360"
+                    android:progress="180"
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="40px"
+                    />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="✔"
+                    android:id="@+id/okSeekbar"
+                    android:layout_marginRight="20px"
+                    android:layout_marginLeft="20px"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <!--        Giao diện flip-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/flipScreen">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔙"
+                android:id="@+id/backFlip"
+                android:layout_marginRight="60px"
+                android:layout_marginLeft="60px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" ↔ "
+                android:id="@+id/horizontalFlip"
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" ↕ "
+                android:id="@+id/verticalFlip"
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="30px"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

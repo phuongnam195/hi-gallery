@@ -9,6 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +22,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,12 +42,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.team2.higallery.R;
 
 public class EditActivity extends AppCompatActivity{
+
     Button selectImage;
     Button takePhoto;
+
+
+    //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
     Button saveImage;
     Button backButton;
+    Button filterButton;
+    Button rotateButton;
+    Button flipButton;
 
-    //Button up and down
+    //Button up and down (FILTER)
     Button upButton;
     Button downButton;
     Button backUpDown;
@@ -50,6 +64,22 @@ public class EditActivity extends AppCompatActivity{
     Button blackAndWhite; // Trang den
     Button negative; // Am ban
     Button warm; // Do am
+    Button saveImageFilter;
+    Button backFilter;
+
+    //Rotate screen
+    Button backRotate;
+    Button rotate90R;
+    Button rotate90L;
+    Button custom;
+    SeekBar degree;
+    Button backSeekbar;
+    Button okSeekBar;
+
+    //Flip screen
+    Button backFlip;
+    Button horizontalFlip;
+    Button verticalFlip;
 
 
 
@@ -60,20 +90,43 @@ public class EditActivity extends AppCompatActivity{
 
         selectImage = (Button)findViewById(R.id.selectImageButton) ;
         takePhoto = (Button)findViewById(R.id.takePhotoButton);
-        blackAndWhite = (Button)findViewById(R.id.blackAndWhite);
+
+
+        //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
         saveImage = (Button)findViewById(R.id.saveImage);
         backButton = (Button) findViewById(R.id.backButton);
+        filterButton = (Button)findViewById(R.id.filterButton);
+        rotateButton = (Button)findViewById(R.id.rotateButton);
+        flipButton = (Button)findViewById(R.id.flipButton);
 
         //Button up and down
         upButton =(Button)findViewById(R.id.up) ;
         downButton=(Button)findViewById(R.id.down);
         backUpDown = (Button)findViewById(R.id.backToFilter);
-        //Do sang
+
+        //DS cac filter
+        saveImageFilter = (Button)findViewById(R.id.saveImage_Filter);
+        backFilter = (Button)findViewById(R.id.back_Filter);
+
+        blackAndWhite = (Button)findViewById(R.id.blackAndWhite);
         brightness = (Button)findViewById(R.id.brightness);
-        // Am ban
         negative = (Button)findViewById(R.id.negative);
-        //Do am
         warm = (Button)findViewById(R.id.warm);
+
+        //Rotate screen
+        backRotate = (Button)findViewById(R.id.backRotate);
+        rotate90L = (Button)findViewById(R.id.rotate90L);
+        rotate90R = (Button)findViewById(R.id.rotate90R);
+        custom = (Button)findViewById(R.id.custom) ;
+        degree = (SeekBar)findViewById(R.id.angle);
+
+        backSeekbar = (Button)findViewById(R.id.backSeekbar);
+        okSeekBar = (Button)findViewById(R.id.okSeekbar);
+
+        //Flip screen
+        backFlip = (Button)findViewById(R.id.backFlip);
+        horizontalFlip = (Button)findViewById(R.id.horizontalFlip);
+        verticalFlip = (Button)findViewById(R.id.verticalFlip);
         init();
     }
 
@@ -162,10 +215,12 @@ public class EditActivity extends AppCompatActivity{
             findViewById(R.id.takePhotoButton).setVisibility(View.GONE);
         }
 
-
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Đặt lại góc cho phần rotate
+                currentDeg = 0;
 
                 // Tạo intent để chọn ảnh từ thiết bị
                 final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -245,19 +300,22 @@ public class EditActivity extends AppCompatActivity{
         blackAndWhite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(){
-                    public void run(){
-                        blackAndWhite(pixels, width, height);
-                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imageView.setImageBitmap(bitmap);
-                            }
-                        });
-                    }
-                }.start();
+//                new Thread(){
+//                    public void run(){
+//                        blackAndWhite(pixels, width, height);
+//                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+//
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                imageView.setImageBitmap(bitmap);
+//                            }
+//                        });
+//                    }
+//                }.start();
+                bitmap = toGrayscale(bitmap);
+                getPixelOfBitmap(bitmap);
+                imageView.setImageBitmap(bitmap);
             }
         });
 
@@ -349,6 +407,193 @@ public class EditActivity extends AppCompatActivity{
                 }.start();
             }
         });
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.main_btn_group).setVisibility(View.GONE);
+                findViewById(R.id.filtersGroup).setVisibility(View.VISIBLE);
+            }
+        });
+
+        saveImageFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+                final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE){
+                            final File outFile = createImageFile();
+                            try(FileOutputStream out = new FileOutputStream(outFile)){
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                                imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
+                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+                                Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+                builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
+        });
+
+        backFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.filtersGroup).setVisibility(View.GONE);
+                findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
+            }
+        });
+
+        rotateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
+                findViewById(R.id.main_btn_group).setVisibility(View.GONE);
+
+            }
+        });
+
+        backRotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.rotateScreen).setVisibility(View.GONE);
+                findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
+            }
+        });
+
+        rotate90L.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bitmap = RotateBitmap(bitmap, -90);
+                imageView.setImageBitmap(bitmap);
+                getPixelOfBitmap(bitmap);
+
+            }
+        });
+
+        rotate90R.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bitmap = RotateBitmap(bitmap, 90);
+                imageView.setImageBitmap(bitmap);
+                getPixelOfBitmap(bitmap);
+            }
+        });
+
+        custom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.rotateScreen).setVisibility(View.GONE);
+                findViewById(R.id.seekbarScreen).setVisibility(View.VISIBLE);
+                SeekBar t;
+                t = (SeekBar) findViewById(R.id.angle);
+                t.setProgress(currentDeg + 180);
+                imageView.setImageBitmap(RotateBitmap(bitmap, currentDeg));
+                TextView a =(TextView)findViewById(R.id.degree);
+                a.setText(Integer.toString(currentDeg));
+            }
+        });
+
+        degree.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int prog = progress - 180;
+                TextView a =(TextView)findViewById(R.id.degree);
+
+                bitmap_rotate = RotateBitmap(bitmap, prog);
+//                a.setText(Integer.toString(prog - currentDeg) + " 🌡");
+
+                currentDeg = prog;
+                imageView.setImageBitmap(bitmap_rotate);
+                a.setText(Integer.toString(currentDeg) + " 🌡");
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        backSeekbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
+                findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
+                imageView.setImageBitmap(bitmap);
+                currentDeg = 0;
+
+            }
+        });
+
+        okSeekBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
+                findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
+                bitmap = bitmap_rotate;
+                imageView.setImageBitmap(bitmap);
+                getPixelOfBitmap(bitmap);
+
+            }
+        });
+
+        flipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.flipScreen).setVisibility(View.VISIBLE);
+                findViewById(R.id.main_btn_group).setVisibility(View.GONE);
+            }
+        });
+
+        backFlip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.flipScreen).setVisibility(View.GONE);
+                findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
+            }
+        });
+
+        horizontalFlip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setHorizontalFlip();
+                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+
+        verticalFlip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setVerticalFlip();
+                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+                imageView.setImageBitmap(bitmap);
+
+            }
+        });
+    }
+
+    private static Bitmap RotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+
+        Bitmap newBitmap = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+//        newBitmap.setHasAlpha(true);
+        return newBitmap;
     }
 
     private static final int REQUEST_IMAGE_CAPTURE = 1012; //Giá trị để check trong hàm onActivityResult
@@ -368,9 +613,12 @@ public class EditActivity extends AppCompatActivity{
     private boolean editBrightness = false;
     private boolean editWarm = false;
     private Bitmap bitmap;
+    private Bitmap bitmap_filter;
+    private Bitmap bitmap_rotate;
     private int width = 0;
     private int height = 0;
     private static final int MAX_PIXEL_COUNT = 2048;
+    private int currentDeg = 0;
 
     private int[] pixels; // Lưu pixel của hình ảnh
     private int pixelCount = 0; // đếm số pixel của hình ảnh
@@ -410,6 +658,10 @@ public class EditActivity extends AppCompatActivity{
         findViewById(R.id.main_screen).setVisibility(View.GONE);
         findViewById(R.id.editScreen).setVisibility(View.VISIBLE);
         findViewById(R.id.UpDown).setVisibility(View.GONE);
+        findViewById(R.id.filtersGroup).setVisibility(View.GONE);
+        findViewById(R.id.rotateScreen).setVisibility(View.GONE);
+        findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
+        findViewById(R.id.flipScreen).setVisibility(View.GONE);
 
 
         // Tạo luồng (thread) để hiện ảnh vừa load) -- Load bitmap
@@ -470,4 +722,114 @@ public class EditActivity extends AppCompatActivity{
         }.start(); // Chạy thread vừa code
 
     }
+
+    public void getPixelOfBitmap(Bitmap bm){
+        width = bm.getWidth();
+        height = bm.getHeight();
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        pixelCount = width*height;
+        pixels = new int[pixelCount];
+        bitmap.getPixels(pixels,0,width,0,0,width, height);
+    }
+
+    public Bitmap toGrayscale(Bitmap bmpOriginal)
+    {
+        int width, height;
+        height = bmpOriginal.getHeight();
+        width = bmpOriginal.getWidth();
+
+        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmpGrayscale);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        c.drawBitmap(bmpOriginal, 0, 0, paint);
+        return bmpGrayscale;
+    }
+
+//    private Bitmap adjustedContrast(Bitmap src, double value)
+//    {
+//        // image size
+//        int width = src.getWidth();
+//        int height = src.getHeight();
+//        // create output bitmap
+//        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+//        // color information
+//        int A, R, G, B;
+//        int pixel;
+//        // get contrast value
+//        double contrast = Math.pow((100 + value) / 100, 2);
+//
+//        // scan through all pixels
+//        for(int x = 0; x < width; ++x) {
+//            for(int y = 0; y < height; ++y) {
+//                // get pixel color
+//                pixel = src.getPixel(x, y);
+//                A = Color.alpha(pixel);
+//                // apply filter contrast for every channel R, G, B
+//                R = Color.red(pixel);
+//                R = (int)(((((R / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+//                if(R < 0) { R = 0; }
+//                else if(R > 255) { R = 255; }
+//
+//                G = Color.green(pixel);
+//                G = (int)(((((G / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+//                if(G < 0) { G = 0; }
+//                else if(G > 255) { G = 255; }
+//
+//                B = Color.blue(pixel);
+//                B = (int)(((((B / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+//                if(B < 0) { B = 0; }
+//                else if(B > 255) { B = 255; }
+//
+//                // set new pixel color to output bitmap
+//                bmOut.setPixel(x, y, Color.argb(A, R, G, B));
+//            }
+//        }
+//
+////        for (int i = 0; i < width*height; i++){
+////            A = Color.alpha(pixels[i]);
+////            // apply filter contrast for every channel R, G, B
+////            R = Color.red(pixels[i]);
+////            R = (int)(((((R / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+////            if(R < 0) { R = 0; }
+////            else if(R > 255) { R = 255; }
+////
+////            G = Color.green(pixels[i]);
+////            G = (int)(((((G / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+////            if(G < 0) { G = 0; }
+////            else if(G > 255) { G = 255; }
+////
+////            B = Color.blue(pixels[i]);
+////            B = (int)(((((B / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+////            if(B < 0) { B = 0; }
+////            else if(B > 255) { B = 255; }
+////
+////            // set new pixel color to output bitmap
+////            bmOut.setPixel(pixels[i]%width, pixels[i]%height, Color.argb(A, R, G, B));
+////        }
+//
+//        return bmOut;
+//    }
+
+    public void setVerticalFlip(){
+        int[] cpy = new int[pixelCount];
+        for(int i = 0; i<pixelCount; i++){
+            int opposite = pixelCount - 1 - i;
+            cpy[opposite - (opposite%width - i % width)] = pixels[i];
+        }
+        pixels = cpy;
+    }
+
+    public void setHorizontalFlip(){
+        int[] cpy = new int[pixelCount];
+        for(int i = 0; i<pixelCount; i++){
+            int opposite = pixelCount - 1 - i;
+            cpy[opposite - (opposite/width - i /width)*width] = pixels[i];
+        }
+        pixels = cpy;
+    }
+
 }
