@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.team2.higallery.activities.EditActivity;
 import com.team2.higallery.activities.LoginVaultActivity;
 import com.team2.higallery.activities.SettingsActivity;
 import com.team2.higallery.activities.SignUpVaultActivity;
@@ -147,8 +148,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCamera() {
-        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+//        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+//        startActivity(intent);
+        Intent intent = new Intent(this, EditActivity.class);
         startActivity(intent);
+
     }
 
     public void openVault() {
