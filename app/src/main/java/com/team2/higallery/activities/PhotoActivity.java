@@ -44,9 +44,6 @@ public class PhotoActivity extends AppCompatActivity {
         imagePaths = intent.getStringArrayListExtra("imagePaths");
         currentIndex = intent.getIntExtra("currentIndex", 0);
 
-        //tạo Viewpager
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(new PhotosPagerAdapter(imagePaths,this));
         setupAppBar();
         setupBottomBar();
     }
@@ -54,8 +51,9 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        ImageView imageDummy = (ImageView) findViewById(R.id.imageDummy);
-//        imageDummy.setImageResource(R.drawable.ic_launcher_background);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new PhotosPagerAdapter(imagePaths,this));
     }
 
     @SuppressLint("RestrictedApi")
