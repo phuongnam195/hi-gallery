@@ -148,9 +148,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCamera() {
-//        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
-//        startActivity(intent);
-        Intent intent = new Intent(this, EditActivity.class);
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         startActivity(intent);
 
     }
