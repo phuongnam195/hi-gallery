@@ -1,7 +1,7 @@
 #include <jni.h>
 
 JNIEXPORT void JNICALL
-Java_com_example_higallery_activities_EditActivity_blackAndWhite(JNIEnv *env, jclass clazz,
+Java_com_team2_higallery_activities_EditActivity_blackAndWhite(JNIEnv *env, jclass clazz,
                                                                  jintArray pixels, jint width,
                                                                  jint height) {
     jint *pixels_ = (*env)->GetIntArrayElements(env, pixels, NULL);
@@ -25,7 +25,7 @@ Java_com_example_higallery_activities_EditActivity_blackAndWhite(JNIEnv *env, jc
 
 
 JNIEXPORT void JNICALL
-Java_com_example_higallery_activities_EditActivity_BrightnessDown(JNIEnv *env, jclass clazz,
+Java_com_team2_higallery_activities_EditActivity_BrightnessDown(JNIEnv *env, jclass clazz,
                                                                   jintArray pixels, jint width,
                                                                   jint height) {
     jint *pixels_ = (*env)->GetIntArrayElements(env, pixels, NULL);
@@ -55,7 +55,7 @@ Java_com_example_higallery_activities_EditActivity_BrightnessDown(JNIEnv *env, j
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_higallery_activities_EditActivity_BrightnessUp(JNIEnv *env, jclass clazz,
+Java_com_team2_higallery_activities_EditActivity_BrightnessUp(JNIEnv *env, jclass clazz,
                                                                 jintArray pixels, jint width,
                                                                 jint height) {
     jint *pixels_ = (*env)->GetIntArrayElements(env, pixels, NULL);
@@ -84,7 +84,7 @@ Java_com_example_higallery_activities_EditActivity_BrightnessUp(JNIEnv *env, jcl
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_higallery_activities_EditActivity_negative(JNIEnv *env, jclass clazz,
+Java_com_team2_higallery_activities_EditActivity_negative(JNIEnv *env, jclass clazz,
                                                             jintArray pixels, jint width,
                                                             jint height) {
     jint *pixels_ = (*env)->GetIntArrayElements(env, pixels, NULL);
@@ -103,7 +103,7 @@ Java_com_example_higallery_activities_EditActivity_negative(JNIEnv *env, jclass 
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_higallery_activities_EditActivity_WarmDown(JNIEnv *env, jclass clazz,
+Java_com_team2_higallery_activities_EditActivity_WarmDown(JNIEnv *env, jclass clazz,
                                                             jintArray pixels, jint width,
                                                             jint height) {
     jint *pixels_ = (*env)->GetIntArrayElements(env, pixels, NULL);
@@ -123,7 +123,7 @@ Java_com_example_higallery_activities_EditActivity_WarmDown(JNIEnv *env, jclass 
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_higallery_activities_EditActivity_WarmUp(JNIEnv *env, jclass clazz,
+Java_com_team2_higallery_activities_EditActivity_WarmUp(JNIEnv *env, jclass clazz,
                                                           jintArray pixels, jint width,
                                                           jint height) {
     jint *pixels_ = (*env)->GetIntArrayElements(env, pixels, NULL);
@@ -140,3 +140,5 @@ Java_com_example_higallery_activities_EditActivity_WarmUp(JNIEnv *env, jclass cl
     }
     (*env)->ReleaseIntArrayElements(env, pixels, pixels_, 0);
 }
+
+
