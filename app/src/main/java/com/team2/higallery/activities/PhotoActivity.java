@@ -121,8 +121,14 @@ public class PhotoActivity extends AppCompatActivity {
 
     public void onEdit() {
         Toast.makeText(this, "Sửa...", Toast.LENGTH_SHORT).show();
+
+        Bundle myData = new Bundle();
+
+        myData.putInt("currentIndex", currentIndex);
+        myData.putStringArrayList("pathList", imagePaths);
         Intent intent = new Intent(this, EditActivity.class);
-        startActivity(intent);
+        intent.putExtras(myData);
+        startActivityForResult(intent, 1234);
     }
 
     public void onNewAlbum() {

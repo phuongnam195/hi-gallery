@@ -5,35 +5,35 @@
     android:layout_height="match_parent">
 
     <!--    Màn hình chính: EDIT__SCREEN -->
-    <LinearLayout
-        android:id="@+id/main_screen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/main_screen"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:gravity="center"-->
+<!--        android:orientation="vertical">-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:text="Photo Editor"
-            android:textSize="30sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="30dp"></TextView>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Photo Editor"-->
+<!--            android:textSize="30sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:layout_marginBottom="30dp"></TextView>-->
 
-        <Button
-            android:id="@+id/selectImageButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Select image"></Button>
+<!--        <Button-->
+<!--            android:id="@+id/selectImageButton"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:text="Select image"></Button>-->
 
-        <Button
-            android:id="@+id/takePhotoButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Take photo"></Button>
+<!--        <Button-->
+<!--            android:id="@+id/takePhotoButton"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:text="Take photo"></Button>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
     <!--    Màn hình EDIT ảnh sau khi pick  -->
     <LinearLayout
         android:layout_width="match_parent"

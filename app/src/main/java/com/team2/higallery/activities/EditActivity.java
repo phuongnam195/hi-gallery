@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import android.net.Uri;
 import android.graphics.Bitmap;
@@ -40,11 +42,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.team2.higallery.R;
+import com.team2.higallery.utils.DataUtils;
 
 public class EditActivity extends AppCompatActivity{
 
-    Button selectImage;
-    Button takePhoto;
+//    Button selectImage;
+//    Button takePhoto;
 
 
     //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
@@ -82,14 +85,14 @@ public class EditActivity extends AppCompatActivity{
     Button verticalFlip;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit);
 
-        selectImage = (Button)findViewById(R.id.selectImageButton) ;
-        takePhoto = (Button)findViewById(R.id.takePhotoButton);
+//        selectImage = (Button)findViewById(R.id.selectImageButton) ;
+//        takePhoto = (Button)findViewById(R.id.takePhotoButton);
 
 
         //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
@@ -128,25 +131,27 @@ public class EditActivity extends AppCompatActivity{
         horizontalFlip = (Button)findViewById(R.id.horizontalFlip);
         verticalFlip = (Button)findViewById(R.id.verticalFlip);
         init();
+
+        ShowEditor();
     }
 
-    // Tạo biến để kiểm tra quyền
-    private static final int REQUEST_PERMISSION = 1234;
-    private static final String[] PERMISSION = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-    private static final int PERMISSION_COUNT = 2;
-
-    // HÀM check xem đã có đủ hết các quyền cần thiết chưa
-    private boolean notPermissions(){
-        for(int i = 0; i < PERMISSION_COUNT; i++){
-            if(checkSelfPermission(PERMISSION[i]) != PackageManager.PERMISSION_GRANTED){
-                return true;
-            }
-        }
-        return false;
-    }
+//    // Tạo biến để kiểm tra quyền
+//    private static final int REQUEST_PERMISSION = 1234;
+//    private static final String[] PERMISSION = {
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//    };
+//    private static final int PERMISSION_COUNT = 2;
+//
+//    // HÀM check xem đã có đủ hết các quyền cần thiết chưa
+//    private boolean notPermissions(){
+//        for(int i = 0; i < PERMISSION_COUNT; i++){
+//            if(checkSelfPermission(PERMISSION[i]) != PackageManager.PERMISSION_GRANTED){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     static {
         System.loadLibrary("photoEditor");
@@ -158,13 +163,13 @@ public class EditActivity extends AppCompatActivity{
     private static native void WarmDown(int[] pixels, int width, int height);
     private static native void WarmUp(int[] pixels, int width, int height);
 
-    @Override
-    public void onResume(){
-        super.onResume();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notPermissions()){
-            requestPermissions(PERMISSION, REQUEST_PERMISSION);
-        }
-    }
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notPermissions()){
+//            requestPermissions(PERMISSION, REQUEST_PERMISSION);
+//        }
+//    }
 
 //    @Override
 //    public void onRequestPermissionResult(int requestCode, String[] permission, int[] grantResults){
@@ -172,19 +177,19 @@ public class EditActivity extends AppCompatActivity{
 //    }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQUEST_PERMISSION && grantResults.length > 0){
-            if(notPermissions()){
-                // Nếu người dùng không cấp quyền thì đóng rồi mở lại
-                ((ActivityManager) this.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-                recreate();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if(requestCode == REQUEST_PERMISSION && grantResults.length > 0){
+//            if(notPermissions()){
+//                // Nếu người dùng không cấp quyền thì đóng rồi mở lại
+//                ((ActivityManager) this.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+//                recreate();
+//            }
+//        }
+//    }
 
-    private static final int REQUEST_PICK_IMAGE = 12345;
+//    private static final int REQUEST_PICK_IMAGE = 12345;
     private ImageView imageView;
 
 
@@ -192,7 +197,7 @@ public class EditActivity extends AppCompatActivity{
     public  void onBackPressed(){
         if (editMode){
             findViewById(R.id.editScreen).setVisibility(View.GONE);
-            findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
+            //findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
             editMode = false;
         }
         else{
@@ -211,47 +216,47 @@ public class EditActivity extends AppCompatActivity{
         imageView = findViewById(R.id.image_view);
 
         // Kiểm tra xem thiết bị có camera ko, k có thì ẩn nút chụp
-        if(!EditActivity.this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            findViewById(R.id.takePhotoButton).setVisibility(View.GONE);
-        }
+//        if(!EditActivity.this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+//            findViewById(R.id.takePhotoButton).setVisibility(View.GONE);
+//        }
 
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        selectImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                //Đặt lại góc cho phần rotate
+//                currentDeg = 0;
+//
+//                // Tạo intent để chọn ảnh từ thiết bị
+//                final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                final Intent pickIntent = new Intent(Intent.ACTION_PICK);
+//                pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                final Intent chooserIntent = Intent.createChooser(intent, "Select Image");
+//                startActivityForResult(chooserIntent,
+//                        REQUEST_PICK_IMAGE);
+//            }
+//        });
 
-                //Đặt lại góc cho phần rotate
-                currentDeg = 0;
-
-                // Tạo intent để chọn ảnh từ thiết bị
-                final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                final Intent pickIntent = new Intent(Intent.ACTION_PICK);
-                pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                final Intent chooserIntent = Intent.createChooser(intent, "Select Image");
-                startActivityForResult(chooserIntent,
-                        REQUEST_PICK_IMAGE);
-            }
-        });
-
-        takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePhotoIntent.resolveActivity(getPackageManager()) != null){
-                    //Tạo file cho hình ảnh vừa chụp
-                    final File photoFile = createImageFile();
-                    imageUri = Uri.fromFile(photoFile);
-
-                    //Lưu URI đề phòng trường hợp bị mất
-                    final SharedPreferences myPrefs = getSharedPreferences(appID, 0);
-                    myPrefs.edit().putString("path", photoFile.getAbsolutePath()).apply();
-                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
-                }else{
-                    Toast.makeText(EditActivity.this, "Camera của bạn đang bị lỗi", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        takePhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                if (takePhotoIntent.resolveActivity(getPackageManager()) != null){
+//                    //Tạo file cho hình ảnh vừa chụp
+//                    final File photoFile = createImageFile();
+//                    imageUri = Uri.fromFile(photoFile);
+//
+//                    //Lưu URI đề phòng trường hợp bị mất
+//                    final SharedPreferences myPrefs = getSharedPreferences(appID, 0);
+//                    myPrefs.edit().putString("path", photoFile.getAbsolutePath()).apply();
+//                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+//                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
+//                }else{
+//                    Toast.makeText(EditActivity.this, "Camera của bạn đang bị lỗi", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         saveImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,7 +288,13 @@ public class EditActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 findViewById(R.id.editScreen).setVisibility(View.GONE);
-                findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
+                //findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
+
+//                Intent intent = new Intent(this, PhotoActivity.class);
+//                intent.putStringArrayListExtra("imagePaths", imagePaths);
+//                intent.putExtra("currentIndex", index);
+//                startActivity(intent);
+
                 editMode = false;
             }
         });
@@ -623,39 +634,53 @@ public class EditActivity extends AppCompatActivity{
     private int[] pixels; // Lưu pixel của hình ảnh
     private int pixelCount = 0; // đếm số pixel của hình ảnh
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != RESULT_OK){
-            return;
-        }
-        if(requestCode == REQUEST_IMAGE_CAPTURE){
-            if(imageUri == null){
-                //lấy đường dẫn đã lưu trong trường hợp lạc mất image URI
-                final SharedPreferences pref = getSharedPreferences(appID, 0);
-                final String path = pref.getString("path", "");
+    private ArrayList<String> pathList;
+    private int currentIndex;
 
-                // Nếu không có đường dẫn thì sẽ out ra ngoài (lỗi đường dẫn)
-                if (path.length() < 1){
-                    recreate();
-                    return;
-                }
-                imageUri = Uri.parse("file://" + path);
-            }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
 
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-        }
-        else if(data == null){
-            recreate();
-            return;
-        }
-        else if(requestCode == REQUEST_PICK_IMAGE){
-            imageUri = data.getData();
-        }
+    void ShowEditor(){
+
+        Intent intent1 = getIntent();
+        Bundle dataIt = intent1.getExtras();
+
+        pathList = dataIt.getStringArrayList("pathList");
+        currentIndex = dataIt.getInt("currentIndex");
+
+        imageUri = Uri.parse("file://" + pathList.get(currentIndex));
+
+//        if(resultCode != RESULT_OK){
+//            return;
+//        }
+//        if(requestCode == REQUEST_IMAGE_CAPTURE){
+//            if(imageUri == null){
+//                //lấy đường dẫn đã lưu trong trường hợp lạc mất image URI
+//                final SharedPreferences pref = getSharedPreferences(appID, 0);
+//                final String path = pref.getString("path", "");
+//
+//                // Nếu không có đường dẫn thì sẽ out ra ngoài (lỗi đường dẫn)
+//                if (path.length() < 1){
+//                    recreate();
+//                    return;
+//                }
+//                imageUri = Uri.parse("file://" + path);
+//            }
+//
+//            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+//        }
+//        else if(data == null){
+//            recreate();
+//            return;
+//        }
+//        else if(requestCode == REQUEST_PICK_IMAGE){
+//            imageUri = data.getData();
+//        }
         final ProgressDialog dialog = ProgressDialog.show(EditActivity.this, "Loading", "Please Wait", true);
-
+        currentDeg = 0;
         editMode = true;
-        findViewById(R.id.main_screen).setVisibility(View.GONE);
+        //findViewById(R.id.main_screen).setVisibility(View.GONE);
         findViewById(R.id.editScreen).setVisibility(View.VISIBLE);
         findViewById(R.id.UpDown).setVisibility(View.GONE);
         findViewById(R.id.filtersGroup).setVisibility(View.GONE);
