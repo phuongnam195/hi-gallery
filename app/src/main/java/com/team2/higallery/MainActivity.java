@@ -1,6 +1,8 @@
 package com.team2.higallery;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -22,7 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.team2.higallery.models.Account;
-import com.team2.higallery.utils.DataUtils;
+import com.team2.higallery.utils.PermissionHelper;
 
 public class MainActivity extends AppCompatActivity {
     private final Fragment fragment1 = new AllPhotosFragment();
@@ -39,8 +41,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupAppBar();
-        setupBody();
         setupBottomBar();
+
+        if (PermissionHelper.checkReadExternalStorage(this)) {
+            setupBody();
+        }
 
         Account.auth = FirebaseAuth.getInstance();
     }
@@ -173,5 +178,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         finish();
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PermissionHelper
+                    .REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    refreshActivity();
+                } else {
+                    finish();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions,
+                        grantResults);
+        }
     }
 }

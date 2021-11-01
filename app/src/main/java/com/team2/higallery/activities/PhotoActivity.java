@@ -3,12 +3,10 @@ package com.team2.higallery.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -51,9 +49,9 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new PhotosPagerAdapter(imagePaths,this));
+        viewPager.setCurrentItem(currentIndex);
     }
 
     @SuppressLint("RestrictedApi")

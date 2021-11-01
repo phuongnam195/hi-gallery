@@ -11,36 +11,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.team2.higallery.R;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<String> imagesPath;
+    private final Context context;
+    private final ArrayList<String> imagePaths;
     protected PhotoClickListener photoClickListener;
 
     public GalleryAdapter(Context context, ArrayList<String> imagePaths, PhotoClickListener photoClickListener) {
         this.context = context;
-        this.imagesPath = imagePaths;
+        this.imagePaths = imagePaths;
         this.photoClickListener = photoClickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.thumbnail_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.thumbnail_item, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String imagePath = imagesPath.get(position);
-        Glide.with(holder.imageView.getContext()).load(new File(imagePath)).override(300, 300).centerCrop().into(holder.imageView);
+        String imagePath = imagePaths.get(position);
+        Glide.with(context).load(imagePath).override(300, 300).centerCrop().transition(DrawableTransitionOptions.withCrossFade(500)).into(holder.imageView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 photoClickListener.onPhotoClick(position);
@@ -50,10 +50,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        if (imagesPath != null) {
-            return imagesPath.size();
+        if (imagePaths != null) {
+            return imagePaths.size();
         }
-
         return 0;
     }
 
@@ -62,8 +61,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.image_view);
         }
     }
 

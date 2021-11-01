@@ -17,7 +17,7 @@ public class Configuration {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         language = preferences.getString(SELECTED_LANGUAGE, "");
-        if (!language.isEmpty()) {
+        if (language == null || language.isEmpty()) {
             language = LocaleHelper.getLocale(context).getLanguage();
         }
 

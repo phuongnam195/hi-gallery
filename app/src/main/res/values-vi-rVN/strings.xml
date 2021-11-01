@@ -37,4 +37,5 @@
     <string name="signup_vault_email_exists">Email đã tồn tại. Có lẽ bạn nên khôi phục.</string>
     <string name="signup_vault_unknown_error">Lỗi không xác định. Vui lòng thử lại!</string>
     <string name="restore_vault_wrong_pin">Mật khẩu sai. Vui lòng nhập lại!</string>
+    <string name="permission_title">Cần được cấp quyền!</string>
 </resources>
