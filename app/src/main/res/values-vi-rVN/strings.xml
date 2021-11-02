@@ -39,7 +39,7 @@
     <string name="restore_vault_wrong_pin">Mật khẩu sai. Vui lòng nhập lại!</string>
     <string name="permission_title">Cần được cấp quyền!</string>
 
-    <string name="photo_details_name">Tên ảnh:</string>
+    <string name="photo_details_name">Tên:</string>
     <string name="photo_details_size">Kích thước:</string>
     <string name="photo_details_path">Đường dẫn:</string>
     <string name="photo_details_resolution">Độ phân giải:</string>

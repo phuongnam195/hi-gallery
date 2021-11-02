@@ -157,33 +157,6 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onDetails() {
-        dialogDetails();
-        Toast.makeText(this, "Xem metadata...", Toast.LENGTH_SHORT).show();
-    }
-
-    public void onShare(View view) {
-        Toast.makeText(this, "Chia sẻ...", Toast.LENGTH_SHORT).show();
-    }
-
-    public void toggleFavorite(View view) {
-        Resources resources = getResources();
-        if (dummyFavorite) {
-            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_border);
-            favoriteButton.setTooltipText(resources.getString(R.string.photo_favorite));
-        } else {
-            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite);
-            favoriteButton.setTooltipText(resources.getString(R.string.photo_unfavorite));
-        }
-        dummyFavorite = !dummyFavorite;
-
-        Toast.makeText(this, "Thích/Bỏ thích...", Toast.LENGTH_SHORT).show();
-    }
-
-    public void onDelete(View view) {
-        Toast.makeText(this, "Xóa vào thùng rác", Toast.LENGTH_SHORT).show();
-    }
-
-    private void dialogDetails() {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_detail_photo);
@@ -209,7 +182,7 @@ public class PhotoActivity extends AppCompatActivity {
             detailSize.append(DataUtils.getSizePhoto(attr.size()*1.0));
             detailPath.append(imagePaths.get(viewPager.getCurrentItem()));
             detailResolution.append(DataUtils.getResolutionPhoto(imagePaths.get(viewPager.getCurrentItem()), this));
-            detailLastModified.append(DataUtils.editLastModifiedPhoto(attr.lastModifiedTime().toString(), this));
+            detailLastModified.append(DataUtils.convertDateTimeToString(attr.lastModifiedTime().toString(), this));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -217,4 +190,25 @@ public class PhotoActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void onShare(View view) {
+        Toast.makeText(this, "Chia sẻ...", Toast.LENGTH_SHORT).show();
+    }
+
+    public void toggleFavorite(View view) {
+        Resources resources = getResources();
+        if (dummyFavorite) {
+            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_border);
+            favoriteButton.setTooltipText(resources.getString(R.string.photo_favorite));
+        } else {
+            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite);
+            favoriteButton.setTooltipText(resources.getString(R.string.photo_unfavorite));
+        }
+        dummyFavorite = !dummyFavorite;
+
+        Toast.makeText(this, "Thích/Bỏ thích...", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onDelete(View view) {
+        Toast.makeText(this, "Xóa vào thùng rác", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -1,74 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/background_color"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingHorizontal="15dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/photo_details"
-        android:textSize="24sp"
-        android:textColor="@color/black"
+        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:ems="20"
         android:gravity="center"
-        android:textStyle="bold"
-        android:ems="20"/>
+        android:text="@string/photo_details"
+        android:textSize="@dimen/photo_details_title_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/photo_details_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/photo_details_vert_margin"
         android:text="@string/photo_details_name"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"/>
+        android:textSize="@dimen/photo_details_content_size" />
 
     <TextView
         android:id="@+id/photo_details_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/photo_details_vert_margin"
         android:text="@string/photo_details_size"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"/>
+        android:textSize="@dimen/photo_details_content_size" />
 
     <TextView
         android:id="@+id/photo_details_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/photo_details_vert_margin"
         android:text="@string/photo_details_path"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"/>
+        android:textSize="@dimen/photo_details_content_size" />
 
     <TextView
         android:id="@+id/photo_details_resolution"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/photo_details_vert_margin"
         android:text="@string/photo_details_resolution"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"/>
+        android:textSize="@dimen/photo_details_content_size" />
 
     <TextView
         android:id="@+id/photo_details_last_modified"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/photo_details_vert_margin"
         android:text="@string/photo_details_last_modified"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"/>
+        android:textSize="@dimen/photo_details_content_size" />
 
     <Button
         android:id="@+id/photo_details_button_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@android:color/transparent"
+        android:minWidth="70dip"
         android:text="@string/photo_details_close"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:background="@color/divider_light"
-        android:layout_gravity="right"/>
+        android:textSize="@dimen/photo_details_content_size"
+        android:textStyle="bold" />
 </LinearLayout>

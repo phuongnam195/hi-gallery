@@ -118,7 +118,7 @@ public class DataUtils {
         return result;
     }
 
-    public static String editLastModifiedPhoto(String dateTime, Context context) {
+    public static String convertDateTimeToString(String dateTime, Context context) {
         SimpleDateFormat dateFormat;
         String result = "";
 
@@ -154,7 +154,7 @@ public class DataUtils {
         int height = bitmap.getHeight();
         double MP = width * height * 1.0 / 1000000;
         MP = Math.round(MP * 10)*1.0 / 10;
-        String result = " " + width + "x" + height + "(" + MP + " MP)";
+        String result = " " + width + "x" + height + " (" + MP + " MP)";
         return result;
     }
 
