@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:ems="20"/>
+
+    <TextView
+        android:id="@+id/photo_details_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details_name"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginVertical="10dp"/>
+
+    <TextView
+        android:id="@+id/photo_details_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details_size"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginVertical="10dp"/>
+
+    <TextView
+        android:id="@+id/photo_details_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details_path"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginVertical="10dp"/>
+
+    <TextView
+        android:id="@+id/photo_details_resolution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details_resolution"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginVertical="10dp"/>
+
+    <TextView
+        android:id="@+id/photo_details_last_modified"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details_last_modified"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginVertical="10dp"/>
+
+    <Button
+        android:id="@+id/photo_details_button_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_details_close"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:background="@color/divider_light"
+        android:layout_gravity="right"/>
+</LinearLayout>

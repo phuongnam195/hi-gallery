@@ -1,13 +1,17 @@
 package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -19,7 +23,14 @@ import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.PhotosPagerAdapter;
+import com.team2.higallery.utils.DataUtils;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
@@ -31,6 +42,8 @@ public class PhotoActivity extends AppCompatActivity {
     ArrayList<String> imagePaths;
 
     private boolean dummyFavorite = false;
+
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +62,7 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new PhotosPagerAdapter(imagePaths,this));
         viewPager.setCurrentItem(currentIndex);
     }
@@ -144,6 +157,7 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onDetails() {
+        dialogDetails();
         Toast.makeText(this, "Xem metadata...", Toast.LENGTH_SHORT).show();
     }
 
@@ -168,4 +182,39 @@ public class PhotoActivity extends AppCompatActivity {
     public void onDelete(View view) {
         Toast.makeText(this, "Xóa vào thùng rác", Toast.LENGTH_SHORT).show();
     }
+
+    private void dialogDetails() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_detail_photo);
+
+        TextView detailName = (TextView) dialog.findViewById(R.id.photo_details_name);
+        TextView detailSize = (TextView) dialog.findViewById(R.id.photo_details_size);
+        TextView detailPath = (TextView) dialog.findViewById(R.id.photo_details_path);
+        TextView detailResolution = (TextView) dialog.findViewById(R.id.photo_details_resolution);
+        TextView detailLastModified = (TextView) dialog.findViewById(R.id.photo_details_last_modified);
+        Button detailButtonClose = (Button) dialog.findViewById(R.id.photo_details_button_close);
+
+        detailButtonClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
+        try {
+            Path path = Paths.get(URI.create("file://"+imagePaths.get(viewPager.getCurrentItem())));
+            BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+            detailName.append(DataUtils.getNamePhoto(imagePaths.get(viewPager.getCurrentItem())));
+            detailSize.append(DataUtils.getSizePhoto(attr.size()*1.0));
+            detailPath.append(imagePaths.get(viewPager.getCurrentItem()));
+            detailResolution.append(DataUtils.getResolutionPhoto(imagePaths.get(viewPager.getCurrentItem()), this));
+            detailLastModified.append(DataUtils.editLastModifiedPhoto(attr.lastModifiedTime().toString(), this));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dialog.show();
+    }
+
 }
