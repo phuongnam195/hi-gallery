@@ -26,7 +26,6 @@ import com.team2.higallery.R;
 import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AllPhotosFragment extends Fragment {
     private final int PORTRAIT_COLUMNS = 4;
@@ -38,16 +37,22 @@ public class AllPhotosFragment extends Fragment {
     GalleryAdapter galleryAdapter;
     Context context;
 
-    public AllPhotosFragment() {
-    }
+    public AllPhotosFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             context = getActivity();
-            DataUtils.getAllImagePathsFromExternalStorage(context);
         } catch (IllegalStateException e) {
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (DataUtils.updateAllImagesFromExternalStorage(context) && galleryAdapter != null) {
+            galleryAdapter.notifyDataSetChanged();
         }
     }
 
@@ -61,14 +66,14 @@ public class AllPhotosFragment extends Fragment {
             ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_READ_PERMISSION_CODE);
 //            ActivityCompat.requestPermissions((EditActivity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_WRITE_PERMISSION_CODE);
         } else {
-//            recyclerView.setHasFixedSize(true);
+            recyclerView.setHasFixedSize(true);
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), PORTRAIT_COLUMNS));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), LANDSCAPE_COLUMNS));
             }
 
-            ArrayList<String> imagePaths = DataUtils.getAllImagePathsFromExternalStorage(context);
+            ArrayList<String> imagePaths = DataUtils.allImages;
 
             galleryAdapter = new GalleryAdapter(context, imagePaths, new GalleryAdapter.PhotoClickListener() {
                 @Override

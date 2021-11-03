@@ -217,7 +217,7 @@ public class EditActivity extends AppCompatActivity{
             StrictMode.setVmPolicy(builder.build());
         }
 
-        imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.image_view);
 
         // Kiểm tra xem thiết bị có camera ko, k có thì ẩn nút chụp
 //        if(!EditActivity.this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
