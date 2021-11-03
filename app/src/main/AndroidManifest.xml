@@ -51,7 +51,9 @@
             android:exported="true" />
         <activity
             android:name=".activities.EditActivity"
-            android:exported="true" />
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>

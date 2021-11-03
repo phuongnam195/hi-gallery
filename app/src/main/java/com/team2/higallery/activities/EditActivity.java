@@ -1,6 +1,7 @@
 package com.team2.higallery.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,6 +21,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
@@ -39,10 +42,13 @@ import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.utils.DataUtils;
 
@@ -51,7 +57,7 @@ public class EditActivity extends AppCompatActivity{
 //    Button selectImage;
 //    Button takePhoto;
 
-
+    private ActionBar appBar;
     //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
     Button saveImage;
     Button backButton;
@@ -90,7 +96,7 @@ public class EditActivity extends AppCompatActivity{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
+//        Configuration.set(this);
         setContentView(R.layout.activity_edit);
 
 //        selectImage = (Button)findViewById(R.id.selectImageButton) ;
@@ -133,8 +139,21 @@ public class EditActivity extends AppCompatActivity{
         horizontalFlip = (Button)findViewById(R.id.horizontalFlip);
         verticalFlip = (Button)findViewById(R.id.verticalFlip);
         init();
-
+        setupAppBar();
         ShowEditor();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.edit_save:
+                saveIMG();
+                return true;
+        }
+        return false;
     }
 
 //    // Tạo biến để kiểm tra quyền
@@ -153,6 +172,34 @@ public class EditActivity extends AppCompatActivity{
 //            }
 //        }
 //        return false;
+//    }
+
+    @SuppressLint("RestrictedApi")
+    private void setupAppBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_edit);
+        setSupportActionBar(toolbar);
+        appBar = getSupportActionBar();
+
+        // add back arrow to appbar
+        appBar.setDisplayHomeAsUpEnabled(true);
+        appBar.setDisplayShowHomeEnabled(true);
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+//    public void toggleBarVisibility(View view) {
+//        if (appBar.isShowing()) {
+//            appBar.hide();
+//            bottomBar.setVisibility(View.GONE);
+//
+//        } else {
+//            appBar.show();
+//            bottomBar.setVisibility(View.VISIBLE);
+//        }
 //    }
 
     static {
@@ -200,13 +247,45 @@ public class EditActivity extends AppCompatActivity{
     //Nut back thuong
     public  void onBackPressed(){
         if (editMode){
-            findViewById(R.id.editScreen).setVisibility(View.GONE);
+//            findViewById(R.id.editScreen).setVisibility(View.GONE);
             //findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
-            editMode = false;
+
+            if(editing) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+                final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE){
+                            saveIMG();
+                            editing =false;
+                            editMode = false;
+                            finish();
+                        }
+                        else if (which == DialogInterface.BUTTON_NEGATIVE){
+                            editing = false;
+                            editMode = false;
+                            finish();
+                        }
+                        else{
+
+                        }
+                    }
+                };
+                builder.setMessage("Ảnh chưa được lưu, bạn muốn lưu ảnh lại không?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener)
+                        .setNeutralButton("cancel", dialogClickListener)
+                        .show();
+            }
+            else{
+                editMode = false;
+                finish();
+            }
         }
         else{
             super.onBackPressed();
         }
+
     }
 
     private void init(){
@@ -291,14 +370,14 @@ public class EditActivity extends AppCompatActivity{
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                findViewById(R.id.editScreen).setVisibility(View.GONE);
+//                findViewById(R.id.editScreen).setVisibility(View.GONE);
                 //findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
 
 //                Intent intent = new Intent(this, PhotoActivity.class);
 //                intent.putStringArrayListExtra("imagePaths", imagePaths);
 //                intent.putExtra("currentIndex", index);
 //                startActivity(intent);
-
+                finish();
                 editMode = false;
             }
         });
@@ -328,6 +407,7 @@ public class EditActivity extends AppCompatActivity{
 //                        });
 //                    }
 //                }.start();
+                editing = true;
                 bitmap = toGrayscale(bitmap);
                 getPixelOfBitmap(bitmap);
                 imageView.setImageBitmap(bitmap);
@@ -337,6 +417,7 @@ public class EditActivity extends AppCompatActivity{
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 new Thread(){
                     public void run(){
                         negative(pixels, width, height);
@@ -375,6 +456,7 @@ public class EditActivity extends AppCompatActivity{
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 new Thread(){
                     public void run(){
                         //Do here
@@ -402,6 +484,7 @@ public class EditActivity extends AppCompatActivity{
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 new Thread(){
                     public void run(){
                         if(editBrightness){
@@ -434,6 +517,7 @@ public class EditActivity extends AppCompatActivity{
         saveImageFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = false;
                 final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
                 final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
@@ -485,6 +569,7 @@ public class EditActivity extends AppCompatActivity{
         rotate90L.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 bitmap = RotateBitmap(bitmap, -90);
                 imageView.setImageBitmap(bitmap);
                 getPixelOfBitmap(bitmap);
@@ -495,6 +580,7 @@ public class EditActivity extends AppCompatActivity{
         rotate90R.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 bitmap = RotateBitmap(bitmap, 90);
                 imageView.setImageBitmap(bitmap);
                 getPixelOfBitmap(bitmap);
@@ -504,6 +590,7 @@ public class EditActivity extends AppCompatActivity{
         custom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 findViewById(R.id.rotateScreen).setVisibility(View.GONE);
                 findViewById(R.id.seekbarScreen).setVisibility(View.VISIBLE);
                 SeekBar t;
@@ -519,6 +606,7 @@ public class EditActivity extends AppCompatActivity{
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
                 int prog = progress - 180;
                 TextView a =(TextView)findViewById(R.id.degree);
 
@@ -556,6 +644,7 @@ public class EditActivity extends AppCompatActivity{
         okSeekBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
                 findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
                 bitmap = bitmap_rotate;
@@ -584,6 +673,7 @@ public class EditActivity extends AppCompatActivity{
         horizontalFlip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 setHorizontalFlip();
                 bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
                 imageView.setImageBitmap(bitmap);
@@ -593,6 +683,7 @@ public class EditActivity extends AppCompatActivity{
         verticalFlip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editing = true;
                 setVerticalFlip();
                 bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
                 imageView.setImageBitmap(bitmap);
@@ -624,6 +715,7 @@ public class EditActivity extends AppCompatActivity{
         return new File(storageDir + imageFileName);
     }
 
+    private boolean editing = false;
     private boolean editMode = false;
     private boolean editBrightness = false;
     private boolean editWarm = false;
@@ -776,6 +868,30 @@ public class EditActivity extends AppCompatActivity{
         paint.setColorFilter(f);
         c.drawBitmap(bmpOriginal, 0, 0, paint);
         return bmpGrayscale;
+    }
+
+    private void saveIMG(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DialogInterface.BUTTON_POSITIVE){
+                    editing = false;
+                    final File outFile = createImageFile();
+                    try(FileOutputStream out = new FileOutputStream(outFile)){
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+                        Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
 //    private Bitmap adjustedContrast(Bitmap src, double value)

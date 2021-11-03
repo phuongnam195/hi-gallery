@@ -1,105 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.EditActivity">
 
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/appbar_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_edit" />
 
 
     <!--    Màn hình chính: EDIT__SCREEN -->
-<!--    <LinearLayout-->
-<!--        android:id="@+id/main_screen"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="vertical">-->
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/main_screen"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:gravity="center"-->
+    <!--        android:orientation="vertical">-->
 
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:gravity="center"-->
-<!--            android:text="Photo Editor"-->
-<!--            android:textSize="30sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:layout_marginBottom="30dp"></TextView>-->
+    <!--        <TextView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:gravity="center"-->
+    <!--            android:text="Photo Editor"-->
+    <!--            android:textSize="30sp"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:layout_marginBottom="30dp"></TextView>-->
 
-<!--        <Button-->
-<!--            android:id="@+id/selectImageButton"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:text="Select image"></Button>-->
+    <!--        <Button-->
+    <!--            android:id="@+id/selectImageButton"-->
+    <!--            android:layout_width="100dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:text="Select image"></Button>-->
 
-<!--        <Button-->
-<!--            android:id="@+id/takePhotoButton"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:text="Take photo"></Button>-->
+    <!--        <Button-->
+    <!--            android:id="@+id/takePhotoButton"-->
+    <!--            android:layout_width="100dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:text="Take photo"></Button>-->
 
-<!--    </LinearLayout>-->
+    <!--    </LinearLayout>-->
     <!--    Màn hình EDIT ảnh sau khi pick  -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
         android:id="@+id/editScreen"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <!--        Danh sách nút gồm: BACK, FILTER, ROTATE, SAVE -->
         <LinearLayout
+            android:id="@+id/main_btn_group"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/main_btn_group"
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/backButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="🔙"
                 android:layout_marginRight="20px"
-                android:id="@+id/backButton"/>
+                android:layout_weight="1"
+                android:text="🔙" />
 
             <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Fltr"
                 android:id="@+id/filterButton"
-                android:layout_marginRight="10px"
-                android:layout_marginLeft="10px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10px"
+                android:layout_marginRight="10px"
                 android:layout_weight="1"
-                android:text="Rot"
+                android:text="Fltr" />
+
+            <Button
                 android:id="@+id/rotateButton"
-                android:layout_marginRight="10px"
-                android:layout_marginLeft="10px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Flip"
-                android:id="@+id/flipButton"
+                android:layout_marginLeft="10px"
                 android:layout_marginRight="10px"
-                android:layout_marginLeft="10px"/>
+                android:layout_weight="1"
+                android:text="Rot" />
+
+            <Button
+                android:id="@+id/flipButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10px"
+                android:layout_marginRight="10px"
+                android:layout_weight="1"
+                android:text="Flip" />
 
             <Button
                 android:id="@+id/saveImage"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginLeft="20px"
-                android:text="☑"/>
+                android:layout_weight="1"
+                android:text="☑" />
 
         </LinearLayout>
 
@@ -111,17 +131,18 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/back_Filter"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="🔙"
                 android:layout_marginRight="20px"
-                android:id="@+id/back_Filter"/>
+                android:layout_weight="1"
+                android:text="🔙" />
 
             <HorizontalScrollView
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="3.5">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp">
@@ -130,37 +151,37 @@
                         android:id="@+id/blackAndWhite"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="B/W"
+                        android:layout_marginLeft="10px"
                         android:layout_marginRight="10px"
-                        android:layout_marginLeft="10px"/>
+                        android:layout_weight="1"
+                        android:text="B/W" />
 
                     <Button
                         android:id="@+id/negative"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="⚡"
+                        android:layout_marginLeft="10px"
                         android:layout_marginRight="10px"
-                        android:layout_marginLeft="10px"/>
+                        android:layout_weight="1"
+                        android:text="⚡" />
 
                     <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:id="@+id/brightness"
-                        android:text="🔆"
-                        android:layout_marginRight="10px"
-                        android:layout_marginLeft="10px"/>
-
-                    <Button
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:id="@+id/warm"
-                        android:text="🟧"
+                        android:layout_marginLeft="10px"
                         android:layout_marginRight="10px"
-                        android:layout_marginLeft="10px"/>
+                        android:layout_weight="1"
+                        android:text="🔆" />
+
+                    <Button
+                        android:id="@+id/warm"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_weight="1"
+                        android:text="🟧" />
 
                 </LinearLayout>
 
@@ -171,186 +192,182 @@
                 android:id="@+id/saveImage_Filter"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginLeft="20px"
-                android:text="☑"/>
+                android:layout_weight="1"
+                android:text="☑" />
 
         </LinearLayout>
         <!--        Giao diện UP DOWN cho FILTER-->
         <LinearLayout
+            android:id="@+id/UpDown"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/UpDown">
+            android:layout_height="50dp">
 
             <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔙"
                 android:id="@+id/backToFilter"
-                android:layout_marginRight="60px"
-                android:layout_marginLeft="60px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="60px"
+                android:layout_marginRight="60px"
                 android:layout_weight="1"
-                android:text="up"
+                android:text="🔙" />
+
+            <Button
                 android:id="@+id/up"
-                android:layout_marginRight="60px"
-                android:layout_marginLeft="60px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="down"
-                android:id="@+id/down"
+                android:layout_marginLeft="60px"
                 android:layout_marginRight="60px"
-                android:layout_marginLeft="60px"/>
+                android:layout_weight="1"
+                android:text="up" />
+
+            <Button
+                android:id="@+id/down"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60px"
+                android:layout_marginRight="60px"
+                android:layout_weight="1"
+                android:text="down" />
 
         </LinearLayout>
 
         <!--        Giao diện rotate-->
         <LinearLayout
+            android:id="@+id/rotateScreen"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/rotateScreen">
+            android:layout_height="50dp">
 
             <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔙"
                 android:id="@+id/backRotate"
-                android:layout_marginRight="20px"
-                android:layout_marginLeft="20px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginRight="20px"
                 android:layout_weight="1"
-                android:text="90 ↪"
+                android:text="🔙" />
+
+            <Button
                 android:id="@+id/rotate90L"
-                android:layout_marginRight="20px"
-                android:layout_marginLeft="20px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginRight="20px"
                 android:layout_weight="1"
-                android:text="90 ↩"
+                android:text="90 ↪" />
+
+            <Button
                 android:id="@+id/rotate90R"
-                android:layout_marginRight="20px"
-                android:layout_marginLeft="20px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ct 📐"
-                android:id="@+id/custom"
+                android:layout_marginLeft="20px"
                 android:layout_marginRight="20px"
-                android:layout_marginLeft="20px"/>
+                android:layout_weight="1"
+                android:text="90 ↩" />
+
+            <Button
+                android:id="@+id/custom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginRight="20px"
+                android:layout_weight="1"
+                android:text="ct 📐" />
 
         </LinearLayout>
 
         <!--        Seek bar chỉnh góc rotate-->
         <LinearLayout
+            android:id="@+id/seekbarScreen"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:id="@+id/seekbarScreen"
             android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/degree"
-                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="0 🌡"
-                android:textSize="30sp"
-                android:gravity="center"/>
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
             <LinearLayout
+                android:id="@+id/seekbarContain"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:id="@+id/seekbarContain"
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/backSeekbar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="🔙"
-                    android:id="@+id/backSeekbar"
-
+                    android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
-                    android:layout_marginLeft="20px"/>
+
+                    android:layout_weight="1"
+                    android:text="🔙" />
 
                 <SeekBar
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="match_parent"
                     android:id="@+id/angle"
-                    android:max="360"
-                    android:progress="180"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="40px"
                     android:layout_marginRight="40px"
-                    />
+                    android:layout_weight="4"
+                    android:max="360"
+                    android:progress="180" />
 
                 <Button
+                    android:id="@+id/okSeekbar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="✔"
-                    android:id="@+id/okSeekbar"
-                    android:layout_marginRight="20px"
                     android:layout_marginLeft="20px"
-                    />
+                    android:layout_marginRight="20px"
+                    android:layout_weight="1"
+                    android:text="✔" />
 
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>
 
         <!--        Giao diện flip-->
         <LinearLayout
+            android:id="@+id/flipScreen"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/flipScreen">
+            android:layout_height="50dp">
 
             <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔙"
                 android:id="@+id/backFlip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60px"
                 android:layout_marginRight="60px"
-                android:layout_marginLeft="60px"/>
+                android:layout_weight="1"
+                android:text="🔙" />
 
             <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=" ↔ "
                 android:id="@+id/horizontalFlip"
-                android:layout_marginRight="30px"
-                android:layout_marginLeft="30px"/>
-
-            <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=" ↕ "
-                android:id="@+id/verticalFlip"
+                android:layout_marginLeft="30px"
                 android:layout_marginRight="30px"
-                android:layout_marginLeft="30px"/>
+                android:layout_weight="1"
+                android:text=" ↔ " />
+
+            <Button
+                android:id="@+id/verticalFlip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:layout_weight="1"
+                android:text=" ↕ " />
 
         </LinearLayout>
 
@@ -358,3 +375,4 @@
 
 
 </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,6 +30,7 @@
     <string name="photo_unfavorite">Bỏ yêu thích</string>
     <string name="photo_favorite">Yêu thích</string>
     <string name="photo_share">Chia sẻ…</string>
+    <string name="photo_save">Lưu</string>
     <string name="settings_darktheme_title">Giao diện tối</string>
     <string name="signup_vault_invalid_email">Email không hợp lệ. Vui lòng nhập lại!</string>
     <string name="signup_vault_pin_not_match">Mã PIN không khớp. Vui lòng nhập lại!</string>

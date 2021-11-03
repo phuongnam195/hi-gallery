@@ -40,6 +40,8 @@
     <string name="photo_favorite">Favorite</string>
     <string name="photo_unfavorite">Unfavorite</string>
     <string name="photo_delete">Delete</string>
+    <string name="photo_save">Save</string>
+
 
     <string name="photo_details_name">Name:</string>
     <string name="photo_details_size">Size:</string>

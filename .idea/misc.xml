@@ -26,17 +26,22 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_appbar.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/popup_menu_main.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_delete_outline.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_edit.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_edit_photo.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_favorite.xml" value="0.2703125" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_favorite_border.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_image.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_more_vert.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_photo_camera.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_photo_library.xml" value="0.2703125" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/ic_baseline_save.xml" value="0.2703125" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/item_bottom_bar_color.xml" value="0.2703125" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/drawable/login_vault_ripple_button.xml" value="0.2703125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_edit.xml" value="0.18478260869565216" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_login_vault.xml" value="0.18478260869565216" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
-        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_photo.xml" value="0.103125" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_photo.xml" value="0.2" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_settings.xml" value="0.2128623188405797" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/activity_vault_album.xml" value="0.103125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/fragment_album.xml" value="0.103125" />
@@ -48,8 +53,10 @@
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/frame_favorite.xml" value="0.2128623188405797" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/thumbnail_item.xml" value="0.103125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/bottom_navigation_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/menu_edit.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/menu_photo.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/popup_menu_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/android/hi-gallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.1693840579710145" />
       </map>
     </option>
   </component>
