@@ -40,6 +40,8 @@ import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.team2.higallery.R;
 import com.team2.higallery.utils.DataUtils;
@@ -138,12 +140,12 @@ public class EditActivity extends AppCompatActivity{
 //    // Tạo biến để kiểm tra quyền
 //    private static final int REQUEST_PERMISSION = 1234;
 //    private static final String[] PERMISSION = {
-//            Manifest.permission.READ_EXTERNAL_STORAGE,
+////            Manifest.permission.READ_EXTERNAL_STORAGE,
 //            Manifest.permission.WRITE_EXTERNAL_STORAGE
 //    };
-//    private static final int PERMISSION_COUNT = 2;
-//
-//    // HÀM check xem đã có đủ hết các quyền cần thiết chưa
+//    private static final int PERMISSION_COUNT = 1;
+
+    // HÀM check xem đã có đủ hết các quyền cần thiết chưa
 //    private boolean notPermissions(){
 //        for(int i = 0; i < PERMISSION_COUNT; i++){
 //            if(checkSelfPermission(PERMISSION[i]) != PackageManager.PERMISSION_GRANTED){
@@ -163,13 +165,14 @@ public class EditActivity extends AppCompatActivity{
     private static native void WarmDown(int[] pixels, int width, int height);
     private static native void WarmUp(int[] pixels, int width, int height);
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
+    @Override
+    public void onResume(){
+        super.onResume();
 //        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notPermissions()){
+//            Toast.makeText(this, "request", Toast.LENGTH_SHORT).show();
 //            requestPermissions(PERMISSION, REQUEST_PERMISSION);
 //        }
-//    }
+    }
 
 //    @Override
 //    public void onRequestPermissionResult(int requestCode, String[] permission, int[] grantResults){
@@ -183,8 +186,9 @@ public class EditActivity extends AppCompatActivity{
 //        if(requestCode == REQUEST_PERMISSION && grantResults.length > 0){
 //            if(notPermissions()){
 //                // Nếu người dùng không cấp quyền thì đóng rồi mở lại
-//                ((ActivityManager) this.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-//                recreate();
+////                ((ActivityManager) this.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+////                recreate();
+//                Toast.makeText(this, "chua cap quyen", Toast.LENGTH_SHORT).show();
 //            }
 //        }
 //    }

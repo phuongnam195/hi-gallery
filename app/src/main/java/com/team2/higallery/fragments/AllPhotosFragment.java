@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.team2.higallery.activities.EditActivity;
 import com.team2.higallery.activities.PhotoActivity;
 import com.team2.higallery.adapters.GalleryAdapter;
 import com.team2.higallery.MainActivity;
@@ -32,6 +33,7 @@ public class AllPhotosFragment extends Fragment {
     private final int LANDSCAPE_COLUMNS = 6;
 
     private static final int MY_READ_PERMISSION_CODE = 101;
+//    private static final int MY_WRITE_PERMISSION_CODE = 100;
 
     GalleryAdapter galleryAdapter;
     Context context;
@@ -57,6 +59,7 @@ public class AllPhotosFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.photos_recycler_view);
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_READ_PERMISSION_CODE);
+//            ActivityCompat.requestPermissions((EditActivity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_WRITE_PERMISSION_CODE);
         } else {
 //            recyclerView.setHasFixedSize(true);
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -78,6 +81,8 @@ public class AllPhotosFragment extends Fragment {
             });
             recyclerView.setAdapter(galleryAdapter);
         }
+
+
 
         return layout;
     }
