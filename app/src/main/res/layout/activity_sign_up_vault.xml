@@ -1,101 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background_color"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="40dp"
+    android:paddingBottom="100dp"
+    android:background="@drawable/signup_vault_background"
     tools:context=".activities.SignUpVaultActivity">
 
     <TextView
         android:id="@+id/title_signup_vault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chào mừng đến với thư mục bí mật"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/signup_vault_title"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginBottom="80dp"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+        android:id="@+id/emailLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
         android:orientation="vertical"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_signup_vault">
+        android:gravity="left"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/email_label_signup_vault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email của bạn:" />
+            android:text="@string/signup_vault_label_email"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/email_input_signup_vault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="textEmailAddress"
-            android:textColor="?android:attr/textColor" />
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/signup_vault_email_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:text=""
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="left"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/pin_label_signup_vault"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mã pin (6 số):" />
+            android:text="@string/signup_vault_label_password"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/pin_input_signup_vault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="numberPassword"
             android:maxLength="6"
-            android:textColor="?android:attr/textColor" />
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/signup_vault_password_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:text=""
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/confirmPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="left"
+        android:layout_marginBottom="50dp">
 
         <TextView
             android:id="@+id/retype_pin_label_signup_vault"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nhập lại mã pin:" />
+            android:text="@string/signup_vault_label_confirm_password"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
 
         <EditText
             android:id="@+id/retype_pin_input_signup_vault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="numberPassword"
             android:maxLength="6"
-            android:textColor="?android:attr/textColor" />
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
 
-        <LinearLayout
-            android:id="@+id/restore_start_signup_vault"
+        <TextView
+            android:id="@+id/signup_vault_confirm_password_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/restore_signup_vault"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="restore"
-                android:text="Phục hồi" />
-
-            <Button
-                android:id="@+id/start_signup_vault"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="start"
-                android:text="Bắt đầu" />
-
-        </LinearLayout>
-
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:text=""
+            android:visibility="gone"/>
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/restore_start_signup_vault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/restore_signup_vault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/signup_vault_restore_btn"
+            android:minHeight="40dp"
+            android:onClick="restore"
+            android:paddingHorizontal="30dp"
+            android:text="@string/signup_vault_btn_restore"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/start_signup_vault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/signup_vault_signup_btn"
+            android:minHeight="40dp"
+            android:onClick="start"
+            android:paddingHorizontal="30dp"
+            android:text="@string/signup_vault_btn_signup"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</LinearLayout>

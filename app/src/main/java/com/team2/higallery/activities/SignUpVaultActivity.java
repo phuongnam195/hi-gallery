@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +25,8 @@ import com.google.firebase.auth.AuthResult;
 public class SignUpVaultActivity extends AppCompatActivity {
     private final int PIN_LENGTH = 6;
 
-    TextView emailInput;
-    TextView pinInput;
-    TextView retypeInput;
+    EditText emailInput, pinInput, retypeInput;
+    TextView emailError, passwordError, retypePasswordError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,15 @@ public class SignUpVaultActivity extends AppCompatActivity {
         Configuration.set(this);
         setContentView(R.layout.activity_sign_up_vault);
 
-        emailInput = (TextView) findViewById(R.id.email_input_signup_vault);
-        pinInput = (TextView) findViewById(R.id.pin_input_signup_vault);
-        retypeInput = (TextView) findViewById(R.id.retype_pin_input_signup_vault);
+        emailInput = (EditText) findViewById(R.id.email_input_signup_vault);
+        emailError = (TextView) findViewById(R.id.signup_vault_email_error);
+
+        pinInput = (EditText) findViewById(R.id.pin_input_signup_vault);
+        passwordError = (TextView) findViewById(R.id.signup_vault_password_error);
+
+        retypeInput = (EditText) findViewById(R.id.retype_pin_input_signup_vault);
+        retypePasswordError = (TextView) findViewById(R.id.signup_vault_confirm_password_error);
+
     }
 
     public void restore(View v) {
@@ -88,21 +96,116 @@ public class SignUpVaultActivity extends AppCompatActivity {
 
     private boolean validateInput(String email, String pin, String retype) {
         if (!DataUtils.validateEmail(email)) {
-            Toast.makeText(this, getResources().getString(R.string.signup_vault_invalid_email), Toast.LENGTH_LONG).show();
+            emailError.setText(R.string.signup_vault_invalid_email);
+            emailError.setVisibility(View.VISIBLE);
+
+            //add event check email with real time
+            addEventValidateEmail();
+
             return false;
         }
 
         if (pin.length() != PIN_LENGTH) {
-            Toast.makeText(this, getResources().getString(R.string.signup_vault_pin_too_short), Toast.LENGTH_LONG).show();
+            passwordError.setText(R.string.signup_vault_pin_too_short);
+            passwordError.setVisibility(View.VISIBLE);
+
+            //add event check password with real time
+            addEventValidatePassword();
+
             return false;
         }
 
         if (!pin.equals(retype)) {
-            Toast.makeText(this, getResources().getString(R.string.signup_vault_pin_not_match), Toast.LENGTH_LONG).show();
+            retypePasswordError.setText(R.string.signup_vault_pin_not_match);
+            retypePasswordError.setVisibility(View.VISIBLE);
+
+            //add event confirm password with real time
+            addEventValidateConfirmPassword();
+
             return false;
         }
 
         return true;
+    }
+
+    private void addEventValidateConfirmPassword() {
+        retypeInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String pin = pinInput.getText().toString();
+                String retype = retypeInput.getText().toString();
+
+                if (!pin.equals(retype)) {
+                    retypePasswordError.setText(R.string.signup_vault_pin_not_match);
+                    retypePasswordError.setVisibility(View.VISIBLE);
+                }
+                else{
+                    retypePasswordError.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void addEventValidatePassword() {
+        pinInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String pin = pinInput.getText().toString();
+                if (pin.length() != PIN_LENGTH) {
+                    passwordError.setText(R.string.signup_vault_pin_too_short);
+                    passwordError.setVisibility(View.VISIBLE);
+                }
+                else{
+                    passwordError.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void addEventValidateEmail() {
+        emailInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String email = emailInput.getText().toString();
+                if (!DataUtils.validateEmail(email)) {
+                    emailError.setText(R.string.signup_vault_invalid_email);
+                    emailError.setVisibility(View.VISIBLE);
+                }
+                else{
+                    emailError.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void goToVaultAlbum() {

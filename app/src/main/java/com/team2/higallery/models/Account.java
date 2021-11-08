@@ -44,5 +44,4 @@ public class Account {
 
         return hashedInputPIN.equals(hashedPIN);
     }
-
 }
