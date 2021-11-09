@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,10 +27,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
+import com.team2.higallery.fragments.AllPhotosFragment;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.EncryptAndDecryptImage;
@@ -47,8 +51,13 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class VaultAlbumActivity extends AppCompatActivity {
-    private final int PIN_LENGTH = 6;
+    //Variable for activity
+    private final Fragment fragment = new AllPhotosFragment();
+    private final FragmentManager fm = getSupportFragmentManager();
     private ActionBar appBar;
+
+    //Variable for dialog
+    private final int PIN_LENGTH = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +166,7 @@ public class VaultAlbumActivity extends AppCompatActivity {
 
     private void setupBody() {
         //This to show encode image
+//        fm.beginTransaction().add(R.id.body_vault, fragment).commit();
     }
 //    Button btnSelectImage;
 //    Button btnEncrypt, btnDecrypt;
