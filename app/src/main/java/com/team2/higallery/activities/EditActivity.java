@@ -54,90 +54,18 @@ import com.team2.higallery.utils.DataUtils;
 
 public class EditActivity extends AppCompatActivity{
 
-//    Button selectImage;
-//    Button takePhoto;
 
     private ActionBar appBar;
-    //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
-//    Button saveImage;
-//    Button backButton;
-//    Button filterButton;
-//    Button rotateButton;
-//    Button flipButton;
-
-    //Button up and down (FILTER)
-//    Button upButton;
-//    Button downButton;
-//    Button backUpDown;
-
-    //DS cac filter
-//    Button brightness; // Do sang
-//    Button blackAndWhite; // Trang den
-//    Button negative; // Am ban
-//    Button warm; // Do am
-//    Button saveImageFilter;
-//    Button backFilter;
 
     //Rotate screen
-//    Button backRotate;
-//    Button rotate90R;
-//    Button rotate90L;
-//    Button custom;
     SeekBar degree;
-//    Button backSeekbar;
-//    Button okSeekBar;
-
-    //Flip screen
-//    Button backFlip;
-//    Button horizontalFlip;
-//    Button verticalFlip;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-//        Configuration.set(this);
         setContentView(R.layout.activity_edit);
-
-//        selectImage = (Button)findViewById(R.id.selectImageButton) ;
-//        takePhoto = (Button)findViewById(R.id.takePhotoButton);
-
-
-        //Button trong main edit (BACK, FILTER, ROTATE, SAVE)
-//        saveImage = (Button)findViewById(R.id.saveImage);
-//        backButton = (Button) findViewById(R.id.backButton);
-//        filterButton = (Button)findViewById(R.id.filterButton);
-//        rotateButton = (Button)findViewById(R.id.rotateButton);
-//        flipButton = (Button)findViewById(R.id.flipButton);
-
-        //Button up and down
-//        upButton =(Button)findViewById(R.id.up) ;
-//        downButton=(Button)findViewById(R.id.down);
-//        backUpDown = (Button)findViewById(R.id.backToFilter);
-
-        //DS cac filter
-//        saveImageFilter = (Button)findViewById(R.id.saveImage_Filter);
-//        backFilter = (Button)findViewById(R.id.back_Filter);
-//
-//        blackAndWhite = (Button)findViewById(R.id.blackAndWhite);
-//        brightness = (Button)findViewById(R.id.brightness);
-//        negative = (Button)findViewById(R.id.negative);
-//        warm = (Button)findViewById(R.id.warm);
-
-        //Rotate screen
-//        backRotate = (Button)findViewById(R.id.backRotate);
-//        rotate90L = (Button)findViewById(R.id.rotate90L);
-//        rotate90R = (Button)findViewById(R.id.rotate90R);
-//        custom = (Button)findViewById(R.id.custom) ;
         degree = (SeekBar)findViewById(R.id.angle);
 
-//        backSeekbar = (Button)findViewById(R.id.backSeekbar);
-//        okSeekBar = (Button)findViewById(R.id.okSeekbar);
-
-        //Flip screen
-//        backFlip = (Button)findViewById(R.id.backFlip);
-//        horizontalFlip = (Button)findViewById(R.id.horizontalFlip);
-//        verticalFlip = (Button)findViewById(R.id.verticalFlip);
         init();
         setupAppBar();
         ShowEditor();
@@ -190,17 +118,6 @@ public class EditActivity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
-
-//    public void toggleBarVisibility(View view) {
-//        if (appBar.isShowing()) {
-//            appBar.hide();
-//            bottomBar.setVisibility(View.GONE);
-//
-//        } else {
-//            appBar.show();
-//            bottomBar.setVisibility(View.VISIBLE);
-//        }
-//    }
 
     static {
         System.loadLibrary("photoEditor");
@@ -298,295 +215,6 @@ public class EditActivity extends AppCompatActivity{
 
         imageView = findViewById(R.id.image_view);
 
-        // Kiểm tra xem thiết bị có camera ko, k có thì ẩn nút chụp
-//        if(!EditActivity.this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-//            findViewById(R.id.takePhotoButton).setVisibility(View.GONE);
-//        }
-
-//        selectImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //Đặt lại góc cho phần rotate
-//                currentDeg = 0;
-//
-//                // Tạo intent để chọn ảnh từ thiết bị
-//                final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                final Intent pickIntent = new Intent(Intent.ACTION_PICK);
-//                pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//                final Intent chooserIntent = Intent.createChooser(intent, "Select Image");
-//                startActivityForResult(chooserIntent,
-//                        REQUEST_PICK_IMAGE);
-//            }
-//        });
-
-//        takePhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                if (takePhotoIntent.resolveActivity(getPackageManager()) != null){
-//                    //Tạo file cho hình ảnh vừa chụp
-//                    final File photoFile = createImageFile();
-//                    imageUri = Uri.fromFile(photoFile);
-//
-//                    //Lưu URI đề phòng trường hợp bị mất
-//                    final SharedPreferences myPrefs = getSharedPreferences(appID, 0);
-//                    myPrefs.edit().putString("path", photoFile.getAbsolutePath()).apply();
-//                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
-//                }else{
-//                    Toast.makeText(EditActivity.this, "Camera của bạn đang bị lỗi", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-//        saveImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
-//                final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        if (which == DialogInterface.BUTTON_POSITIVE){
-//                            final File outFile = createImageFile();
-//                            try(FileOutputStream out = new FileOutputStream(outFile)){
-//                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-//                                imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
-//                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-//                                Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
-//                            }catch(IOException e){
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                };
-//                builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
-//                        .setPositiveButton("Yes", dialogClickListener)
-//                        .setNegativeButton("No", dialogClickListener).show();
-//            }
-//        });
-
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                findViewById(R.id.editScreen).setVisibility(View.GONE);
-//                //findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
-//
-////                Intent intent = new Intent(this, PhotoActivity.class);
-////                intent.putStringArrayListExtra("imagePaths", imagePaths);
-////                intent.putExtra("currentIndex", index);
-////                startActivity(intent);
-//                finish();
-//                editMode = false;
-//            }
-//        });
-
-//        brightness.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-//                findViewById(R.id.UpDown).setVisibility(View.VISIBLE);
-//                editBrightness = true;
-//            }
-//        });
-
-//        blackAndWhite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                new Thread(){
-////                    public void run(){
-////                        blackAndWhite(pixels, width, height);
-////                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-////
-////                        runOnUiThread(new Runnable() {
-////                            @Override
-////                            public void run() {
-////                                imageView.setImageBitmap(bitmap);
-////                            }
-////                        });
-////                    }
-////                }.start();
-//                editing = true;
-//                bitmap = toGrayscale(bitmap);
-//                getPixelOfBitmap(bitmap);
-//                imageView.setImageBitmap(bitmap);
-//            }
-//        });
-
-//        negative.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                new Thread(){
-//                    public void run(){
-//                        negative(pixels, width, height);
-//                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-//
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                imageView.setImageBitmap(bitmap);
-//                            }
-//                        });
-//                    }
-//                }.start();
-//            }
-//        });
-
-//        warm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-//                findViewById(R.id.UpDown).setVisibility(View.VISIBLE);
-//                editWarm = true;
-//            }
-//        });
-
-//        backUpDown.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editBrightness = false;
-//                editWarm = false;
-//                findViewById(R.id.UpDown).setVisibility(View.GONE);
-//                findViewById(R.id.filtersGroup).setVisibility(View.VISIBLE);
-//            }
-//        });
-//
-//        downButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                new Thread(){
-//                    public void run(){
-//                        //Do here
-//                        if(editBrightness){
-//                            BrightnessDown(pixels, width, height);
-//                        }
-//                        if(editWarm){
-//                            WarmDown(pixels, width, height);
-//                        }
-//
-//                        //end
-//                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-//
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                imageView.setImageBitmap(bitmap);
-//                            }
-//                        });
-//                    }
-//                }.start();
-//            }
-//        });
-//
-//        upButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                new Thread(){
-//                    public void run(){
-//                        if(editBrightness){
-//                            BrightnessUp(pixels, width, height);
-//                        }
-//                        if(editWarm){
-//                            WarmUp(pixels, width, height);
-//                        }
-//                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-//
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                imageView.setImageBitmap(bitmap);
-//                            }
-//                        });
-//                    }
-//                }.start();
-//            }
-//        });
-
-
-
-//        saveImageFilter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = false;
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
-//                final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        if (which == DialogInterface.BUTTON_POSITIVE){
-//                            final File outFile = createImageFile();
-//                            try(FileOutputStream out = new FileOutputStream(outFile)){
-//                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-//                                imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
-//                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-//                                Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
-//                            }catch(IOException e){
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                };
-//                builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
-//                        .setPositiveButton("Yes", dialogClickListener)
-//                        .setNegativeButton("No", dialogClickListener).show();
-//            }
-//        });
-
-//        backFilter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-//                findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
-//            }
-//        });
-
-//        backRotate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                findViewById(R.id.rotateScreen).setVisibility(View.GONE);
-//                findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
-//            }
-//        });
-//
-//        rotate90L.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                bitmap = RotateBitmap(bitmap, -90);
-//                imageView.setImageBitmap(bitmap);
-//                getPixelOfBitmap(bitmap);
-//
-//            }
-//        });
-//
-//        rotate90R.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                bitmap = RotateBitmap(bitmap, 90);
-//                imageView.setImageBitmap(bitmap);
-//                getPixelOfBitmap(bitmap);
-//            }
-//        });
-//
-//        custom.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                findViewById(R.id.rotateScreen).setVisibility(View.GONE);
-//                findViewById(R.id.seekbarScreen).setVisibility(View.VISIBLE);
-//                SeekBar t;
-//                t = (SeekBar) findViewById(R.id.angle);
-//                t.setProgress(currentDeg + 180);
-//                imageView.setImageBitmap(RotateBitmap(bitmap, currentDeg));
-//                TextView a =(TextView)findViewById(R.id.degree);
-//                a.setText(Integer.toString(currentDeg));
-//            }
-//        });
-
         degree.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -601,9 +229,7 @@ public class EditActivity extends AppCompatActivity{
                 currentDeg = prog;
                 imageView.setImageBitmap(bitmap_rotate);
                 a.setText(Integer.toString(currentDeg) + " 🌡");
-
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
@@ -614,60 +240,6 @@ public class EditActivity extends AppCompatActivity{
 
             }
         });
-//
-//        backSeekbar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
-//                findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
-//                imageView.setImageBitmap(bitmap);
-//                currentDeg = 0;
-//
-//            }
-//        });
-//
-//        okSeekBar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
-//                findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
-//                bitmap = bitmap_rotate;
-//                imageView.setImageBitmap(bitmap);
-//                getPixelOfBitmap(bitmap);
-//
-//            }
-//        });
-
-
-//        backFlip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                findViewById(R.id.flipScreen).setVisibility(View.GONE);
-//                findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
-//            }
-//        });
-//
-//        horizontalFlip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                setHorizontalFlip();
-//                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-//                imageView.setImageBitmap(bitmap);
-//            }
-//        });
-//
-//        verticalFlip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editing = true;
-//                setVerticalFlip();
-//                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-//                imageView.setImageBitmap(bitmap);
-//
-//            }
-//        });
     }
 
     private static Bitmap RotateBitmap(Bitmap source, float angle)
