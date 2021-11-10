@@ -2,8 +2,10 @@ package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.PhotosPagerAdapter;
 import com.team2.higallery.utils.DataUtils;
+import com.team2.higallery.utils.EncryptAndDecryptImage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -105,7 +108,11 @@ public class PhotoActivity extends AppCompatActivity {
                 onNewAlbum();
                 return true;
             case R.id.secure_action_photo:
-                onSecure();
+                try {
+                    onSecure();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             case R.id.set_as_action_photo:
                 onSetAs();
@@ -148,8 +155,30 @@ public class PhotoActivity extends AppCompatActivity {
         Toast.makeText(this, "Thêm vào album mới (tạo album)...", Toast.LENGTH_SHORT).show();
     }
 
-    public void onSecure() {
-        Toast.makeText(this, "Thêm vào thư mục bí mật...", Toast.LENGTH_SHORT).show();
+    public void onSecure() throws IOException {
+        if(false){
+            //Not account
+            Intent intent = new Intent(this, SignUpVaultActivity.class);
+            startActivity(intent);
+
+            return;
+        }
+
+        String imagePath = imagePaths.get(viewPager.getCurrentItem())   ;
+        Toast.makeText(this, "Lấy đường dẫn" + imagePath, Toast.LENGTH_SHORT).show();
+
+        Bitmap bitmap = EncryptAndDecryptImage.getBitmapFromImagePath(imagePath);
+        Toast.makeText(this, "Tạo bitmap của ảnh từ đường dẫn", Toast.LENGTH_SHORT).show();
+
+        byte[] bytes = EncryptAndDecryptImage.encryptImage(bitmap);
+        Toast.makeText(this, "Mã hóa file từ bitmap", Toast.LENGTH_SHORT).show();
+
+        Context context = getApplicationContext();
+        String fileName = DataUtils.getNamePhoto(imagePaths.get(viewPager.getCurrentItem()));
+        EncryptAndDecryptImage.saveFile(context, bytes, fileName);
+        Toast.makeText(this, "Lưu file vào bộ nhớ app", Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, "Xoá ảnh và hoàn thành", Toast.LENGTH_SHORT).show();
     }
 
     public void onSetAs() {

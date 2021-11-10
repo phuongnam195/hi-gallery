@@ -4,6 +4,7 @@
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Gallery</string>
     <string name="settings_title">Settings</string>
+    <string name="vault_title">Vault album</string>
 
     <string name="main_appbar_camera">Open Camera</string>
     <string name="main_appbar_more_vault">Vault</string>
@@ -24,6 +25,12 @@
     <string name="login_vault_forgot">Forgot</string>
     <string name="login_vault_delete">Del</string>
 
+    <string name="signup_vault_title">Register</string>
+    <string name="signup_vault_label_email">Email</string>
+    <string name="signup_vault_label_password">Password(6 numbers)</string>
+    <string name="signup_vault_label_confirm_password">Confirm password</string>
+    <string name="signup_vault_btn_restore">Restore</string>
+    <string name="signup_vault_btn_signup">Sign up</string>
     <string name="signup_vault_invalid_email">Invalid email. Please enter again!</string>
     <string name="signup_vault_email_exists">Email exists. Maybe restore!</string>
     <string name="signup_vault_pin_not_match">PINs do not match. Please retype!</string>
@@ -49,5 +56,11 @@
     <string name="photo_details_resolution">Resolution:</string>
     <string name="photo_details_last_modified">Last modified:</string>
     <string name="photo_details_close">Close</string>
+
+    <string name="vault_convert_album_title">Convert to original alb>um</string>
+    <string name="vault_reset_password_title">Reset password</string>
+
+    <string name="dialog_vault_close_btn_title">Close</string>
+    <string name="dialog_vault_reset_btn_title">Reset</string>
 
 </resources>

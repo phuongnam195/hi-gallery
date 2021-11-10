@@ -3,6 +3,7 @@
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Thư viện</string>
     <string name="settings_title">Cài đặt</string>
+    <string name="vault_title">Thư viện bí mật</string>
 
     <string name="navigation_photos">Ảnh</string>
     <string name="navigation_album">Album</string>
@@ -32,6 +33,13 @@
     <string name="photo_share">Chia sẻ…</string>
     <string name="photo_save">Lưu</string>
     <string name="settings_darktheme_title">Giao diện tối</string>
+
+    <string name="signup_vault_title">Đăng kí</string>
+    <string name="signup_vault_label_email">Email</string>
+    <string name="signup_vault_label_password">Mật khẩu(6 số)</string>
+    <string name="signup_vault_label_confirm_password">Xác nhận mật khẩu</string>
+    <string name="signup_vault_btn_restore">Phục hồi</string>
+    <string name="signup_vault_btn_signup">Xác nhận</string>
     <string name="signup_vault_invalid_email">Email không hợp lệ. Vui lòng nhập lại!</string>
     <string name="signup_vault_pin_not_match">Mã PIN không khớp. Vui lòng nhập lại!</string>
     <string name="signup_vault_pin_too_short">Độ dài của mã PIN là 6. Vui lòng nhập lại!</string>
@@ -46,5 +54,11 @@
     <string name="photo_details_resolution">Độ phân giải:</string>
     <string name="photo_details_last_modified">Lần sửa cuối cùng:</string>
     <string name="photo_details_close">Đóng</string>
+
+    <string name="vault_convert_album_title">Trả về album gốc</string>
+    <string name="vault_reset_password_title">Đổi mã PIN</string>
+
+    <string name="dialog_vault_close_btn_title">Hủy</string>
+    <string name="dialog_vault_reset_btn_title">Xác nhận</string>
 
 </resources>
