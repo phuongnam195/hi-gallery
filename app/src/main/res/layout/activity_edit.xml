@@ -9,370 +9,564 @@
 
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/appbar_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_edit" />
-
-
-    <!--    Màn hình chính: EDIT__SCREEN -->
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/main_screen"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:gravity="center"-->
-    <!--        android:orientation="vertical">-->
-
-    <!--        <TextView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="100dp"-->
-    <!--            android:gravity="center"-->
-    <!--            android:text="Photo Editor"-->
-    <!--            android:textSize="30sp"-->
-    <!--            android:textColor="@color/black"-->
-    <!--            android:layout_marginBottom="30dp"></TextView>-->
-
-    <!--        <Button-->
-    <!--            android:id="@+id/selectImageButton"-->
-    <!--            android:layout_width="100dp"-->
-    <!--            android:layout_height="100dp"-->
-    <!--            android:text="Select image"></Button>-->
-
-    <!--        <Button-->
-    <!--            android:id="@+id/takePhotoButton"-->
-    <!--            android:layout_width="100dp"-->
-    <!--            android:layout_height="100dp"-->
-    <!--            android:text="Take photo"></Button>-->
-
-    <!--    </LinearLayout>-->
-    <!--    Màn hình EDIT ảnh sau khi pick  -->
     <LinearLayout
-        android:id="@+id/editScreen"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/image_view"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/appbar_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_edit" />
+
+        <LinearLayout
+            android:id="@+id/editScreen"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <!--        Danh sách nút gồm: BACK, FILTER, ROTATE, SAVE -->
-        <LinearLayout
-            android:id="@+id/main_btn_group"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/backButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="20px"
-                android:layout_weight="1"
-                android:text="🔙" />
-
-            <Button
-                android:id="@+id/filterButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10px"
-                android:layout_marginRight="10px"
-                android:layout_weight="1"
-                android:text="Fltr" />
-
-            <Button
-                android:id="@+id/rotateButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10px"
-                android:layout_marginRight="10px"
-                android:layout_weight="1"
-                android:text="Rot" />
-
-            <Button
-                android:id="@+id/flipButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10px"
-                android:layout_marginRight="10px"
-                android:layout_weight="1"
-                android:text="Flip" />
-
-            <Button
-                android:id="@+id/saveImage"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20px"
-                android:layout_weight="1"
-                android:text="☑" />
-
-        </LinearLayout>
-
-        <!--        Danh sách nút của chức năng FILTER -->
-        <LinearLayout
-            android:id="@+id/filtersGroup"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/back_Filter"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="20px"
-                android:layout_weight="1"
-                android:text="🔙" />
-
-            <HorizontalScrollView
-                android:layout_width="0dp"
+            <!--        Danh sách nút gồm: BACK, FILTER, ROTATE, SAVE -->
+            <LinearLayout
+                android:id="@+id/main_btn_group"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_weight="3.5">
+                android:background="?attr/primary_color"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/filterButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onFilter"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_filter"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/rotateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onRotate"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_rotate"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/flipButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onFlip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_flip"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+            <!--        Danh sách nút của chức năng FILTER -->
+            <LinearLayout
+                android:id="@+id/filtersGroup"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?attr/primary_color"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBackFilter"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_back"
+                    app:tint="#FFFFFF" />
+
+
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/BAW"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBlackAndWhite"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_baw"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onNegative"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_negative"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/brightness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBrightness"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_brightness"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/warm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onWarm"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_warm"
+                    app:tint="#FFFFFF" />
+
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/saveFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onSaveImageFilter"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_baseline_save"
+                    app:tint="#FFFFFF" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+            <!--        Giao diện UP DOWN cho FILTER-->
+            <LinearLayout
+                android:id="@+id/UpDown"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="?attr/primary_color">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backToFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBackUpDown"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_back"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onUp"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_up"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onDown"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_down"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <!--        Giao diện rotate-->
+            <LinearLayout
+                android:id="@+id/rotateScreen"
+                android:layout_width="match_parent"
+                android:background="?attr/primary_color"
+                android:layout_height="50dp">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backRotate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBackRotate"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_back"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/RotateL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onRotateL"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_rotate_left"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/RotateR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onRotateR"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_rotate_right"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/customRotate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onCustom"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_custom"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <!--        Seek bar chỉnh góc rotate-->
+            <LinearLayout
+                android:id="@+id/seekbarScreen"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/degree"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0 🌡"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
 
                 <LinearLayout
+                    android:id="@+id/seekbarContain"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:background="?attr/primary_color"
+                    >
 
-                    <Button
-                        android:id="@+id/blackAndWhite"
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/backSB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:clickable="true"
+                        android:onClick="onBackSeekBar"
+                        app:backgroundTint="@color/primary"
+                        app:elevation="0dp"
+                        app:pressedTranslationZ="0dp"
+                        app:rippleColor="@color/ripple_button"
+                        app:srcCompat="@drawable/ic_edit_back"
+                        app:tint="#FFFFFF" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <SeekBar
+                        android:id="@+id/angle"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10px"
-                        android:layout_marginRight="10px"
-                        android:layout_weight="1"
-                        android:text="B/W" />
+                        android:layout_weight="4"
+                        android:max="360"
+                        android:progress="180" />
 
-                    <Button
-                        android:id="@+id/negative"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10px"
-                        android:layout_marginRight="10px"
-                        android:layout_weight="1"
-                        android:text="⚡" />
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-                    <Button
-                        android:id="@+id/brightness"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10px"
-                        android:layout_marginRight="10px"
-                        android:layout_weight="1"
-                        android:text="🔆" />
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/okSB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:clickable="true"
+                        android:onClick="onOkSeekBar"
+                        app:backgroundTint="@color/primary"
+                        app:elevation="0dp"
+                        app:pressedTranslationZ="0dp"
+                        app:rippleColor="@color/ripple_button"
+                        app:srcCompat="@drawable/ic_edit_ok"
+                        app:tint="#FFFFFF" />
 
-                    <Button
-                        android:id="@+id/warm"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10px"
-                        android:layout_marginRight="10px"
-                        android:layout_weight="1"
-                        android:text="🟧" />
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
 
                 </LinearLayout>
 
 
-            </HorizontalScrollView>
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/saveImage_Filter"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20px"
-                android:layout_weight="1"
-                android:text="☑" />
-
-        </LinearLayout>
-        <!--        Giao diện UP DOWN cho FILTER-->
-        <LinearLayout
-            android:id="@+id/UpDown"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <Button
-                android:id="@+id/backToFilter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60px"
-                android:layout_marginRight="60px"
-                android:layout_weight="1"
-                android:text="🔙" />
-
-            <Button
-                android:id="@+id/up"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60px"
-                android:layout_marginRight="60px"
-                android:layout_weight="1"
-                android:text="up" />
-
-            <Button
-                android:id="@+id/down"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60px"
-                android:layout_marginRight="60px"
-                android:layout_weight="1"
-                android:text="down" />
-
-        </LinearLayout>
-
-        <!--        Giao diện rotate-->
-        <LinearLayout
-            android:id="@+id/rotateScreen"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <Button
-                android:id="@+id/backRotate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:layout_marginRight="20px"
-                android:layout_weight="1"
-                android:text="🔙" />
-
-            <Button
-                android:id="@+id/rotate90L"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:layout_marginRight="20px"
-                android:layout_weight="1"
-                android:text="90 ↪" />
-
-            <Button
-                android:id="@+id/rotate90R"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:layout_marginRight="20px"
-                android:layout_weight="1"
-                android:text="90 ↩" />
-
-            <Button
-                android:id="@+id/custom"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:layout_marginRight="20px"
-                android:layout_weight="1"
-                android:text="ct 📐" />
-
-        </LinearLayout>
-
-        <!--        Seek bar chỉnh góc rotate-->
-        <LinearLayout
-            android:id="@+id/seekbarScreen"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/degree"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="0 🌡"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
-
+            <!--        Giao diện flip-->
             <LinearLayout
-                android:id="@+id/seekbarContain"
+                android:id="@+id/flipScreen"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:background="?attr/primary_color"
+                android:layout_height="50dp">
 
-                <Button
-                    android:id="@+id/backSeekbar"
-                    android:layout_width="0dp"
+                <Space
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20px"
-                    android:layout_marginRight="20px"
+                    android:layout_weight="1" />
 
-                    android:layout_weight="1"
-                    android:text="🔙" />
-
-                <SeekBar
-                    android:id="@+id/angle"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="40px"
-                    android:layout_marginRight="40px"
-                    android:layout_weight="4"
-                    android:max="360"
-                    android:progress="180" />
-
-                <Button
-                    android:id="@+id/okSeekbar"
-                    android:layout_width="0dp"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backFlip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20px"
-                    android:layout_marginRight="20px"
-                    android:layout_weight="1"
-                    android:text="✔" />
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBackFlip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_back"
+                    app:tint="#FFFFFF" />
 
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/horzFlip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onHorizFlip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_flip_horiz"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/verFlip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onVerFlip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_flip_vert"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
-
         </LinearLayout>
 
-        <!--        Giao diện flip-->
-        <LinearLayout
-            android:id="@+id/flipScreen"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
 
-            <Button
-                android:id="@+id/backFlip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60px"
-                android:layout_marginRight="60px"
-                android:layout_weight="1"
-                android:text="🔙" />
 
-            <Button
-                android:id="@+id/horizontalFlip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30px"
-                android:layout_marginRight="30px"
-                android:layout_weight="1"
-                android:text=" ↔ " />
 
-            <Button
-                android:id="@+id/verticalFlip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30px"
-                android:layout_marginRight="30px"
-                android:layout_weight="1"
-                android:text=" ↕ " />
 
-        </LinearLayout>
+
 
     </LinearLayout>
-
-
-</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
