@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background_color"
+    tools:context=".activities.TrashActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/appbar_trash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/trash_title" />
+
+    <TextView
+        android:id="@+id/trash_count"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@id/bottombar_trash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar_trash" />
+
+    <LinearLayout
+        android:id="@+id/bottombar_trash"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/background_color"
+        android:elevation="5dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <Button
+            android:id="@+id/delete_all_trash"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/background_color"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="onDeleteAll"
+            android:text="@string/trash_delete_all"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/textColor"
+            android:textSize="@dimen/trash_text_button_size" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/restore_all_trash"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/background_color"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="onRestoreAll"
+            android:text="@string/trash_restore_all"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/textColor"
+            android:textSize="@dimen/trash_text_button_size" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

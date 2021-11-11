@@ -46,7 +46,6 @@
     <string name="signup_vault_email_exists">Email đã tồn tại. Có lẽ bạn nên khôi phục.</string>
     <string name="signup_vault_unknown_error">Lỗi không xác định. Vui lòng thử lại!</string>
     <string name="restore_vault_wrong_pin">Mật khẩu sai. Vui lòng nhập lại!</string>
-    <string name="permission_title">Cần được cấp quyền!</string>
 
     <string name="photo_details_name">Tên:</string>
     <string name="photo_details_size">Kích thước:</string>
@@ -54,6 +53,9 @@
     <string name="photo_details_resolution">Độ phân giải:</string>
     <string name="photo_details_last_modified">Lần sửa cuối cùng:</string>
     <string name="photo_details_close">Đóng</string>
+    <string name="trash_delete_all">Xóa Tất cả</string>
+    <string name="trash_restore_all">Khôi phục Tất cả</string>
+    <string name="trash_title">Thùng rác</string>
 
     <string name="vault_convert_album_title">Trả về album gốc</string>
     <string name="vault_reset_password_title">Đổi mã PIN</string>

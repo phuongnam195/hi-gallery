@@ -1,6 +1,5 @@
 package com.team2.higallery.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -33,7 +32,6 @@ public class SettingsActivity extends AppCompatActivity {
         Configuration.save(this);
     }
 
-    @SuppressLint("RestrictedApi")
     private void setupAppBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_settings);
         setSupportActionBar(toolbar);
@@ -79,14 +77,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void openAbout(View view) {
         Toast.makeText(this, "Team 2", Toast.LENGTH_SHORT).show();
-    }
-
-    public void function1(View view) {
-        Toast.makeText(this, "Chức năng thứ nhất", Toast.LENGTH_LONG).show();
-    }
-
-    public void function3(View view) {
-        Toast.makeText(this, "Chức năng thứ ba", Toast.LENGTH_LONG).show();
     }
 
     private void refreshActivity() {

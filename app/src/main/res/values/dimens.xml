@@ -9,4 +9,6 @@
     <dimen name="photo_details_title_size">18sp</dimen>
     <dimen name="photo_details_content_size">16sp</dimen>
     <dimen name="photo_details_vert_margin">8dp</dimen>
+
+    <dimen name="trash_text_button_size">16sp</dimen>
 </resources>
