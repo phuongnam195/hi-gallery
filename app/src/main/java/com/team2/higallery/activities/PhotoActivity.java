@@ -3,7 +3,6 @@ package com.team2.higallery.activities;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +22,8 @@ import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.PhotosPagerAdapter;
+import com.team2.higallery.models.FavoriteImages;
+import com.team2.higallery.models.TrashManager;
 import com.team2.higallery.utils.DataUtils;
 
 import java.io.IOException;
@@ -41,9 +42,8 @@ public class PhotoActivity extends AppCompatActivity {
     int currentIndex;
     ArrayList<String> imagePaths;
 
-    private boolean dummyFavorite = false;
-
     ViewPager viewPager;
+    PhotosPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +60,25 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(new PhotosPagerAdapter(imagePaths,this));
+        pagerAdapter = new PhotosPagerAdapter(imagePaths,this);
+        viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(currentIndex);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                currentIndex = position;
+                setFavorite(FavoriteImages.check(imagePaths.get(position)));
+            }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            @Override
+            public void onPageScrollStateChanged(int state) { }
+        });
+
+        setFavorite(FavoriteImages.check(imagePaths.get(currentIndex)));
     }
 
     @SuppressLint("RestrictedApi")
@@ -195,20 +209,28 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void toggleFavorite(View view) {
-        Resources resources = getResources();
-        if (dummyFavorite) {
-            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_border);
-            favoriteButton.setTooltipText(resources.getString(R.string.photo_favorite));
-        } else {
-            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite);
-            favoriteButton.setTooltipText(resources.getString(R.string.photo_unfavorite));
-        }
-        dummyFavorite = !dummyFavorite;
-
-        Toast.makeText(this, "Thích/Bỏ thích...", Toast.LENGTH_SHORT).show();
+        final boolean isFavorite = FavoriteImages.toggle(imagePaths.get(currentIndex));
+        setFavorite(isFavorite);
     }
 
     public void onDelete(View view) {
-        Toast.makeText(this, "Xóa vào thùng rác", Toast.LENGTH_SHORT).show();
+        TrashManager trashManager = TrashManager.getInstance(this);
+        trashManager.delete(this, imagePaths.get(currentIndex));
+
+        if (imagePaths.size() == 1) {
+            finish();
+        }
+
+        pagerAdapter.removeItem(currentIndex);
+    }
+
+    private void setFavorite(boolean state) {
+        if (state) {
+            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite);
+            favoriteButton.setTooltipText(getResources().getString(R.string.photo_unfavorite));
+        } else {
+            favoriteButton.setImageResource(R.drawable.ic_baseline_favorite_border);
+            favoriteButton.setTooltipText(getResources().getString(R.string.photo_favorite));
+        }
     }
 }

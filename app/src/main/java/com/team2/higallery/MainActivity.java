@@ -2,7 +2,6 @@ package com.team2.higallery;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -14,10 +13,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.team2.higallery.activities.EditActivity;
 import com.team2.higallery.activities.LoginVaultActivity;
 import com.team2.higallery.activities.SettingsActivity;
 import com.team2.higallery.activities.SignUpVaultActivity;
+import com.team2.higallery.activities.TrashActivity;
 import com.team2.higallery.fragments.AlbumFragment;
 import com.team2.higallery.fragments.AllPhotosFragment;
 import com.team2.higallery.fragments.FavoriteFragment;
@@ -25,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.team2.higallery.models.Account;
+import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.utils.PermissionHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,9 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setupAppBar();
         setupBottomBar();
 
-        if (PermissionHelper.checkReadExternalStorage(this)) {
+        if (PermissionHelper.checkReadExternalStorage(this)
+                && PermissionHelper.checkWriteExternalStorage(this)) {
             setupBody();
         }
+
+        // Load path của các ảnh được yêu thích
+        FavoriteImages.load(this);
 
         Account.auth = FirebaseAuth.getInstance();
     }
@@ -65,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Configuration.save(this);
+
+        // Lưu path của các ảnh được yêu thích
+        FavoriteImages.save(this);
     }
 
     @Override
@@ -81,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.vault_menu_item_main:
                 openVault();
+                return true;
+            case R.id.trash_menu_item_main:
+                openTrash();
                 return true;
             case R.id.settings_menu_item_main:
                 openSettings();
@@ -155,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
     public void openCamera() {
         Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         startActivity(intent);
-
     }
 
     public void openVault() {
@@ -169,6 +178,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SignUpVaultActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void openTrash() {
+        Intent intent = new Intent(this, TrashActivity.class);
+        startActivity(intent);
     }
 
     public void openSettings() {
@@ -185,8 +199,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case PermissionHelper
-                    .REQUEST_READ_EXTERNAL_STORAGE:
+            case PermissionHelper.REQUEST_READ_EXTERNAL_STORAGE:
+            case PermissionHelper.REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     refreshActivity();
                 } else {

@@ -15,8 +15,13 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_photo_camera.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_photo_library.xml" value="0.14635416666666667" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_all_images.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_edit.xml" value="0.21331521739130435" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_photo.xml" value="0.4726598702502317" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_settings.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_sign_up_vault.xml" value="0.15885416666666666" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_trash.xml" value="0.23097826086956522" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_album.xml" value="0.23731884057971014" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_all_images.xml" value="0.23731884057971014" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_favorite.xml" value="0.23731884057971014" />
@@ -49,7 +54,6 @@
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/thumbnail_item.xml" value="0.103125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/bottom_navigation_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/popup_menu_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/android/hi-gallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.1693840579710145" />
       </map>
     </option>
   </component>

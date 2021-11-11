@@ -1,9 +1,8 @@
 <resources>
-    <string name="permission_title">Permission necessary!</string>
-
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Gallery</string>
     <string name="settings_title">Settings</string>
+    <string name="trash_title">Trash</string>
 
     <string name="main_appbar_camera">Open Camera</string>
     <string name="main_appbar_more_vault">Vault</string>
@@ -47,5 +46,8 @@
     <string name="photo_details_resolution">Resolution:</string>
     <string name="photo_details_last_modified">Last modified:</string>
     <string name="photo_details_close">Close</string>
+
+    <string name="trash_delete_all">Delete All</string>
+    <string name="trash_restore_all">Restore All</string>
 
 </resources>

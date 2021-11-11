@@ -9,6 +9,9 @@
         android:id="@+id/vault_menu_item_main"
         android:title="@string/main_appbar_more_vault" />
     <item
+        android:id="@+id/trash_menu_item_main"
+        android:title="@string/trash_title" />
+    <item
         android:id="@+id/settings_menu_item_main"
         android:title="@string/settings_title" />
 </menu>
