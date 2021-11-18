@@ -1,15 +1,9 @@
 package com.team2.higallery.activities;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -20,12 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,17 +32,12 @@ import java.util.Date;
 import android.net.Uri;
 import android.graphics.Bitmap;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
-import com.team2.higallery.utils.DataUtils;
 
 public class EditActivity extends AppCompatActivity{
 
@@ -58,13 +45,14 @@ public class EditActivity extends AppCompatActivity{
     private ActionBar appBar;
 
     //Rotate screen
-    SeekBar degree;
+    SeekBar seekbarCustomRotate;
+    TextView degreeCustomRotate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        degree = (SeekBar)findViewById(R.id.angle);
+        seekbarCustomRotate = (SeekBar)findViewById(R.id.seekbar_custom_rotate);
 
         init();
         setupAppBar();
@@ -102,7 +90,6 @@ public class EditActivity extends AppCompatActivity{
 //        return false;
 //    }
 
-    @SuppressLint("RestrictedApi")
     private void setupAppBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_edit);
         setSupportActionBar(toolbar);
@@ -111,8 +98,8 @@ public class EditActivity extends AppCompatActivity{
         // add back arrow to appbar
         appBar.setDisplayHomeAsUpEnabled(true);
         appBar.setDisplayShowHomeEnabled(true);
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
@@ -168,7 +155,7 @@ public class EditActivity extends AppCompatActivity{
             //findViewById(R.id.main_screen).setVisibility(View.VISIBLE);
 
             if(editing) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
                 final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -188,10 +175,10 @@ public class EditActivity extends AppCompatActivity{
                         }
                     }
                 };
-                builder.setMessage("Ảnh chưa được lưu, bạn muốn lưu ảnh lại không?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener)
-                        .setNeutralButton("cancel", dialogClickListener)
+                builder.setMessage(getResources().getString(R.string.edit_back_message_dialog))
+                        .setPositiveButton(getResources().getString(R.string.edit_yes_dialog), dialogClickListener)
+                        .setNegativeButton(getResources().getString(R.string.edit_no_dialog), dialogClickListener)
+                        .setNeutralButton(getResources().getString(R.string.edit_cancel_dialog), dialogClickListener)
                         .show();
             }
             else{
@@ -215,20 +202,17 @@ public class EditActivity extends AppCompatActivity{
 
         imageView = findViewById(R.id.image_view);
 
-        degree.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekbarCustomRotate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 int prog = progress - 180;
-                TextView a =(TextView)findViewById(R.id.degree);
 
                 bitmap_rotate = RotateBitmap(bitmap, prog);
-//                a.setText(Integer.toString(prog - currentDeg) + " 🌡");
-
                 currentDeg = prog;
                 imageView.setImageBitmap(bitmap_rotate);
-                a.setText(Integer.toString(currentDeg) + " 🌡");
+                degreeCustomRotate.setText(String.format("%d°", currentDeg));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -326,14 +310,6 @@ public class EditActivity extends AppCompatActivity{
         final ProgressDialog dialog = ProgressDialog.show(EditActivity.this, "Loading", "Please Wait", true);
         currentDeg = 0;
         editMode = true;
-        //findViewById(R.id.main_screen).setVisibility(View.GONE);
-        findViewById(R.id.editScreen).setVisibility(View.VISIBLE);
-        findViewById(R.id.UpDown).setVisibility(View.GONE);
-        findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-        findViewById(R.id.rotateScreen).setVisibility(View.GONE);
-        findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
-        findViewById(R.id.flipScreen).setVisibility(View.GONE);
-
 
         // Tạo luồng (thread) để hiện ảnh vừa load) -- Load bitmap
         new Thread(){
@@ -421,7 +397,7 @@ public class EditActivity extends AppCompatActivity{
     }
 
     private void saveIMG(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -439,9 +415,9 @@ public class EditActivity extends AppCompatActivity{
                 }
             }
         };
-        builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        builder.setMessage(getResources().getString(R.string.edit_save_message_dialog))
+                .setPositiveButton(getResources().getString(R.string.edit_yes_dialog), dialogClickListener)
+                .setNegativeButton(getResources().getString(R.string.edit_no_dialog), dialogClickListener).show();
     }
 
 //    private Bitmap adjustedContrast(Bitmap src, double value)
@@ -528,23 +504,23 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onFilter(View v) {
-        findViewById(R.id.main_btn_group).setVisibility(View.GONE);
-        findViewById(R.id.filtersGroup).setVisibility(View.VISIBLE);
+        findViewById(R.id.main_group).setVisibility(View.GONE);
+        findViewById(R.id.filters_group).setVisibility(View.VISIBLE);
     }
 
     public void onRotate(View v) {
-        findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
-        findViewById(R.id.main_btn_group).setVisibility(View.GONE);
+        findViewById(R.id.rotate_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.main_group).setVisibility(View.GONE);
     }
 
     public void onFlip(View v) {
-        findViewById(R.id.flipScreen).setVisibility(View.VISIBLE);
-        findViewById(R.id.main_btn_group).setVisibility(View.GONE);
+        findViewById(R.id.flip_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.main_group).setVisibility(View.GONE);
     }
 
     public void onBrightness(View v) {
-        findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-        findViewById(R.id.UpDown).setVisibility(View.VISIBLE);
+        findViewById(R.id.filters_group).setVisibility(View.GONE);
+        findViewById(R.id.inc_dec_group).setVisibility(View.VISIBLE);
         editBrightness = true;
     }
 
@@ -573,8 +549,8 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onWarm(View v) {
-        findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-        findViewById(R.id.UpDown).setVisibility(View.VISIBLE);
+        findViewById(R.id.filters_group).setVisibility(View.GONE);
+        findViewById(R.id.inc_dec_group).setVisibility(View.VISIBLE);
         editWarm = true;
     }
 
@@ -583,15 +559,15 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onBackFilter(View v) {
-        findViewById(R.id.filtersGroup).setVisibility(View.GONE);
-        findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.filters_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
     }
 
     public void onBackUpDown(View v) {
         editBrightness = false;
         editWarm = false;
-        findViewById(R.id.UpDown).setVisibility(View.GONE);
-        findViewById(R.id.filtersGroup).setVisibility(View.VISIBLE);
+        findViewById(R.id.inc_dec_group).setVisibility(View.GONE);
+        findViewById(R.id.filters_group).setVisibility(View.VISIBLE);
     }
 
 
@@ -647,8 +623,8 @@ public class EditActivity extends AppCompatActivity{
 
 
     public void onBackRotate(View v) {
-        findViewById(R.id.rotateScreen).setVisibility(View.GONE);
-        findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.rotate_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
     }
 
     public void onRotateL(View v) {
@@ -668,19 +644,18 @@ public class EditActivity extends AppCompatActivity{
 
     public void onCustom(View v) {
         editing = true;
-        findViewById(R.id.rotateScreen).setVisibility(View.GONE);
-        findViewById(R.id.seekbarScreen).setVisibility(View.VISIBLE);
+        findViewById(R.id.rotate_group).setVisibility(View.GONE);
+        findViewById(R.id.custom_rotate_group).setVisibility(View.VISIBLE);
         SeekBar t;
-        t = (SeekBar) findViewById(R.id.angle);
+        t = (SeekBar) findViewById(R.id.seekbar_custom_rotate);
         t.setProgress(currentDeg + 180);
         imageView.setImageBitmap(RotateBitmap(bitmap, currentDeg));
-        TextView a =(TextView)findViewById(R.id.degree);
-        a.setText(Integer.toString(currentDeg));
+        degreeCustomRotate = (TextView) findViewById(R.id.degree_custom_rotate);
     }
 
     public void onBackSeekBar(View v) {
-        findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
-        findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
+        findViewById(R.id.custom_rotate_group).setVisibility(View.GONE);
+        findViewById(R.id.rotate_group).setVisibility(View.VISIBLE);
         imageView.setImageBitmap(bitmap);
         currentDeg = 0;
 
@@ -688,8 +663,8 @@ public class EditActivity extends AppCompatActivity{
 
     public void onOkSeekBar(View v) {
         editing = true;
-        findViewById(R.id.seekbarScreen).setVisibility(View.GONE);
-        findViewById(R.id.rotateScreen).setVisibility(View.VISIBLE);
+        findViewById(R.id.custom_rotate_group).setVisibility(View.GONE);
+        findViewById(R.id.rotate_group).setVisibility(View.VISIBLE);
         bitmap = bitmap_rotate;
         imageView.setImageBitmap(bitmap);
         getPixelOfBitmap(bitmap);
@@ -697,8 +672,8 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onBackFlip(View v) {
-        findViewById(R.id.flipScreen).setVisibility(View.GONE);
-        findViewById(R.id.main_btn_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.flip_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
     }
 
     public void onHorizFlip(View v) {

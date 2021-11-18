@@ -41,16 +41,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/share_action_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:clickable="true"
             android:onClick="onShare"
             android:tooltipText="@string/photo_share"
@@ -100,11 +94,6 @@
             app:rippleColor="@color/ripple_button"
             app:srcCompat="@drawable/ic_baseline_delete_outline"
             app:tint="#FFFFFF" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -155,8 +155,6 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onEdit() {
-        Toast.makeText(this, "Sửa...", Toast.LENGTH_SHORT).show();
-
         Bundle myData = new Bundle();
 
         myData.putInt("currentIndex", currentIndex);
