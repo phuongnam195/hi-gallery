@@ -18,13 +18,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/trash_title" />
 
-    <TextView
-        android:id="@+id/trash_count"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/body_trash"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@id/bottombar_trash"
+        app:layout_constraintBottom_toTopOf="@+id/bottombar_trash"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar_trash" />
@@ -43,14 +41,14 @@
 
 
         <Button
-            android:id="@+id/delete_all_trash"
+            android:id="@+id/delete_trash"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/background_color"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="onDeleteAll"
+            android:onClick="onDelete"
             android:text="@string/trash_delete_all"
             android:textAllCaps="false"
             android:textColor="?android:attr/textColor"
@@ -62,14 +60,14 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/restore_all_trash"
+            android:id="@+id/restore_trash"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="?attr/background_color"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="onRestoreAll"
+            android:onClick="onRestore"
             android:text="@string/trash_restore_all"
             android:textAllCaps="false"
             android:textColor="?android:attr/textColor"

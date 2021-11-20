@@ -40,7 +40,7 @@ public class DataUtils {
     public static boolean updateAllImagesFromExternalStorage(Context context) {
         String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
         String orderBy = MediaStore.Video.Media.DATE_TAKEN;
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null,null, orderBy + " DESC");
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, orderBy + " DESC");
         if (cursor == null) {
             return false;
         }
@@ -64,27 +64,6 @@ public class DataUtils {
             }
         }
         return false;
-//        Uri uri;
-//        Cursor cursor;
-//        int column_index_data;
-//        uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-//
-//        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
-//        String orderBy = MediaStore.Video.Media.DATE_TAKEN;
-//        cursor = context.getContentResolver().query(uri, projection, null, null, orderBy + " DESC");
-//
-//        if (cursor != null) {
-//            column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-//            ArrayList<String> allImagePaths = new ArrayList<>();
-//
-//            while (cursor.moveToNext()) {
-//                String absolutePathOfImage = cursor.getString(column_index_data);
-//                allImagePaths.add(absolutePathOfImage);
-//            }
-//
-//            cursor.close();
-//            return allImagePaths;
-//        }
     }
 
     public static String getNamePhoto(String pathPhoto) {

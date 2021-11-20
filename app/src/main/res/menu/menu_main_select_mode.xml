@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/deselect_menu_main"
+        android:title="@string/main_appbar_deselect"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/select_all_menu_main"
+        android:title="@string/main_appbar_select_all" />
+    <item
+        android:id="@+id/delete_selected_menu_main"
+        android:title="@string/main_appbar_delete_selected" />
+    <item
+        android:id="@+id/vault_selected_trash_menu_main"
+        android:title="@string/main_appbar_vault_selected" />
+
+</menu>

@@ -3,6 +3,8 @@ package com.team2.higallery.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.team2.higallery.utils.DataUtils;
+
 import java.util.ArrayList;
 
 public class FavoriteImages {
@@ -22,6 +24,16 @@ public class FavoriteImages {
             list.add(0, imagePath);
             return true;
         }
+    }
+
+    public static ArrayList<String> get() {
+        ArrayList<String> result = new ArrayList<>();
+        for (String path : list) {
+            if (DataUtils.allImages.contains(path)) {
+                result.add(path);
+            }
+        }
+        return result;
     }
 
     // Nạp danh sách đường dẫn ảnh được yêu thích

@@ -6,7 +6,11 @@
     <string name="trash_title">Trash</string>
 
     <string name="main_appbar_camera">Open Camera</string>
-    <string name="main_appbar_more_vault">Vault</string>
+    <string name="main_appbar_vault">Vault</string>
+    <string name="main_appbar_delete_selected">Delete</string>
+    <string name="main_appbar_vault_selected">Move to Vault</string>
+    <string name="main_appbar_select_all">Select all</string>
+    <string name="main_appbar_deselect">Deselect</string>
 
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>
@@ -61,6 +65,8 @@
 
     <string name="dialog_vault_close_btn_title">Close</string>
     <string name="dialog_vault_reset_btn_title">Reset</string>
+    <string name="trash_delete">Delete</string>
+    <string name="trash_restore">Restore</string>
     <string name="trash_delete_all">Delete All</string>
     <string name="trash_restore_all">Restore All</string>
 

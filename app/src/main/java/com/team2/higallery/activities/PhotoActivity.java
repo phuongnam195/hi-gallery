@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
@@ -67,7 +66,12 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        pagerAdapter = new PhotosPagerAdapter(imagePaths,this);
+        pagerAdapter = new PhotosPagerAdapter(this, imagePaths, new PhotosPagerAdapter.ClickListener() {
+            @Override
+            public void onClick() {
+                toggleBarVisibility();
+            }
+        });
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(currentIndex);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -139,7 +143,7 @@ public class PhotoActivity extends AppCompatActivity {
         return false;
     }
 
-    public void toggleBarVisibility(View view) {
+    private void toggleBarVisibility() {
         if (appBar.isShowing()) {
             appBar.hide();
             bottomBar.setVisibility(View.GONE);
@@ -243,7 +247,7 @@ public class PhotoActivity extends AppCompatActivity {
 
     public void onDelete(View view) {
         TrashManager trashManager = TrashManager.getInstance(this);
-        trashManager.delete(this, imagePaths.get(currentIndex));
+        trashManager.delete(imagePaths.get(currentIndex));
 
         if (imagePaths.size() == 1) {
             finish();

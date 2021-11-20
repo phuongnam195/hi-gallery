@@ -33,27 +33,45 @@ public class TrashManager {
         }
         this.context = context;
         dbHelper = new DatabaseHelper(context);
-        deletedImageList = dbHelper.getAllDeletedImages();
+        deletedImages = dbHelper.getAllDeletedImages();
     }
 
     File trashFolder;
-    ArrayList<DeletedImage> deletedImageList;
+    ArrayList<DeletedImage> deletedImages;
     DatabaseHelper dbHelper;
     Context context;
 
     public int count() {
-        return deletedImageList.size();
+        return deletedImages.size();
     }
 
-    public boolean delete(Context context, String imagePath) {
+    public ArrayList<String> getAllPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        for (DeletedImage image : deletedImages) {
+            paths.add(image.getTrashPath());
+        }
+        return paths;
+    }
+
+    public boolean delete(String imagePath) {
         if (trashFolder == null) {
             return false;
         }
         File imageFile = new File(imagePath);
 
-        String trashPath = trashFolder.getPath() + "/" + imageFile.getName();
+        String fullname = imageFile.getName();
+        String name = fullname.substring(0, fullname.lastIndexOf('.'));
+        String extension = fullname.substring(name.length());
+        File trashFile = new File(trashFolder + "/" + fullname);
+        int countExist = 0;
 
-        if (!imageFile.renameTo(new File(trashPath))) {
+        while (trashFile.exists()) {
+            countExist++;
+            String newFullname = name + " (" + String.valueOf(countExist) + ")" + extension;
+            trashFile = new File(trashFolder + "/" + newFullname);
+        }
+
+        if (!imageFile.renameTo(trashFile)) {
             return false;
         }
 
@@ -62,18 +80,19 @@ public class TrashManager {
         }
 
         Date datetime = new Date(System.currentTimeMillis());
-        DeletedImage deletedImage = new DeletedImage(trashPath, imagePath, datetime);
+        DeletedImage deletedImage = new DeletedImage(trashFile.getPath(), imagePath, datetime);
         long id = dbHelper.insertDeletedImage(deletedImage);
         deletedImage.setId(id);
-        deletedImageList.add(deletedImage);
+        deletedImages.add(deletedImage);
         return true;
     }
 
-    public boolean deletePermanently(long id) {
+    public boolean deletePermanently(int index) {
         if (trashFolder == null) {
             return false;
         }
-        DeletedImage deletedImage = dbHelper.getDeletedImage(id);
+        DeletedImage deletedImage = deletedImages.get(index);
+
         String trashPath = deletedImage.getTrashPath();
         File file = new File(trashPath);
         boolean success = file.delete();
@@ -82,16 +101,17 @@ public class TrashManager {
             return false;
         }
 
+        deletedImages.remove(index);
+        long id = deletedImage.getId();
         dbHelper.removeDeletedImage(id);
-        deletedImageList.removeIf(di -> di.getId() == id);
         return true;
     }
 
-    public boolean restore(long id) {
+    public boolean restore(int index) {
         if (trashFolder == null) {
             return false;
         }
-        DeletedImage deletedImage = dbHelper.getDeletedImage(id);
+        DeletedImage deletedImage = deletedImages.get(index);
         String trashPath = deletedImage.getTrashPath();
         String oldPath = deletedImage.getOldPath();
         File trashFile = new File(trashPath);
@@ -104,17 +124,20 @@ public class TrashManager {
 
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(oldFile)));
 
+        deletedImages.remove(index);
+        long id = deletedImage.getId();
         dbHelper.removeDeletedImage(id);
-        deletedImageList.removeIf(di -> di.getId() == id);
         return true;
     }
 
     public boolean deletePermanentlyAll() {
-        if (trashFolder == null || deletedImageList.isEmpty()) {
+        if (trashFolder == null || deletedImages.isEmpty()) {
             return true;
         }
 
-        for (DeletedImage deletedImage : deletedImageList) {
+        for (DeletedImage deletedImage : deletedImages) {
+            String oldPath = deletedImage.getOldPath();
+            FavoriteImages.list.remove(oldPath);
             String trashPath = deletedImage.getTrashPath();
             File file = new File(trashPath);
 
@@ -124,16 +147,16 @@ public class TrashManager {
         }
 
         dbHelper.removeAllDeletedImages();
-        deletedImageList.clear();
+        deletedImages.clear();
         return true;
     }
 
     public boolean restoreAll() {
-        if (trashFolder == null || deletedImageList.isEmpty()) {
+        if (trashFolder == null || deletedImages.isEmpty()) {
             return true;
         }
 
-        for (DeletedImage deletedImage : deletedImageList) {
+        for (DeletedImage deletedImage : deletedImages) {
             String trashPath = deletedImage.getTrashPath();
             String oldPath = deletedImage.getOldPath();
             File trashFile = new File(trashPath);
@@ -147,7 +170,7 @@ public class TrashManager {
         }
 
         dbHelper.removeAllDeletedImages();
-        deletedImageList.clear();
+        deletedImages.clear();
         return true;
     }
 }
