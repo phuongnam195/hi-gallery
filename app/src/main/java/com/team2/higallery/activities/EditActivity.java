@@ -16,6 +16,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +25,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
@@ -215,6 +218,8 @@ public class EditActivity extends AppCompatActivity{
 
         imageView = findViewById(R.id.image_view);
 
+        imageView.setOnTouchListener(touchListener);
+
         degree.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -241,6 +246,24 @@ public class EditActivity extends AppCompatActivity{
             }
         });
     }
+
+    private float[] lastTouchDownXY = new float[2];
+
+    View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            // save the X,Y coordinates
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                lastTouchDownXY[0] = event.getX();
+                lastTouchDownXY[1] = event.getY();
+            }
+
+            Toast.makeText(EditActivity.this, lastTouchDownXY[0] + ", " + lastTouchDownXY[1], Toast.LENGTH_SHORT).show();
+            // let the touch event pass on to whoever needs it
+            return false;
+        }
+    };
 
     private static Bitmap RotateBitmap(Bitmap source, float angle)
     {
@@ -436,12 +459,20 @@ public class EditActivity extends AppCompatActivity{
                     }catch(IOException e){
                         e.printStackTrace();
                     }
+                } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+                    editing = false;
+
+                }
+                else{
+
                 }
             }
         };
         builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+                .setPositiveButton("Save copy", dialogClickListener)
+                .setNegativeButton("Yes", dialogClickListener)
+                .setNeutralButton("No", dialogClickListener)
+                .show();
     }
 
 //    private Bitmap adjustedContrast(Bitmap src, double value)
@@ -715,5 +746,153 @@ public class EditActivity extends AppCompatActivity{
         imageView.setImageBitmap(bitmap);
     }
 
+
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        // Let the ScaleGestureDetector inspect all events.
+//        mScaleDetector.onTouchEvent(ev);
+//
+//        final int action = ev.getAction();
+//        switch (action & MotionEvent.ACTION_MASK) {
+//            case MotionEvent.ACTION_DOWN: {
+//
+//                if (drawing) {
+//
+//                    startPoint = new Point((int) ev.getX(), (int) ev.getY());
+//                    path = new Path();
+//                    float x = ev.getX() / mScaleFactor + rect.left;
+//                    float y = ev.getY() / mScaleFactor + rect.top;
+//                    path.moveTo(x, y);
+//                    path.lineTo(x, y);
+//
+//                    mLastTouchX_1 = x;
+//                    mLastTouchY_1 = y;
+//                }
+//
+//                else {
+//                    final float x = ev.getX();
+//                    final float y = ev.getY();
+//
+//                    mLastTouchX = x;
+//                    mLastTouchY = y;
+//                    mActivePointerId = ev.getPointerId(0);
+//                }
+//                break;
+//            }
+//
+//            case MotionEvent.ACTION_MOVE: {
+//
+//                if (drawing) {
+//
+//                    float x = ev.getX() / mScaleFactor + rect.left;
+//                    float y = ev.getY() / mScaleFactor + rect.top;
+//
+//                    path.moveTo(mLastTouchX_1, mLastTouchY_1);
+//                    path.lineTo(x, y);
+//
+//                    mLastTouchX_1 = x;
+//                    mLastTouchY_1 = y;
+//                }
+//
+//                else {
+//                    final int pointerIndex = ev
+//                            .findPointerIndex(mActivePointerId);
+//                    final float x = ev.getX(pointerIndex);
+//                    final float y = ev.getY(pointerIndex);
+//
+//                    // Only move if the ScaleGestureDetector isn't processing a
+//                    // gesture.
+//                    if (!mScaleDetector.isInProgress()) {
+//                        final float dx = x - mLastTouchX;
+//                        final float dy = y - mLastTouchY;
+//
+//                        mPosX += dx;
+//                        mPosY += dy;
+//
+//                        invalidate();
+//                    }
+//
+//                    mLastTouchX = x;
+//                    mLastTouchY = y;
+//                }
+//                break;
+//            }
+//
+//            case MotionEvent.ACTION_UP: {
+//                path_helper_1 = new Path();
+//                path_helper_2 = new Path();
+//
+//                endPoint = new Point((int) ev.getX(), (int) ev.getY());
+//
+//                int left, top, right, bottom;
+//
+//
+//
+//                left = endPoint.x - 10;
+//                top = endPoint.y - 10;
+//
+//                right = endPoint.x + ((endPoint.y / 2));
+//                bottom = endPoint.x + ((endPoint.y / 2));
+//
+//
+//
+//                float dx, dy;
+//                dx = endPoint.x - startPoint.x;
+//                dy = endPoint.y - startPoint.y;
+//
+//                dx = dx * -1;
+//                dy = dy * -1;
+//
+//                // dx = dy = 100;
+//
+//                double cos = 0.866 * .1;
+//                double sin = 0.500 * .1;
+//
+//                PointF end1 = new PointF((float) (endPoint.x + (dx * cos + dy
+//                        * -sin)), (float) (endPoint.y + (dx * sin + dy * cos)));
+//                PointF end2 = new PointF((float) (endPoint.x + (dx * cos + dy
+//                        * sin)), (float) (endPoint.y + (dx * -sin + dy * cos)));
+//
+//                // path.moveTo(endPoint.x, endPoint.y);
+//                //
+//                // path.lineTo(endPoint.x, endPoint.y);
+//                //
+//                // path.lineTo(end1.x, end1.y);
+//                //
+//                // path.moveTo(endPoint.x, endPoint.y);
+//                //
+//                // path.lineTo(end2.x, end2.y);
+//                //
+//                //
+//                // listPath.add(path);
+//
+//                mActivePointerId = INVALID_POINTER_ID;
+//                break;
+//            }
+//
+//            case MotionEvent.ACTION_CANCEL: {
+//                mActivePointerId = INVALID_POINTER_ID;
+//                break;
+//            }
+//
+//            case MotionEvent.ACTION_POINTER_UP: {
+//                final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+//                final int pointerId = ev.getPointerId(pointerIndex);
+//                if (pointerId == mActivePointerId) {
+//                    // This was our active pointer going up. Choose a new
+//                    // active pointer and adjust accordingly.
+//                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+//                    mLastTouchX = ev.getX(newPointerIndex);
+//                    mLastTouchY = ev.getY(newPointerIndex);
+//                    mActivePointerId = ev.getPointerId(newPointerIndex);
+//                }
+//                break;
+//            }
+//        }
+//        invalidate();
+//
+//        return true;
+//    }
 
 }
