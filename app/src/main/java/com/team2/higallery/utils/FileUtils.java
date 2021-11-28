@@ -38,4 +38,26 @@ public class FileUtils {
         cursor.close();
         return true;
     }
+
+    public static String getParentFolder(String path) {
+        int lastSlash = path.length() - 2;
+        while (path.charAt(lastSlash) != '/' && path.charAt(lastSlash) != '\\') {
+            lastSlash--;
+            if (lastSlash == 0) {
+                return null;
+            }
+        }
+        return path.substring(0, lastSlash);
+    }
+
+    public static String getName(String path) {
+        int lastSlash = path.length() - 2;
+        while (path.charAt(lastSlash) != '/' && path.charAt(lastSlash) != '\\') {
+            lastSlash--;
+            if (lastSlash == 0) {
+                return null;
+            }
+        }
+        return path.substring(lastSlash + 1);
+    }
 }

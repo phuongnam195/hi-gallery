@@ -118,7 +118,7 @@ public class PhotoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBack();
+                finish();
                 return true;
             case R.id.edit_action_photo:
                 onEdit();
@@ -152,10 +152,6 @@ public class PhotoActivity extends AppCompatActivity {
             appBar.show();
             bottomBar.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void onBack() {
-        finish();
     }
 
     public void onEdit() {

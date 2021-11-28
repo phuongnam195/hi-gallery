@@ -13,4 +13,6 @@
     <dimen name="trash_text_button_size">16sp</dimen>
 
     <dimen name="edit_rotate_degree_text_size">30sp</dimen>
+
+    <dimen name="album_item_title_size">15sp</dimen>
 </resources>

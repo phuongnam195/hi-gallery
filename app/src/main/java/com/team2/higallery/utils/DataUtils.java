@@ -6,13 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.github.chrisbanes.photoview.PhotoView;
+import com.team2.higallery.models.Album;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -34,6 +37,7 @@ public class DataUtils {
     }
 
     public static ArrayList<String> allImages = new ArrayList<>();
+    public static ArrayList<Album> allAlbums = new ArrayList<>();
 
     // Load toàn bộ đường dẫn các ảnh trong bộ nhớ ngoài
     // Trả về true, nếu có sự thay đổi (thêm, bớt ảnh, đổi tên hoặc thứ tự thay đổi,...)
@@ -64,6 +68,35 @@ public class DataUtils {
             }
         }
         return false;
+    }
+
+    // Chia tất cả hình ảnh ra các album
+    public static void divideAllImagesToAlbums() {
+        if (allImages.isEmpty()) {
+            return;
+        }
+
+        if (!allAlbums.isEmpty()) {
+            allAlbums.clear();
+        }
+
+        for (String imagePath : allImages) {
+            String imageParentFolder = FileUtils.getParentFolder(imagePath);
+
+            int i = 0;
+            while (i < allAlbums.size()) {
+                if (allAlbums.get(i).getPath().equals(imageParentFolder)) {
+                    allAlbums.get(i).addImage(imagePath);
+                    break;
+                }
+                i++;
+            }
+            if (i == allAlbums.size()) {
+                Album album = new Album(imageParentFolder);
+                album.addImage(imagePath);
+                allAlbums.add(album);
+            }
+        }
     }
 
     public static String getNamePhoto(String pathPhoto) {

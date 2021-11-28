@@ -30,8 +30,8 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
     private final int PORTRAIT_COLUMNS = 4;
     private final int LANDSCAPE_COLUMNS = 6;        // Hiện tại đang bị lỗi xoay màn hình
 
-    GridPhotosAdapter gridPhotosAdapter;
     Context context;
+    GridPhotosAdapter gridPhotosAdapter;
 
     ArrayList<String> imagePaths;
     ArrayList<Integer> selectedIndices = new ArrayList<>();     // Chứa các index của ảnh trong imagePaths đang được select
@@ -59,7 +59,7 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_all_photos, null);
+        ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_grid_photos, null);
 
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.photos_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -141,6 +141,10 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                 break;
             case "update_deleted_images":   // Cập nhật lại danh sách ảnh bị xóa
                 imagePaths = TrashManager.getInstance(context).getAllPaths();
+                gridPhotosAdapter.setImagePaths(imagePaths);
+                break;
+            case "update_album_images":     // Cập nhật lại danh sách ảnh của album có index là value
+                imagePaths = DataUtils.allAlbums.get(value).getImages();
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
         }

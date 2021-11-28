@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.AlbumActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="locale|orientation"
             android:exported="true"

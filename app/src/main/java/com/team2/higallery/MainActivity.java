@@ -17,7 +17,8 @@ import com.team2.higallery.activities.LoginVaultActivity;
 import com.team2.higallery.activities.SettingsActivity;
 import com.team2.higallery.activities.SignUpVaultActivity;
 import com.team2.higallery.activities.TrashActivity;
-import com.team2.higallery.fragments.AlbumFragment;
+import com.team2.higallery.adapters.GridAlbumsAdapter;
+import com.team2.higallery.fragments.GridAlbumsFragment;
 import com.team2.higallery.fragments.GridPhotosFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -151,16 +152,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
     private void setupBody() {
         DataUtils.updateAllImagesFromExternalStorage(this);
+
         fragment1 = new GridPhotosFragment(DataUtils.allImages);
-
-        fragment2 = new AlbumFragment();
-
-        FavoriteImages.load(this);
-        fragment3 = new GridPhotosFragment(FavoriteImages.list);
-
-
-        fm.beginTransaction().add(R.id.body_main, fragment3, "3").hide(fragment3).commit();
-        fm.beginTransaction().add(R.id.body_main, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
         currentFragment = fragment1;
         currentNavID = R.id.navigation_photos;
@@ -175,9 +168,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                     return false;
                 }
 
-                if (item.getItemId() != R.id.navigation_album) {
+                if (!selectedPhotoIndices.isEmpty()) {
                     selectedPhotoIndices.clear();
-                    ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "remove", 0);
+                    ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
                     appbar.setTitle(getResources().getString(R.string.main_title));
                     invalidateOptionsMenu();
                 }
@@ -190,14 +183,26 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                         return true;
 
                     case R.id.navigation_album:
-                        fm.beginTransaction().hide(currentFragment).show(fragment2).commit();
+                        if (fragment2 == null) {
+                            fragment2 = new GridAlbumsFragment();
+                            fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment2, "2").commit();
+                        } else {
+                            fm.beginTransaction().hide(currentFragment).show(fragment2).commit();
+                            ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
+                        }
                         currentFragment = fragment2;
                         return true;
 
                     case R.id.navigation_favorite:
-                        fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
+                        if (fragment3 == null) {
+                            FavoriteImages.load(getApplicationContext());
+                            fragment3 = new GridPhotosFragment(FavoriteImages.list);
+                            fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment3, "3").commit();
+                        } else {
+                            fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
+                            ((GridPhotosFragment)fragment3).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                        }
                         currentFragment = fragment3;
-                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
                         return true;
                 }
                 return false;
@@ -309,23 +314,23 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                         selectedPhotoIndices.remove(Integer.valueOf(value));
                     }
                     int selectedCount = selectedPhotoIndices.size();
-                    int allCount = 0;
-                    if (currentNavID == R.id.navigation_photos) {
-                        allCount = DataUtils.allImages.size();
-                    } else if (currentNavID == R.id.navigation_favorite) {
-                        allCount = FavoriteImages.list.size();
-                    }
                     if (selectedCount == 0) {
                         appbar.setTitle(getResources().getString(R.string.main_title));
                         invalidateOptionsMenu();
                     } else {
+                        int allCount = 0;
+                        if (currentNavID == R.id.navigation_photos) {
+                            allCount = DataUtils.allImages.size();
+                        } else if (currentNavID == R.id.navigation_favorite) {
+                            allCount = FavoriteImages.list.size();
+                        }
                         appbar.setTitle(selectedCount + "/" + allCount);
                     }
                     break;
                 case "should_reload":
-                    if (currentNavID == R.id.navigation_favorite) {
-                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
-                    }
+//                    if (currentNavID == R.id.navigation_favorite) {
+//                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
+//                    }
             }
 
         }
