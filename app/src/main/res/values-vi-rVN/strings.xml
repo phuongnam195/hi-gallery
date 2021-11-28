@@ -82,5 +82,11 @@
     <string name="edit_yes_dialog">CÓ</string>
     <string name="edit_no_dialog">KHÔNG</string>
     <string name="edit_cancel_dialog">HỦY</string>
+    <string name="main_appbar_delete_selected">Xóa</string>
+    <string name="main_appbar_vault_selected">Chuyển tới Bí mật</string>
+    <string name="main_appbar_select_all">Chọn tất cả</string>
+    <string name="main_appbar_deselect">Bỏ chọn</string>
+    <string name="trash_delete">Xóa</string>
+    <string name="trash_restore">Khôi phục</string>
 
 </resources>
