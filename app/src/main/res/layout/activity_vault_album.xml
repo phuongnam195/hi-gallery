@@ -12,7 +12,6 @@
         android:background="?attr/primary_color"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/body_vault"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,17 +19,14 @@
         app:title="@string/vault_title"
         app:titleTextColor="?attr/on_primary_color" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/body_vault"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?attr/background_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar_vault"
-        app:menu="@menu/bottom_navigation_main" >
-    </androidx.fragment.app.FragmentContainerView>
+        app:layout_constraintTop_toBottomOf="@+id/appbar_vault" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

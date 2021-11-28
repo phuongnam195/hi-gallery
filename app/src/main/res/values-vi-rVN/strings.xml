@@ -15,7 +15,7 @@
     <string name="settings_language_action">Chuyển sang Tiếng Anh</string>
 
     <string name="main_appbar_camera">Mở máy ảnh</string>
-    <string name="main_appbar_more_vault">Bí mật</string>
+    <string name="main_appbar_vault">Bí mật</string>
 
     <string name="login_vault_title">Thư mục bí mật</string>
     <string name="login_vault_subtitle">Vui lòng nhập mật khẩu.</string>
@@ -46,7 +46,6 @@
     <string name="signup_vault_email_exists">Email đã tồn tại. Có lẽ bạn nên khôi phục.</string>
     <string name="signup_vault_unknown_error">Lỗi không xác định. Vui lòng thử lại!</string>
     <string name="restore_vault_wrong_pin">Mật khẩu sai. Vui lòng nhập lại!</string>
-    <string name="permission_title">Cần được cấp quyền!</string>
 
     <string name="photo_details_name">Tên:</string>
     <string name="photo_details_size">Kích thước:</string>
@@ -54,11 +53,40 @@
     <string name="photo_details_resolution">Độ phân giải:</string>
     <string name="photo_details_last_modified">Lần sửa cuối cùng:</string>
     <string name="photo_details_close">Đóng</string>
+    <string name="trash_delete_all">Xóa Tất cả</string>
+    <string name="trash_restore_all">Khôi phục Tất cả</string>
+    <string name="trash_title">Thùng rác</string>
 
     <string name="vault_convert_album_title">Trả về album gốc</string>
     <string name="vault_reset_password_title">Đổi mã PIN</string>
 
     <string name="dialog_vault_close_btn_title">Hủy</string>
     <string name="dialog_vault_reset_btn_title">Xác nhận</string>
+    <string name="edit_filters_tooltip">Bộ lọc</string>
+    <string name="edit_rotate_tooltip">Xoay</string>
+    <string name="edit_flip_tooltip">Lật</string>
+    <string name="edit_black_and_white_tooltip">Trắng đen</string>
+    <string name="edit_negative_tooltip">Âm bản</string>
+    <string name="edit_brightness_tooltip">Độ sáng</string>
+    <string name="edit_temperature_tooltip">Nhiệt độ</string>
+    <string name="edit_increase_tooltip">Tăng</string>
+    <string name="edit_decrease_tooltip">Giảm</string>
+    <string name="edit_left_rotate_tooltip">Xoay trái</string>
+    <string name="edit_right_rotate_tooltip">Xoay phải</string>
+    <string name="edit_custom_rotate_tooltip">Tùy chỉnh</string>
+    <string name="edit_done_custom_rotate_tooltip">Xong</string>
+    <string name="edit_horizontal_flip_tooltip">Lật dọc</string>
+    <string name="edit_vertical_flip_tooltip">Lật ngang</string>
+    <string name="edit_back_message_dialog">Ảnh chưa được lưu, bạn muốn lưu ảnh lại không?</string>
+    <string name="edit_save_message_dialog">Lưu ảnh hiện tại vào thư viện?</string>
+    <string name="edit_yes_dialog">CÓ</string>
+    <string name="edit_no_dialog">KHÔNG</string>
+    <string name="edit_cancel_dialog">HỦY</string>
+    <string name="main_appbar_delete_selected">Xóa</string>
+    <string name="main_appbar_vault_selected">Chuyển tới Bí mật</string>
+    <string name="main_appbar_select_all">Chọn tất cả</string>
+    <string name="main_appbar_deselect">Bỏ chọn</string>
+    <string name="trash_delete">Xóa</string>
+    <string name="trash_restore">Khôi phục</string>
 
 </resources>

@@ -2,7 +2,6 @@ package com.team2.higallery;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -14,26 +13,34 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.team2.higallery.activities.EditActivity;
 import com.team2.higallery.activities.LoginVaultActivity;
 import com.team2.higallery.activities.SettingsActivity;
 import com.team2.higallery.activities.SignUpVaultActivity;
-import com.team2.higallery.fragments.AlbumFragment;
-import com.team2.higallery.fragments.AllPhotosFragment;
-import com.team2.higallery.fragments.FavoriteFragment;
+import com.team2.higallery.activities.TrashActivity;
+import com.team2.higallery.adapters.GridAlbumsAdapter;
+import com.team2.higallery.fragments.GridAlbumsFragment;
+import com.team2.higallery.fragments.GridPhotosFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.team2.higallery.models.Account;
+import com.team2.higallery.models.FavoriteImages;
+import com.team2.higallery.models.TrashManager;
+import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.PermissionHelper;
 
-public class MainActivity extends AppCompatActivity {
-    private final Fragment fragment1 = new AllPhotosFragment();
-    private final Fragment fragment2 = new AlbumFragment();
-    private final Fragment fragment3 = new FavoriteFragment();
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class MainActivity extends AppCompatActivity implements GridPhotosFragment.ActivityCallbacks {
+    Fragment fragment1, fragment2, fragment3;
     private final FragmentManager fm = getSupportFragmentManager();
     private Fragment currentFragment;
     private int currentNavID;
+
+    ArrayList<Integer> selectedPhotoIndices = new ArrayList<>();
+
+    Toolbar appbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         setupAppBar();
         setupBottomBar();
 
-        if (PermissionHelper.checkReadExternalStorage(this)) {
+        if (PermissionHelper.checkReadExternalStorage(this)
+                && PermissionHelper.checkWriteExternalStorage(this)) {
             setupBody();
         }
 
@@ -59,31 +67,59 @@ public class MainActivity extends AppCompatActivity {
             refreshActivity();
             Configuration.appliedChanges();
         }
+
+        if (currentNavID == R.id.navigation_photos) {
+            if (DataUtils.updateAllImagesFromExternalStorage(this)) {
+                ((GridPhotosFragment)fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
+            }
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Configuration.save(this);
+
+        // Lưu path của các ảnh được yêu thích
+        FavoriteImages.save(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (selectedPhotoIndices.isEmpty()) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_main_select_mode, menu);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.camera_menu_item_main:
+            case R.id.camera_menu_main:
                 openCamera();
                 return true;
-            case R.id.vault_menu_item_main:
+            case R.id.vault_menu_main:
                 openVault();
                 return true;
-            case R.id.settings_menu_item_main:
+            case R.id.trash_menu_main:
+                openTrash();
+                return true;
+            case R.id.settings_menu_main:
                 openSettings();
+                return true;
+            case R.id.deselect_menu_main:
+                onDeselect();
+                return true;
+            case R.id.select_all_menu_main:
+                onSelectAll();
+                return true;
+            case R.id.delete_selected_menu_main:
+                onDeleteSelectedPhoto();
+                return true;
+            case R.id.vault_selected_trash_menu_main:
+                onVaultSelectedPhoto();
                 return true;
         }
         return false;
@@ -110,13 +146,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupAppBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_main);
-        setSupportActionBar(toolbar);
+        appbar = (Toolbar) findViewById(R.id.appbar_main);
+        setSupportActionBar(appbar);
     }
 
     private void setupBody() {
-        fm.beginTransaction().add(R.id.body_main, fragment3, "3").hide(fragment3).commit();
-        fm.beginTransaction().add(R.id.body_main, fragment2, "2").hide(fragment2).commit();
+        DataUtils.updateAllImagesFromExternalStorage(this);
+
+        fragment1 = new GridPhotosFragment(DataUtils.allImages);
         fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
         currentFragment = fragment1;
         currentNavID = R.id.navigation_photos;
@@ -130,6 +167,14 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == currentNavID) {
                     return false;
                 }
+
+                if (!selectedPhotoIndices.isEmpty()) {
+                    selectedPhotoIndices.clear();
+                    ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
+                    appbar.setTitle(getResources().getString(R.string.main_title));
+                    invalidateOptionsMenu();
+                }
+
                 currentNavID = item.getItemId();
                 switch (item.getItemId()) {
                     case R.id.navigation_photos:
@@ -138,12 +183,25 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_album:
-                        fm.beginTransaction().hide(currentFragment).show(fragment2).commit();
+                        if (fragment2 == null) {
+                            fragment2 = new GridAlbumsFragment();
+                            fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment2, "2").commit();
+                        } else {
+                            fm.beginTransaction().hide(currentFragment).show(fragment2).commit();
+                            ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
+                        }
                         currentFragment = fragment2;
                         return true;
 
                     case R.id.navigation_favorite:
-                        fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
+                        if (fragment3 == null) {
+                            FavoriteImages.load(getApplicationContext());
+                            fragment3 = new GridPhotosFragment(FavoriteImages.list);
+                            fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment3, "3").commit();
+                        } else {
+                            fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
+                            ((GridPhotosFragment)fragment3).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                        }
                         currentFragment = fragment3;
                         return true;
                 }
@@ -155,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
     public void openCamera() {
         Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         startActivity(intent);
-
     }
 
     public void openVault() {
@@ -169,6 +226,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SignUpVaultActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void openTrash() {
+        Intent intent = new Intent(this, TrashActivity.class);
+        startActivity(intent);
     }
 
     public void openSettings() {
@@ -185,8 +247,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case PermissionHelper
-                    .REQUEST_READ_EXTERNAL_STORAGE:
+            case PermissionHelper.REQUEST_READ_EXTERNAL_STORAGE:
+            case PermissionHelper.REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     refreshActivity();
                 } else {
@@ -196,6 +258,81 @@ public class MainActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions,
                         grantResults);
+        }
+    }
+
+    private void onDeselect() {
+        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
+        selectedPhotoIndices.clear();
+        invalidateOptionsMenu();
+        appbar.setTitle(getResources().getString(R.string.main_title));
+    }
+
+    private void onSelectAll() {
+        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "select_all", 0);
+        selectedPhotoIndices.clear();
+        for (int i = 0; i < DataUtils.allImages.size(); i++) {
+            selectedPhotoIndices.add(i);
+        }
+        int allCount = DataUtils.allImages.size();
+        appbar.setTitle(allCount + "/" + allCount);
+    }
+
+    private void onDeleteSelectedPhoto() {
+        TrashManager trashManager = TrashManager.getInstance(this);
+        for (int i : selectedPhotoIndices) {
+            trashManager.delete(DataUtils.allImages.get(i));
+        }
+        Collections.sort(selectedPhotoIndices);
+        for (int i = selectedPhotoIndices.size() - 1; i >= 0; i--) {
+            DataUtils.allImages.remove(selectedPhotoIndices.get(i).intValue());
+        }
+        selectedPhotoIndices.clear();
+        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "remove", 0);
+        appbar.setTitle(getResources().getString(R.string.main_title));
+        invalidateOptionsMenu();
+    }
+
+    private  void onVaultSelectedPhoto() {
+
+    }
+
+    @Override
+    public void sendFromFragmentToActivity(String sender, String header, int value) {
+        if (sender.equals("grid_photos")) {
+            switch (header) {
+                case "select":
+                case "deselect":
+                    if (selectedPhotoIndices.isEmpty()) {
+                        invalidateOptionsMenu();
+                    }
+                    if (header.equals("select")) {
+                        if (!selectedPhotoIndices.contains(value)) {
+                            selectedPhotoIndices.add(value);
+                        }
+                    } else {
+                        selectedPhotoIndices.remove(Integer.valueOf(value));
+                    }
+                    int selectedCount = selectedPhotoIndices.size();
+                    if (selectedCount == 0) {
+                        appbar.setTitle(getResources().getString(R.string.main_title));
+                        invalidateOptionsMenu();
+                    } else {
+                        int allCount = 0;
+                        if (currentNavID == R.id.navigation_photos) {
+                            allCount = DataUtils.allImages.size();
+                        } else if (currentNavID == R.id.navigation_favorite) {
+                            allCount = FavoriteImages.list.size();
+                        }
+                        appbar.setTitle(selectedCount + "/" + allCount);
+                    }
+                    break;
+                case "should_reload":
+//                    if (currentNavID == R.id.navigation_favorite) {
+//                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
+//                    }
+            }
+
         }
     }
 }

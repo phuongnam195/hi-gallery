@@ -1,14 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/camera_menu_item_main"
+        android:id="@+id/camera_menu_main"
         android:icon="@drawable/ic_baseline_photo_camera"
         android:title="@string/main_appbar_camera"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/vault_menu_item_main"
-        android:title="@string/main_appbar_more_vault" />
+        android:id="@+id/vault_menu_main"
+        android:title="@string/main_appbar_vault" />
     <item
-        android:id="@+id/settings_menu_item_main"
+        android:id="@+id/trash_menu_main"
+        android:title="@string/trash_title" />
+    <item
+        android:id="@+id/settings_menu_main"
         android:title="@string/settings_title" />
 </menu>

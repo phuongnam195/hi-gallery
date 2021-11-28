@@ -4,17 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import com.github.chrisbanes.photoview.PhotoView;
 import java.util.ArrayList;
 
 public class PhotosPagerAdapter extends PagerAdapter {
-    private ArrayList<String> imageList;
     private Context context;
+    private ArrayList<String> imageList;
+    private ClickListener clickListener;
 
-    public PhotosPagerAdapter(ArrayList<String> imageList, Context context) {
-        this.imageList = imageList;
+    public PhotosPagerAdapter(Context context, ArrayList<String> imageList, ClickListener clickListener) {
         this.context = context;
+        this.imageList = imageList;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -29,6 +33,12 @@ public class PhotosPagerAdapter extends PagerAdapter {
         PhotoView photoView = new PhotoView(container.getContext());
         Uri myUri = Uri.parse(imageList.get(position));
         photoView.setImageURI(myUri);
+        photoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onClick();
+            }
+        });
         container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return photoView;
     }
@@ -43,4 +53,18 @@ public class PhotosPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    // Credit: https://stackoverflow.com/questions/45666326/android-viewpager-delete-current-page-and-move-to-next
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
+
+    public void removeItem(int position) {
+        imageList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public interface ClickListener {
+        void onClick();
+    }
 }

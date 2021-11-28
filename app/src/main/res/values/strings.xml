@@ -1,13 +1,16 @@
 <resources>
-    <string name="permission_title">Permission necessary!</string>
-
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Gallery</string>
     <string name="settings_title">Settings</string>
     <string name="vault_title">Vault album</string>
+    <string name="trash_title">Trash</string>
 
     <string name="main_appbar_camera">Open Camera</string>
-    <string name="main_appbar_more_vault">Vault</string>
+    <string name="main_appbar_vault">Vault</string>
+    <string name="main_appbar_delete_selected">Delete</string>
+    <string name="main_appbar_vault_selected">Move to Vault</string>
+    <string name="main_appbar_select_all">Select all</string>
+    <string name="main_appbar_deselect">Deselect</string>
 
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>
@@ -62,5 +65,35 @@
 
     <string name="dialog_vault_close_btn_title">Close</string>
     <string name="dialog_vault_reset_btn_title">Reset</string>
+    <string name="trash_delete">Delete</string>
+    <string name="trash_restore">Restore</string>
+    <string name="trash_delete_all">Delete All</string>
+    <string name="trash_restore_all">Restore All</string>
 
+
+    <string name="edit_save_message_dialog">Do you want to save this image to the gallery?</string>
+    <string name="edit_back_message_dialog">The image has not been saved, do you want to save it?</string>
+    <string name="edit_yes_dialog">YES</string>
+    <string name="edit_no_dialog">NO</string>
+    <string name="edit_cancel_dialog">CANCEL</string>
+
+    <string name="edit_filters_tooltip">Filters</string>
+    <string name="edit_rotate_tooltip">Rotate</string>
+    <string name="edit_flip_tooltip">Flip</string>
+
+    <string name="edit_black_and_white_tooltip">B&amp;W</string>
+    <string name="edit_negative_tooltip">Negative</string>
+    <string name="edit_brightness_tooltip">Negative</string>
+    <string name="edit_temperature_tooltip">Negative</string>
+
+    <string name="edit_increase_tooltip">Increase</string>
+    <string name="edit_decrease_tooltip">Decrease</string>
+
+    <string name="edit_left_rotate_tooltip">Rotate left</string>
+    <string name="edit_right_rotate_tooltip">Rotate right</string>
+    <string name="edit_custom_rotate_tooltip">Custom</string>
+    <string name="edit_done_custom_rotate_tooltip">Done</string>
+
+    <string name="edit_horizontal_flip_tooltip">Horizontal</string>
+    <string name="edit_vertical_flip_tooltip">Vertical</string>
 </resources>
