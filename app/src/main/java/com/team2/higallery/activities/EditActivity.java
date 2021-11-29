@@ -1,11 +1,14 @@
 package com.team2.higallery.activities;
 
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -16,10 +19,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -35,11 +42,14 @@ import java.util.Date;
 import android.net.Uri;
 import android.graphics.Bitmap;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 import com.team2.higallery.R;
 
 public class EditActivity extends AppCompatActivity{
@@ -50,12 +60,19 @@ public class EditActivity extends AppCompatActivity{
     //Rotate screen
     SeekBar seekbarCustomRotate;
     TextView degreeCustomRotate;
+    EditText text;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         seekbarCustomRotate = (SeekBar)findViewById(R.id.seekbar_custom_rotate);
+        text = (EditText)findViewById(R.id.text) ;
+
+
+
+
+
 
         init();
         setupAppBar();
@@ -205,8 +222,43 @@ public class EditActivity extends AppCompatActivity{
 
         imageView = findViewById(R.id.image_view);
 
-
         imageView.setOnTouchListener(touchListener);
+
+
+
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int[] values = new int[2];
+//                v.getLocationOnScreen(values);
+//                int width= EditActivity.this.getResources().getDisplayMetrics().widthPixels;
+//                int height= EditActivity.this.getResources().getDisplayMetrics().heightPixels;
+//                Toast.makeText(EditActivity.this, values[0] + ", " + values[1], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditActivity.this, width + ", " + height, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                str = text.getText().toString();
+                if (addText){
+                    Draw();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
 //        degree.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
         seekbarCustomRotate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -232,23 +284,100 @@ public class EditActivity extends AppCompatActivity{
         });
     }
 
-    private float[] lastTouchDownXY = new float[2];
+
+    int locaX = 0;
+    int locaY = 0;
+    int size = 30;
+    public Bitmap bitmap_text;
+    int color = 0xFF000000;
+    String str = "";
+    boolean addText = false;
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
-            // save the X,Y coordinates
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                lastTouchDownXY[0] = event.getX();
-                lastTouchDownXY[1] = event.getY();
+            if(addText){
+                // save the X,Y coordinates
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    locaX = Math.round(event.getX());
+                    locaY = Math.round(event.getY());
+                    Draw();
+                }else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+                    locaX = Math.round(event.getX());
+                    locaY = Math.round(event.getY());
+                    Draw();
+                }
+//                Draw();
             }
 
-            Toast.makeText(EditActivity.this, lastTouchDownXY[0] + ", " + lastTouchDownXY[1], Toast.LENGTH_SHORT).show();
             // let the touch event pass on to whoever needs it
             return false;
         }
     };
+
+    private void Draw(){
+        int widthBM1 = imageView.getDrawable().getIntrinsicWidth(); // Kích thước bitmap theo px
+        int heightBM1 = imageView.getDrawable().getIntrinsicHeight();
+
+        int widthIMGV = imageView.getWidth(); //kích thước imageview theo px
+        int heightIMGV = imageView.getHeight();
+
+        float ratio = (float)widthBM1 / (float)heightBM1;
+
+        int widthBM2, heightBM2; // Kích thước bitmap hệ quy chiếu ImageView :D
+
+        if ((float)heightIMGV * ratio <= (float)widthIMGV){
+            heightBM2 = Math.round((float)heightIMGV);
+            widthBM2 = Math.round((float)heightIMGV * ratio);
+        }else{
+            widthBM2 = Math.round((float)widthIMGV);
+            heightBM2 = Math.round((float)widthIMGV / ratio);
+        }
+
+        int xx, yy; // Tọa độ thật của bitmap
+        if (widthIMGV == widthBM2 ){
+            xx = locaX;
+        }else{
+            if (locaX < (widthIMGV - widthBM2 )/2) {
+                xx = 0;
+            }else{
+                xx = locaX - (widthIMGV - widthBM2 )/2;
+            }
+        }
+
+        if (heightIMGV == heightBM2 ){
+            yy = locaY;
+        }else{
+            if (locaY < (heightIMGV - heightBM2 )/2) {
+                yy = 0;
+            }else{
+                yy = locaY - (heightIMGV - heightBM2 )/2;
+            }
+        }
+
+        int x, y;
+        x = Math.round(((float)xx / (float)widthBM2) * (float)widthBM1);
+        y = Math.round(((float)yy / (float)heightBM2) * (float)heightBM1);
+
+        if (y == 0){
+            y += size;
+        }
+        if (y > heightBM1){
+            y = heightBM1;
+        }
+
+//            int startBMX = Math.round((widthIMGV - widthBM) / 2); // tọa độ của bitmap tính từ imageview
+//            int startBMY = Math.round((heightIMGV - heightBM) / 2);
+
+        bitmap_text = drawStringonBitmap(bitmap, str, x, y, color, 1, size, false);
+        imageView.setImageBitmap(bitmap_text);
+    }
+
+
+
+
+
 
     private static Bitmap RotateBitmap(Bitmap source, float angle)
     {
@@ -653,6 +782,22 @@ public class EditActivity extends AppCompatActivity{
         }.start();
     }
 
+    public static Bitmap drawStringonBitmap(Bitmap src, String string, int x, int y, int color, int alpha, int size, boolean underline) {
+
+        Bitmap result = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(src, 0, 0, null);
+        Paint paint = new Paint();
+        paint.setColor(color);
+//        paint.setAlpha(alpha);
+        paint.setTextSize(size);
+        paint.setAntiAlias(true);
+        paint.setUnderlineText(underline);
+        canvas.drawText(string, x, y, paint);
+
+        return result;
+    }
 
     public void onBackRotate(View v) {
         findViewById(R.id.rotate_group).setVisibility(View.GONE);
@@ -722,153 +867,57 @@ public class EditActivity extends AppCompatActivity{
         imageView.setImageBitmap(bitmap);
     }
 
+    public void onAddText(View v){
+
+        addText = true;
+        locaX = 0;
+        locaY = 0;
+        text.setText("");
+        str = text.getText().toString();
+        color = 0xFF000000;
+        size = 30;
+        findViewById(R.id.addText_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.main_group).setVisibility(View.GONE);
+    }
+
+    public void onBackAddText(View v){
+        addText = false;
+        findViewById(R.id.addText_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
+        imageView.setImageBitmap(bitmap);
+    }
+
+    public void onOkAddText(View v){
+        bitmap = bitmap_text;
+        addText = false;
+        findViewById(R.id.addText_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
+    }
+
+    public void onColorAddText(View v){
+        final ColorPicker cp = new ColorPicker(EditActivity.this, 0, 0, 0);
+        /* On Click listener for the dialog, when the user select the color */
+        Button okColor = (Button)cp.findViewById(R.id.okColorButton);
+        cp.show();
+        cp.enableAutoClose(); // Enable auto-dismiss for the dialog
+
+        /* Set a new Listener called when user click "select" */
+        cp.setCallback(new ColorPickerCallback() {
+            @Override
+            public void onColorChosen(@ColorInt int color2) {
+                // Do whatever you want
+
+                color = color2;
+                Draw();
+
+                // If the auto-dismiss option is not enable (disabled as default) you have to manually dimiss the dialog
+                // cp.dismiss();
+            }
+        });
+
+    }
 
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent ev) {
-//        // Let the ScaleGestureDetector inspect all events.
-//        mScaleDetector.onTouchEvent(ev);
-//
-//        final int action = ev.getAction();
-//        switch (action & MotionEvent.ACTION_MASK) {
-//            case MotionEvent.ACTION_DOWN: {
-//
-//                if (drawing) {
-//
-//                    startPoint = new Point((int) ev.getX(), (int) ev.getY());
-//                    path = new Path();
-//                    float x = ev.getX() / mScaleFactor + rect.left;
-//                    float y = ev.getY() / mScaleFactor + rect.top;
-//                    path.moveTo(x, y);
-//                    path.lineTo(x, y);
-//
-//                    mLastTouchX_1 = x;
-//                    mLastTouchY_1 = y;
-//                }
-//
-//                else {
-//                    final float x = ev.getX();
-//                    final float y = ev.getY();
-//
-//                    mLastTouchX = x;
-//                    mLastTouchY = y;
-//                    mActivePointerId = ev.getPointerId(0);
-//                }
-//                break;
-//            }
-//
-//            case MotionEvent.ACTION_MOVE: {
-//
-//                if (drawing) {
-//
-//                    float x = ev.getX() / mScaleFactor + rect.left;
-//                    float y = ev.getY() / mScaleFactor + rect.top;
-//
-//                    path.moveTo(mLastTouchX_1, mLastTouchY_1);
-//                    path.lineTo(x, y);
-//
-//                    mLastTouchX_1 = x;
-//                    mLastTouchY_1 = y;
-//                }
-//
-//                else {
-//                    final int pointerIndex = ev
-//                            .findPointerIndex(mActivePointerId);
-//                    final float x = ev.getX(pointerIndex);
-//                    final float y = ev.getY(pointerIndex);
-//
-//                    // Only move if the ScaleGestureDetector isn't processing a
-//                    // gesture.
-//                    if (!mScaleDetector.isInProgress()) {
-//                        final float dx = x - mLastTouchX;
-//                        final float dy = y - mLastTouchY;
-//
-//                        mPosX += dx;
-//                        mPosY += dy;
-//
-//                        invalidate();
-//                    }
-//
-//                    mLastTouchX = x;
-//                    mLastTouchY = y;
-//                }
-//                break;
-//            }
-//
-//            case MotionEvent.ACTION_UP: {
-//                path_helper_1 = new Path();
-//                path_helper_2 = new Path();
-//
-//                endPoint = new Point((int) ev.getX(), (int) ev.getY());
-//
-//                int left, top, right, bottom;
-//
-//
-//
-//                left = endPoint.x - 10;
-//                top = endPoint.y - 10;
-//
-//                right = endPoint.x + ((endPoint.y / 2));
-//                bottom = endPoint.x + ((endPoint.y / 2));
-//
-//
-//
-//                float dx, dy;
-//                dx = endPoint.x - startPoint.x;
-//                dy = endPoint.y - startPoint.y;
-//
-//                dx = dx * -1;
-//                dy = dy * -1;
-//
-//                // dx = dy = 100;
-//
-//                double cos = 0.866 * .1;
-//                double sin = 0.500 * .1;
-//
-//                PointF end1 = new PointF((float) (endPoint.x + (dx * cos + dy
-//                        * -sin)), (float) (endPoint.y + (dx * sin + dy * cos)));
-//                PointF end2 = new PointF((float) (endPoint.x + (dx * cos + dy
-//                        * sin)), (float) (endPoint.y + (dx * -sin + dy * cos)));
-//
-//                // path.moveTo(endPoint.x, endPoint.y);
-//                //
-//                // path.lineTo(endPoint.x, endPoint.y);
-//                //
-//                // path.lineTo(end1.x, end1.y);
-//                //
-//                // path.moveTo(endPoint.x, endPoint.y);
-//                //
-//                // path.lineTo(end2.x, end2.y);
-//                //
-//                //
-//                // listPath.add(path);
-//
-//                mActivePointerId = INVALID_POINTER_ID;
-//                break;
-//            }
-//
-//            case MotionEvent.ACTION_CANCEL: {
-//                mActivePointerId = INVALID_POINTER_ID;
-//                break;
-//            }
-//
-//            case MotionEvent.ACTION_POINTER_UP: {
-//                final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-//                final int pointerId = ev.getPointerId(pointerIndex);
-//                if (pointerId == mActivePointerId) {
-//                    // This was our active pointer going up. Choose a new
-//                    // active pointer and adjust accordingly.
-//                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-//                    mLastTouchX = ev.getX(newPointerIndex);
-//                    mLastTouchY = ev.getY(newPointerIndex);
-//                    mActivePointerId = ev.getPointerId(newPointerIndex);
-//                }
-//                break;
-//            }
-//        }
-//        invalidate();
-//
-//        return true;
-//    }
 
 }
+

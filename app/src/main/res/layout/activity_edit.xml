@@ -117,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:clickable="true"
-                android:onClick="onFlip"
-                android:tooltipText="@string/edit_flip_tooltip"
+                android:onClick="onAddText"
+                android:tooltipText="@string/edit_addText_tooltip"
                 app:backgroundTint="@color/primary"
                 app:elevation="0dp"
                 app:pressedTranslationZ="0dp"
@@ -571,6 +571,97 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <!--        Giao diện add Text-->
+        <LinearLayout
+            android:id="@+id/addText_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="23sp"
+                android:textAlignment="center"/>
+
+            <LinearLayout
+                android:id="@+id/addText_group2"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/primary_color"
+                >
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/back_addText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBackAddText"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_back"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/color_addText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onColorAddText"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_color"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/save_addText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onOkAddText"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_ok"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

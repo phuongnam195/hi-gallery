@@ -78,6 +78,7 @@
     <string name="edit_cancel_dialog">CANCEL</string>
 
     <string name="edit_filters_tooltip">Filters</string>
+    <string name="edit_addText_tooltip">Add Text</string>
     <string name="edit_rotate_tooltip">Rotate</string>
     <string name="edit_flip_tooltip">Flip</string>
 

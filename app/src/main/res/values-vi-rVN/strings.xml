@@ -65,6 +65,7 @@
     <string name="edit_filters_tooltip">Bộ lọc</string>
     <string name="edit_rotate_tooltip">Xoay</string>
     <string name="edit_flip_tooltip">Lật</string>
+    <string name="edit_addText_tooltip">Thêm chữ</string>
     <string name="edit_black_and_white_tooltip">Trắng đen</string>
     <string name="edit_negative_tooltip">Âm bản</string>
     <string name="edit_brightness_tooltip">Độ sáng</string>
