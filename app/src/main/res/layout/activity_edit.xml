@@ -588,7 +588,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="23sp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:background="@drawable/edittext_border"
+                android:hint="Write your text here"
+                android:textColor="@color/black"/>
 
             <LinearLayout
                 android:id="@+id/addText_group2"
@@ -634,6 +637,23 @@
                     app:rippleColor="@color/ripple_button"
                     app:srcCompat="@drawable/ic_edit_color"
                     app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:background="@drawable/edittext_border"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/black"
+                    android:hint="size"/>
 
                 <Space
                     android:layout_width="wrap_content"

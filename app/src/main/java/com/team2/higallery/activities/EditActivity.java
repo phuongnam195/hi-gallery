@@ -61,6 +61,7 @@ public class EditActivity extends AppCompatActivity{
     SeekBar seekbarCustomRotate;
     TextView degreeCustomRotate;
     EditText text;
+    EditText textSize;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -68,7 +69,7 @@ public class EditActivity extends AppCompatActivity{
         setContentView(R.layout.activity_edit);
         seekbarCustomRotate = (SeekBar)findViewById(R.id.seekbar_custom_rotate);
         text = (EditText)findViewById(R.id.text) ;
-
+        textSize = (EditText)findViewById(R.id.size);
 
 
 
@@ -247,7 +248,32 @@ public class EditActivity extends AppCompatActivity{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                editing = true;
                 str = text.getText().toString();
+                if (addText){
+                    Draw();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        textSize.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                editing = true;
+                String tmp = textSize.getText().toString();
+                if(!tmp.equals("")){
+                    size = Integer.parseInt(tmp);
+                }
                 if (addText){
                     Draw();
                 }
@@ -567,7 +593,43 @@ public class EditActivity extends AppCompatActivity{
                     }
                 } else if (which == DialogInterface.BUTTON_NEGATIVE) {
                     editing = false;
+//                    final File outFile = createImageFile();
+//                    try(FileOutputStream out = new FileOutputStream(outFile)){
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+////                        imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
+//                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+//                        Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
+//                    }catch(IOException e){
+//                        e.printStackTrace();
+//                    }
+                    String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                            "/Pictures";
+                    File dir = new File(file_path);
+                    if(!dir.exists())
+                        dir.mkdirs();
 
+                    String format = new SimpleDateFormat("yyyyMMddHHmmss",
+                            java.util.Locale.getDefault()).format(new Date());
+
+                    File file = new File(dir, format + ".jpg");
+                    FileOutputStream fOut;
+                    try {
+                        fOut = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                        fOut.flush();
+                        fOut.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Uri uri = Uri.fromFile(file);
+                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setType("image/*");
+                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                    intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+                    startActivity(Intent.createChooser(intent,"Sharing something"));
                 }
                 else{
 
@@ -575,8 +637,8 @@ public class EditActivity extends AppCompatActivity{
             }
         };
         builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
-                .setPositiveButton("Save copy", dialogClickListener)
-                .setNegativeButton("Yes", dialogClickListener)
+                .setPositiveButton("Save", dialogClickListener)
+                .setNegativeButton("Share", dialogClickListener)
                 .setNeutralButton("No", dialogClickListener)
                 .show();
     }
@@ -872,10 +934,12 @@ public class EditActivity extends AppCompatActivity{
         addText = true;
         locaX = 0;
         locaY = 0;
+        size = 30;
         text.setText("");
         str = text.getText().toString();
+        textSize.setText(Integer.toString(size));
         color = 0xFF000000;
-        size = 30;
+
         findViewById(R.id.addText_group).setVisibility(View.VISIBLE);
         findViewById(R.id.main_group).setVisibility(View.GONE);
     }
@@ -916,6 +980,8 @@ public class EditActivity extends AppCompatActivity{
         });
 
     }
+
+
 
 
 
