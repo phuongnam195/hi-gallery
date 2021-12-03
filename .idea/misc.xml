@@ -66,6 +66,11 @@
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/layout/thumbnail_item.xml" value="0.103125" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/bottom_navigation_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/asus/Desktop/Android_PJ/hi-gallery/app/src/main/res/menu/popup_menu_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/activity_photo.xml" value="0.134375" />
+        <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/activity_set_wall.xml" value="0.134375" />
+        <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.134375" />
+        <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/dialog_vault_reset_password.xml" value="0.13489583333333333" />
+        <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/dialog_wait_set_wall.xml" value="0.1" />
         <entry key="..\:/android/hi-gallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.1693840579710145" />
       </map>
     </option>

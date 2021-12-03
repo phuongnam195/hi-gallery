@@ -90,4 +90,9 @@
     <string name="trash_delete">Xóa</string>
     <string name="trash_restore">Khôi phục</string>
 
+    <string name="photo_set_wall_home_screen">Màn hình chính</string>
+    <string name="photo_set_wall_lock_screen">Màn hình khóa</string>
+    <string name="photo_set_wall_all_screen">Tất cả</string>
+    <string name="wait_set_wall">Chờ trong giây lát</string>
+
 </resources>

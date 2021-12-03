@@ -97,4 +97,10 @@
 
     <string name="edit_horizontal_flip_tooltip">Horizontal</string>
     <string name="edit_vertical_flip_tooltip">Vertical</string>
+
+    <string name="photo_set_wall_home_screen">Home screen</string>
+    <string name="photo_set_wall_lock_screen">Lock screen</string>
+    <string name="photo_set_wall_all_screen">All</string>
+    <string name="wait_set_wall">Wait a moment</string>
+
 </resources>

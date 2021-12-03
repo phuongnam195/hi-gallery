@@ -2,9 +2,11 @@ package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.firebase.internal.InternalTokenProvider;
 import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
@@ -195,6 +198,11 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onSetAs() {
+        Bundle myData = new Bundle();
+        myData.putString("currentImagePath", imagePaths.get(viewPager.getCurrentItem()));
+        Intent intent = new Intent(this, ConstrainLayout.class);
+        intent.putExtras(myData);
+        startActivity(intent);
         Toast.makeText(this, "Đặt làm hình nền, hình khóa...", Toast.LENGTH_SHORT).show();
     }
 
