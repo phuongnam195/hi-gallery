@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:paddingHorizontal="40dp"
-    android:paddingBottom="100dp"
     android:background="@drawable/signup_vault_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="40dp"
+    android:paddingVertical="60dp"
     tools:context=".activities.SignUpVaultActivity">
 
     <TextView
         android:id="@+id/title_signup_vault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="@string/signup_vault_title"
-        android:textSize="40sp"
-        android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_marginBottom="80dp"/>
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/emailLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
         android:gravity="left"
-        android:layout_marginBottom="20dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/email_label_signup_vault"
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="@string/signup_vault_label_email"
             android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/email_input_signup_vault"
@@ -44,25 +43,25 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:textColor="@color/white"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/signup_vault_email_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:text=""
             android:textColor="@color/red"
             android:textSize="15sp"
-            android:text=""
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/passwordLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
         android:gravity="left"
-        android:layout_marginBottom="20dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/pin_label_signup_vault"
@@ -79,25 +78,25 @@
             android:inputType="numberPassword"
             android:maxLength="6"
             android:textColor="@color/white"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/signup_vault_password_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:text=""
             android:textColor="@color/red"
             android:textSize="15sp"
-            android:text=""
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/confirmPasswordLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginBottom="50dp"
         android:gravity="left"
-        android:layout_marginBottom="50dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/retype_pin_label_signup_vault"
@@ -105,7 +104,7 @@
             android:layout_height="wrap_content"
             android:text="@string/signup_vault_label_confirm_password"
             android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/retype_pin_input_signup_vault"
@@ -114,22 +113,30 @@
             android:inputType="numberPassword"
             android:maxLength="6"
             android:textColor="@color/white"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/signup_vault_confirm_password_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:text=""
             android:textColor="@color/red"
             android:textSize="15sp"
-            android:text=""
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_sign_up_vault"
+        style='style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large.Inverse'
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" />
 
     <RelativeLayout
         android:id="@+id/restore_start_signup_vault"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <Button
@@ -156,4 +163,5 @@
             android:text="@string/signup_vault_btn_signup"
             android:textColor="@color/white" />
     </RelativeLayout>
+
 </LinearLayout>

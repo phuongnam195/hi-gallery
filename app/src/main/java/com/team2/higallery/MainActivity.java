@@ -17,7 +17,6 @@ import com.team2.higallery.activities.LoginVaultActivity;
 import com.team2.higallery.activities.SettingsActivity;
 import com.team2.higallery.activities.SignUpVaultActivity;
 import com.team2.higallery.activities.TrashActivity;
-import com.team2.higallery.adapters.GridAlbumsAdapter;
 import com.team2.higallery.fragments.GridAlbumsFragment;
 import com.team2.higallery.fragments.GridPhotosFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.models.TrashManager;
+import com.team2.higallery.models.VaultManager;
 import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.PermissionHelper;
 
@@ -33,12 +33,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements GridPhotosFragment.ActivityCallbacks {
+    private final int REQUEST_CODE_SIGN_UP_VAULT = 342;
+    private final int REQUEST_CODE_SETTINGS = 354;
+
     Fragment fragment1, fragment2, fragment3;
     private final FragmentManager fm = getSupportFragmentManager();
     private Fragment currentFragment;
     private int currentNavID;
 
-    ArrayList<Integer> selectedPhotoIndices = new ArrayList<>();
+    ArrayList<Integer> selectedIndices = new ArrayList<>();
 
     Toolbar appbar;
 
@@ -56,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             setupBody();
         }
 
-        Account.auth = FirebaseAuth.getInstance();
+        FavoriteImages.load(this);
+        Account.load(this);
+        VaultManager.getInstance(this).synchronize();
     }
 
     @Override
@@ -86,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (selectedPhotoIndices.isEmpty()) {
+        if (selectedIndices.isEmpty()) {
             getMenuInflater().inflate(R.menu.menu_main, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_main_select_mode, menu);
@@ -109,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             case R.id.settings_menu_main:
                 openSettings();
                 return true;
-            case R.id.deselect_menu_main:
-                onDeselect();
+            case R.id.deselect_all_menu_main:
+                onDeselectAll();
                 return true;
             case R.id.select_all_menu_main:
                 onSelectAll();
@@ -118,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             case R.id.delete_selected_menu_main:
                 onDeleteSelectedPhoto();
                 return true;
-            case R.id.vault_selected_trash_menu_main:
+            case R.id.vault_selected_menu_main:
                 onVaultSelectedPhoto();
                 return true;
         }
@@ -127,15 +132,22 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == 1 && resultCode == RESULT_OK) {
-                boolean isChanged = data.getBooleanExtra("isChanged", false);
-                if (isChanged) {
-                    refreshActivity();
+        switch (requestCode) {
+            case REQUEST_CODE_SETTINGS:
+                if (resultCode == RESULT_OK) {
+                    boolean isChanged = data.getBooleanExtra("isChanged", false);
+                    if (isChanged) {
+                        refreshActivity();
+                    }
                 }
-            }
-        } catch (Exception ignore) {
+                break;
+            case REQUEST_CODE_SIGN_UP_VAULT:
+                if (resultCode == RESULT_OK) {
+                    moveSelectedImagesToVault();
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -153,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     private void setupBody() {
         DataUtils.updateAllImagesFromExternalStorage(this);
 
-        fragment1 = new GridPhotosFragment(DataUtils.allImages);
+        fragment1 = new GridPhotosFragment(DataUtils.allImages, "all_photos");
         fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
         currentFragment = fragment1;
         currentNavID = R.id.navigation_photos;
@@ -168,8 +180,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                     return false;
                 }
 
-                if (!selectedPhotoIndices.isEmpty()) {
-                    selectedPhotoIndices.clear();
+                if (!selectedIndices.isEmpty()) {
+                    selectedIndices.clear();
                     ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
                     appbar.setTitle(getResources().getString(R.string.main_title));
                     invalidateOptionsMenu();
@@ -195,8 +207,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
                     case R.id.navigation_favorite:
                         if (fragment3 == null) {
-                            FavoriteImages.load(getApplicationContext());
-                            fragment3 = new GridPhotosFragment(FavoriteImages.list);
+                            fragment3 = new GridPhotosFragment(FavoriteImages.list, "favorites");
                             fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment3, "3").commit();
                         } else {
                             fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
@@ -216,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     public void openVault() {
-        FirebaseUser currentUser = Account.auth.getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Check if user is signed in (non-null) and update UI accordingly.
         if (currentUser != null) {
@@ -235,13 +246,14 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
     public void openSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_SETTINGS);
     }
 
     private void refreshActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         finish();
         startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -261,18 +273,18 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         }
     }
 
-    private void onDeselect() {
+    private void onDeselectAll() {
         ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
-        selectedPhotoIndices.clear();
+        selectedIndices.clear();
         invalidateOptionsMenu();
         appbar.setTitle(getResources().getString(R.string.main_title));
     }
 
     private void onSelectAll() {
         ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "select_all", 0);
-        selectedPhotoIndices.clear();
+        selectedIndices.clear();
         for (int i = 0; i < DataUtils.allImages.size(); i++) {
-            selectedPhotoIndices.add(i);
+            selectedIndices.add(i);
         }
         int allCount = DataUtils.allImages.size();
         appbar.setTitle(allCount + "/" + allCount);
@@ -280,21 +292,42 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
     private void onDeleteSelectedPhoto() {
         TrashManager trashManager = TrashManager.getInstance(this);
-        for (int i : selectedPhotoIndices) {
+        for (int i : selectedIndices) {
             trashManager.delete(DataUtils.allImages.get(i));
         }
-        Collections.sort(selectedPhotoIndices);
-        for (int i = selectedPhotoIndices.size() - 1; i >= 0; i--) {
-            DataUtils.allImages.remove(selectedPhotoIndices.get(i).intValue());
+        Collections.sort(selectedIndices);
+        for (int i = selectedIndices.size() - 1; i >= 0; i--) {
+            DataUtils.allImages.remove(selectedIndices.get(i).intValue());
         }
-        selectedPhotoIndices.clear();
+        selectedIndices.clear();
         ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "remove", 0);
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
     }
 
     private  void onVaultSelectedPhoto() {
+        if (!Account.isSigned()) {
+            Intent intent = new Intent(this, SignUpVaultActivity.class);
+            intent.putExtra("finishAfterSignUp", true);
+            startActivityForResult(intent, REQUEST_CODE_SIGN_UP_VAULT);
+        } else {
+            moveSelectedImagesToVault();
+        }
+    }
 
+    private void moveSelectedImagesToVault() {
+        VaultManager vaultManager = VaultManager.getInstance(this);
+        for (int i : selectedIndices) {
+            vaultManager.moveImageToVault(DataUtils.allImages.get(i));
+        }
+        Collections.sort(selectedIndices);
+        for (int i = selectedIndices.size() - 1; i >= 0; i--) {
+            DataUtils.allImages.remove(selectedIndices.get(i).intValue());
+        }
+        selectedIndices.clear();
+        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "remove", 0);
+        appbar.setTitle(getResources().getString(R.string.main_title));
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -303,17 +336,17 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             switch (header) {
                 case "select":
                 case "deselect":
-                    if (selectedPhotoIndices.isEmpty()) {
+                    if (selectedIndices.isEmpty()) {
                         invalidateOptionsMenu();
                     }
                     if (header.equals("select")) {
-                        if (!selectedPhotoIndices.contains(value)) {
-                            selectedPhotoIndices.add(value);
+                        if (!selectedIndices.contains(value)) {
+                            selectedIndices.add(value);
                         }
                     } else {
-                        selectedPhotoIndices.remove(Integer.valueOf(value));
+                        selectedIndices.remove(Integer.valueOf(value));
                     }
-                    int selectedCount = selectedPhotoIndices.size();
+                    int selectedCount = selectedIndices.size();
                     if (selectedCount == 0) {
                         appbar.setTitle(getResources().getString(R.string.main_title));
                         invalidateOptionsMenu();
@@ -328,11 +361,20 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                     }
                     break;
                 case "should_reload":
-//                    if (currentNavID == R.id.navigation_favorite) {
-//                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
-//                    }
+                    if (currentNavID == R.id.navigation_favorite) {
+                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                    }
             }
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!selectedIndices.isEmpty()) {
+            onDeselectAll();
+        } else {
+            super.onBackPressed();
         }
     }
 }

@@ -1,9 +1,0 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/vault_convert_album"
-        android:title="@string/vault_convert_album_title" />
-    <item
-        android:id="@+id/vault_reset_password"
-        android:title="@string/vault_reset_password_title" />
-</menu>

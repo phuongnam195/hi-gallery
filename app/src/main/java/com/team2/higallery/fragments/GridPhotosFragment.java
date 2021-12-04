@@ -36,9 +36,13 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
     ArrayList<String> imagePaths;
     ArrayList<Integer> selectedIndices = new ArrayList<>();     // Chứa các index của ảnh trong imagePaths đang được select
     ActivityCallbacks callbacks;                                // Truyền thông tin từ fragment về activity
+    String source;
 
-    public GridPhotosFragment(ArrayList<String> imagePaths) {
+    public GridPhotosFragment() {}
+
+    public GridPhotosFragment(ArrayList<String> imagePaths, String source) {
         this.imagePaths = imagePaths;
+        this.source = source;
     }
 
     @Override
@@ -79,6 +83,7 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                     Intent intent = new Intent(context, PhotoActivity.class);
                     intent.putStringArrayListExtra("imagePaths", imagePaths);
                     intent.putExtra("currentIndex", index);
+                    intent.putExtra("source", source);
                     startActivity(intent);
                 } else {
                     // Ngược lại, nếu đang ở chế độ Selection,
@@ -135,8 +140,7 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
             case "update_favorite_images":  // Cập nhật lại danh sách ảnh được yêu thích
-                FavoriteImages.load(context);
-                imagePaths = FavoriteImages.get();
+                imagePaths = FavoriteImages.list;
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
             case "update_deleted_images":   // Cập nhật lại danh sách ảnh bị xóa

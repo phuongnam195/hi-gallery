@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/deselect_all_menu_vault"
+        android:title="@string/main_appbar_deselect"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/select_all_menu_vault"
+        android:title="@string/main_appbar_select_all" />
+    <item
+        android:id="@+id/revert_selected_menu_vault"
+        android:title="@string/vault_revert" />
+</menu>
