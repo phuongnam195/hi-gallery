@@ -2,8 +2,12 @@ package com.team2.higallery.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,7 +19,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+    TextView txtSubtitleAutoClean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupAppBar();
         handleDarkThemeSwitch();
+
+        txtSubtitleAutoClean = (TextView) findViewById(R.id.subtitle_settings_auto_clean);
+        txtSubtitleAutoClean.setText(Configuration.getAutoCleanString());
     }
 
     @Override
@@ -71,6 +80,14 @@ public class SettingsActivity extends AppCompatActivity {
         refreshActivity();
     }
 
+    public void onAutoClean(View view) {
+        PopupMenu popup = new PopupMenu(this, view, Gravity.RIGHT, R.attr.actionOverflowMenuStyle, 0);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_auto_clean, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
     private void onBack() {
         finish();
     }
@@ -84,5 +101,27 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        txtSubtitleAutoClean.setText(item.getTitle());
+
+        switch (item.getItemId()) {
+            case R.id.menu_0_auto_clean:
+                Configuration.autoCleanTime = Configuration.AUTO_CLEAN_OFF;
+                return true;
+            case R.id.menu_1_auto_clean:
+                Configuration.autoCleanTime = Configuration.AUTO_CLEAN_TIME_1;
+                return true;
+            case R.id.menu_2_auto_clean:
+                Configuration.autoCleanTime = Configuration.AUTO_CLEAN_TIME_2;
+                return true;
+            case R.id.menu_3_auto_clean:
+                Configuration.autoCleanTime = Configuration.AUTO_CLEAN_TIME_3;
+                return true;
+        }
+
+        return false;
     }
 }

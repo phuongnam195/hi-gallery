@@ -31,11 +31,55 @@
         app:menu="@menu/menu_photo" />
 
     <LinearLayout
+        android:id="@+id/bottombar_photo_trash"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/primary_color"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/delete_permanently_action_photo"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="onDeletePermanently"
+            android:text="@string/trash_delete"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/trash_text_button_size" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/restore_action_photo"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="onRestore"
+            android:text="@string/trash_restore"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/trash_text_button_size" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/bottombar_photo"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/primary_color"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

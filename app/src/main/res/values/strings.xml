@@ -2,7 +2,7 @@
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Gallery</string>
     <string name="settings_title">Settings</string>
-    <string name="vault_title">Vault album</string>
+    <string name="vault_title">Vault Album</string>
     <string name="trash_title">Trash</string>
 
     <string name="main_appbar_camera">Open Camera</string>
@@ -20,6 +20,11 @@
     <string name="settings_language_subtitle">English</string>
     <string name="settings_language_action">Switch to Vietnamese</string>
     <string name="settings_darktheme_title">Dark theme</string>
+    <string name="settings_auto_clean_title">Auto clean trash</string>
+    <string name="settings_auto_clean_menu_0">Off</string>
+    <string name="settings_auto_clean_menu_1">30 days</string>
+    <string name="settings_auto_clean_menu_2">90 days</string>
+    <string name="settings_auto_clean_menu_3">1 minute</string>
     <string name="settings_about_title">About</string>
 
     <string name="login_vault_title">Vault Album</string>
@@ -52,6 +57,7 @@
     <string name="photo_delete">Delete</string>
     <string name="photo_save">Save</string>
 
+    <string name="photo_share_title">Share via</string>
 
     <string name="photo_details_name">Name:</string>
     <string name="photo_details_size">Size:</string>
@@ -60,8 +66,7 @@
     <string name="photo_details_last_modified">Last modified:</string>
     <string name="photo_details_close">Close</string>
 
-    <string name="vault_convert_album_title">Convert to original alb>um</string>
-    <string name="vault_reset_password_title">Reset password</string>
+    <string name="vault_revert">Revert to gallery</string>
 
     <string name="dialog_vault_close_btn_title">Close</string>
     <string name="dialog_vault_reset_btn_title">Reset</string>

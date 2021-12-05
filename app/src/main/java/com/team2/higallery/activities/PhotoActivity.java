@@ -6,6 +6,7 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.internal.InternalTokenProvider;
@@ -29,14 +31,12 @@ import com.team2.higallery.R;
 import com.team2.higallery.adapters.PhotosPagerAdapter;
 import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.models.TrashManager;
+import com.team2.higallery.models.VaultManager;
 import com.team2.higallery.utils.DataUtils;
-import com.team2.higallery.utils.EncryptAndDecryptImage;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
@@ -47,6 +47,7 @@ public class PhotoActivity extends AppCompatActivity {
 
     int currentIndex;
     ArrayList<String> imagePaths;
+    String source;
 
     ViewPager viewPager;
     PhotosPagerAdapter pagerAdapter;
@@ -60,6 +61,7 @@ public class PhotoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         imagePaths = intent.getStringArrayListExtra("imagePaths");
         currentIndex = intent.getIntExtra("currentIndex", 0);
+        source = intent.getStringExtra("source");
 
         setupAppBar();
         setupBottomBar();
@@ -81,7 +83,9 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 currentIndex = position;
-                setFavorite(FavoriteImages.check(imagePaths.get(position)));
+                if (!source.equals("trash")) {
+                    setFavorite(FavoriteImages.check(imagePaths.get(position)));
+                }
             }
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
@@ -89,7 +93,9 @@ public class PhotoActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) { }
         });
 
-        setFavorite(FavoriteImages.check(imagePaths.get(currentIndex)));
+        if (!source.equals("trash")) {
+            setFavorite(FavoriteImages.check(imagePaths.get(currentIndex)));
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -107,13 +113,20 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void setupBottomBar() {
-        bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo);
-        favoriteButton = (FloatingActionButton) findViewById(R.id.favorite_action_photo);
+        if (source.equals("trash")) {
+            bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo_trash);
+        } else {
+            bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo);
+            favoriteButton = (FloatingActionButton) findViewById(R.id.favorite_action_photo);
+        }
+        bottomBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_photo, menu);
+        if (!source.equals("trash")) {
+            getMenuInflater().inflate(R.menu.menu_photo, menu);
+        }
         return true;
     }
 
@@ -130,17 +143,17 @@ public class PhotoActivity extends AppCompatActivity {
                 onNewAlbum();
                 return true;
             case R.id.secure_action_photo:
-                try {
-                    onSecure();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onSecure();
                 return true;
             case R.id.set_as_action_photo:
                 onSetAs();
                 return true;
             case R.id.details_action_photo:
                 onDetails();
+                return true;
+            case R.id.delete_permanently_action_photo:
+                return true;
+            case R.id.restore_action_photo:
                 return true;
         }
         return false;
@@ -171,30 +184,9 @@ public class PhotoActivity extends AppCompatActivity {
         Toast.makeText(this, "Thêm vào album mới (tạo album)...", Toast.LENGTH_SHORT).show();
     }
 
-    public void onSecure() throws IOException {
-        if(false){
-            //Not account
-            Intent intent = new Intent(this, SignUpVaultActivity.class);
-            startActivity(intent);
-
-            return;
-        }
-
-        String imagePath = imagePaths.get(viewPager.getCurrentItem())   ;
-        Toast.makeText(this, "Lấy đường dẫn" + imagePath, Toast.LENGTH_SHORT).show();
-
-        Bitmap bitmap = EncryptAndDecryptImage.getBitmapFromImagePath(imagePath);
-        Toast.makeText(this, "Tạo bitmap của ảnh từ đường dẫn", Toast.LENGTH_SHORT).show();
-
-        byte[] bytes = EncryptAndDecryptImage.encryptImage(bitmap);
-        Toast.makeText(this, "Mã hóa file từ bitmap", Toast.LENGTH_SHORT).show();
-
-        Context context = getApplicationContext();
-        String fileName = DataUtils.getNamePhoto(imagePaths.get(viewPager.getCurrentItem()));
-        EncryptAndDecryptImage.saveFile(context, bytes, fileName);
-        Toast.makeText(this, "Lưu file vào bộ nhớ app", Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(this, "Xoá ảnh và hoàn thành", Toast.LENGTH_SHORT).show();
+    public void onSecure() {
+        VaultManager vaultManager = VaultManager.getInstance(this);
+        vaultManager.moveImageToVault(imagePaths.get(currentIndex));
     }
 
     public void onSetAs() {
@@ -226,8 +218,8 @@ public class PhotoActivity extends AppCompatActivity {
         });
 
         try {
-            Path path = Paths.get(URI.create("file://"+imagePaths.get(viewPager.getCurrentItem())));
-            BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+            File file = new File(imagePaths.get(currentIndex));
+            BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
             detailName.append(DataUtils.getNamePhoto(imagePaths.get(viewPager.getCurrentItem())));
             detailSize.append(DataUtils.getSizePhoto(attr.size()*1.0));
             detailPath.append(imagePaths.get(viewPager.getCurrentItem()));
@@ -241,7 +233,18 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onShare(View view) {
-        Toast.makeText(this, "Chia sẻ...", Toast.LENGTH_SHORT).show();
+        // Credit: https://guides.codepath.com/android/Sharing-Content-with-Intents
+        // Credit: https://www.geeksforgeeks.org/how-to-share-image-of-your-app-with-another-app-in-android/
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        File imageFile = new File(imagePaths.get(currentIndex));
+        Uri uri = FileProvider.getUriForFile(
+                this,
+                "com.team2.higallery.provider",
+                imageFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.app_name));
+        startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.photo_share_title)));
     }
 
     public void toggleFavorite(View view) {
@@ -257,6 +260,24 @@ public class PhotoActivity extends AppCompatActivity {
             finish();
         }
 
+        pagerAdapter.removeItem(currentIndex);
+    }
+
+    public void onDeletePermanently(View view) {
+        TrashManager trashManager = TrashManager.getInstance(this);
+        trashManager.deletePermanently(currentIndex);
+        if (imagePaths.size() == 1) {
+            finish();
+        }
+        pagerAdapter.removeItem(currentIndex);
+    }
+
+    public void onRestore(View view) {
+        TrashManager trashManager = TrashManager.getInstance(this);
+        trashManager.restore(currentIndex);
+        if (imagePaths.size() == 1) {
+            finish();
+        }
         pagerAdapter.removeItem(currentIndex);
     }
 

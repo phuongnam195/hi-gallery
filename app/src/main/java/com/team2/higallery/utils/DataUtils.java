@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.team2.higallery.models.Album;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +29,17 @@ public class DataUtils {
     public static boolean validateEmail(String email) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
+    }
+
+    public static String generateRandomString(int length) {
+        StringBuilder builder = new StringBuilder();
+        String alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random rng = new Random();
+        for (int i = 0; i < length; i++) {
+            int r = rng.nextInt(alphanum.length());
+            builder.append(alphanum.charAt(r));
+        }
+        return builder.toString();
     }
 
     public static String hash(String pin) {

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -59,5 +60,20 @@ public class FileUtils {
             }
         }
         return path.substring(lastSlash + 1);
+    }
+
+    public static String getExtension(String path) {
+        int lastDot = path.lastIndexOf('.');
+        return path.substring(lastDot + 1);
+    }
+
+    public static Bitmap.CompressFormat getCompressFormat(String path) {
+        String extension = getExtension(path).toUpperCase();
+        if (extension.equals("JPG") || extension.equals("JPEG")) {
+            return Bitmap.CompressFormat.JPEG;
+        } else if (extension.equals("WEBP")) {
+            return Bitmap.CompressFormat.WEBP;
+        }
+        return Bitmap.CompressFormat.PNG;
     }
 }

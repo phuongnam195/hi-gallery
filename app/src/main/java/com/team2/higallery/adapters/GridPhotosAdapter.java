@@ -3,6 +3,7 @@ package com.team2.higallery.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.team2.higallery.R;
-import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ public class GridPhotosAdapter extends RecyclerView.Adapter<GridPhotosAdapter.Vi
     protected ClickListener clickListener;
     private ArrayList<Integer> selectedIndices;
     boolean isBitmap;
+
 
     public GridPhotosAdapter(Context context, Object images, ArrayList<Integer> selectedIndices, ClickListener onClick) {
         this.context = context;
@@ -58,21 +59,24 @@ public class GridPhotosAdapter extends RecyclerView.Adapter<GridPhotosAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        final int defaultPadding = 2;
+        final int selectedPadding = 15;
+
         if (isBitmap) {
-            Bitmap image = imageBitmaps.get(position);
-            holder.imageView.setImageBitmap(image);
+            Bitmap bitmap = imageBitmaps.get(position);
+            Glide.with(context).load(bitmap).override(300, 300).centerCrop().transition(DrawableTransitionOptions.withCrossFade(500)).into(holder.imageView);
         } else {
             String imagePath = imagePaths.get(position);
             Glide.with(context).load(imagePath).override(300, 300).centerCrop().transition(DrawableTransitionOptions.withCrossFade(500)).into(holder.imageView);
         }
 
-        int selectedPadding = 15;
-
         // Nếu ảnh này nằm đang được select thì đổi giao diện
         if (selectedIndices.contains(position)) {
             holder.imageView.setPadding(selectedPadding,selectedPadding,selectedPadding,selectedPadding);
+            holder.imageView.setColorFilter(Color.argb(150, 89, 82, 96));
         } else {
-            holder.imageView.setPadding(1,1,1,1);
+            holder.imageView.setPadding(defaultPadding,defaultPadding,defaultPadding,defaultPadding);
+            holder.imageView.setColorFilter(Color.TRANSPARENT);
         }
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +123,11 @@ public class GridPhotosAdapter extends RecyclerView.Adapter<GridPhotosAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void setImageBitmaps(ArrayList<Bitmap> bitmaps) {
+        this.imageBitmaps = bitmaps;
+        notifyDataSetChanged();
+    }
+
     public void deselectAll() {
         selectedIndices.clear();
         notifyDataSetChanged();
@@ -126,7 +135,7 @@ public class GridPhotosAdapter extends RecyclerView.Adapter<GridPhotosAdapter.Vi
 
     public void selectAll() {
         selectedIndices.clear();
-        for (int i = 0; i < DataUtils.allImages.size(); i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             selectedIndices.add(i);
         }
         notifyDataSetChanged();

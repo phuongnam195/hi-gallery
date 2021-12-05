@@ -8,11 +8,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.team2.higallery.R;
 import com.team2.higallery.models.Account;
+import com.team2.higallery.models.VaultManager;
 
 public class LoginVaultActivity extends Activity {
     private final int PIN_LENGTH = 6;
@@ -23,6 +25,7 @@ public class LoginVaultActivity extends Activity {
     private Button[] numkeys = new Button[10];
 
     private Animation animationForRadioGroups;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class LoginVaultActivity extends Activity {
 
         //Get and set event for keyboard
         setupKeyboard();
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_login_vault);
     }
 
     private void setupKeyboard() {
@@ -85,6 +90,10 @@ public class LoginVaultActivity extends Activity {
 
     private void validatePIN() {
         if (Account.checkPIN(currentPIN, this)) {
+            progressBar.setVisibility(View.VISIBLE);
+            VaultManager.getInstance(this).getAllDecryptedBitmaps();
+            progressBar.setVisibility(View.INVISIBLE);
+
             Intent intent = new Intent(this, VaultAlbumActivity.class);
             finish();
             startActivity(intent);
@@ -112,6 +121,5 @@ public class LoginVaultActivity extends Activity {
     }
 
     public void onForgot(View view) {
-        finish();
     }
 }

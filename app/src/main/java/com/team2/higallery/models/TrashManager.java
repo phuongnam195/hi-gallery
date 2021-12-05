@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.team2.higallery.Configuration;
 import com.team2.higallery.utils.DatabaseHelper;
 import com.team2.higallery.utils.FileUtils;
 
@@ -32,7 +33,7 @@ public class TrashManager {
             }
         }
         this.context = context;
-        dbHelper = new DatabaseHelper(context);
+        dbHelper = DatabaseHelper.getInstance(context);
         deletedImages = dbHelper.getAllDeletedImages();
     }
 
@@ -172,5 +173,19 @@ public class TrashManager {
         dbHelper.removeAllDeletedImages();
         deletedImages.clear();
         return true;
+    }
+
+    public void autoClean() {
+        if (Configuration.autoCleanTime == Configuration.AUTO_CLEAN_OFF) {
+            return;
+        }
+        for (int i = deletedImages.size() - 1; i >= 0; i--) {
+            long deletedTime = deletedImages.get(i).getDatetime().getTime();
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime - deletedTime >= Configuration.autoCleanTime) {
+                deletePermanently(i);
+            }
+        }
     }
 }

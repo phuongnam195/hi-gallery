@@ -3,7 +3,7 @@
     <string name="app_name">Hi Gallery</string>
     <string name="main_title">Thư viện</string>
     <string name="settings_title">Cài đặt</string>
-    <string name="vault_title">Thư viện bí mật</string>
+    <string name="vault_title">Thư mục bí mật</string>
 
     <string name="navigation_photos">Ảnh</string>
     <string name="navigation_album">Album</string>
@@ -57,9 +57,6 @@
     <string name="trash_restore_all">Khôi phục Tất cả</string>
     <string name="trash_title">Thùng rác</string>
 
-    <string name="vault_convert_album_title">Trả về album gốc</string>
-    <string name="vault_reset_password_title">Đổi mã PIN</string>
-
     <string name="dialog_vault_close_btn_title">Hủy</string>
     <string name="dialog_vault_reset_btn_title">Xác nhận</string>
     <string name="edit_filters_tooltip">Bộ lọc</string>
@@ -89,6 +86,13 @@
     <string name="main_appbar_deselect">Bỏ chọn</string>
     <string name="trash_delete">Xóa</string>
     <string name="trash_restore">Khôi phục</string>
+    <string name="settings_auto_clean_title">Tự động xóa ảnh rác</string>
+    <string name="settings_auto_clean_menu_0">Tắt</string>
+    <string name="settings_auto_clean_menu_1">30 ngày</string>
+    <string name="settings_auto_clean_menu_2">90 ngày</string>
+    <string name="settings_auto_clean_menu_3">1 phút</string>
+    <string name="photo_share_title">Chia sẻ qua</string>
+    <string name="vault_revert">Trả về thư viện</string>
 
     <string name="photo_set_wall_home_screen">Màn hình chính</string>
     <string name="photo_set_wall_lock_screen">Màn hình khóa</string>
