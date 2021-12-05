@@ -1,23 +1,15 @@
 package com.team2.higallery.activities;
 
-import static android.graphics.BitmapFactory.decodeFile;
-
-import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -25,11 +17,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.GridPhotosAdapter;
-import com.team2.higallery.models.VaultImages;
-import com.team2.higallery.utils.DataUtils;
+import com.team2.higallery.models.VaultManager;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class VaultAlbumActivity extends AppCompatActivity {
     //Variable for activity
@@ -38,8 +29,12 @@ public class VaultAlbumActivity extends AppCompatActivity {
     //Variable for dialog
     private final int PIN_LENGTH = 6;
 
+    ArrayList<Bitmap> decryptedBitmaps;
     GridPhotosAdapter gridPhotosAdapter;
     ArrayList<Integer> selectedIndices = new ArrayList<>();
+
+    ImageView fullImageView;
+    VaultManager vaultManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +42,18 @@ public class VaultAlbumActivity extends AppCompatActivity {
         Configuration.set(this);
         setContentView(R.layout.activity_vault_album);
 
+        fullImageView = (ImageView) findViewById(R.id.full_image_view);
+        vaultManager = VaultManager.getInstance(this);
+
         setupAppBar();
         setupBody();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_vault, menu);
+        if (!selectedIndices.isEmpty()) {
+            getMenuInflater().inflate(R.menu.menu_vault_select_mode, menu);
+        }
         return true;
     }
 
@@ -63,80 +63,104 @@ public class VaultAlbumActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBack();
                 return true;
-            case R.id.vault_convert_album:
-                convertToOriginalAlbum();
+            case R.id.deselect_all_menu_vault:
+                onDeselectAll();
                 return true;
-            case R.id.vault_reset_password:
-                openResetPassword();
+            case R.id.select_all_menu_vault:
+                onSelectAll();
                 return true;
+            case R.id.revert_selected_menu_vault:
+                onRevertSelected();
+                return true;
+
         }
         return false;
     }
 
-    public void onBack() {
+    private void onBack() {
         finish();
     }
 
-    private void openResetPassword() {
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_vault_reset_password);
-
-        EditText passwordEt = (EditText) dialog.findViewById(R.id.dialog_reset_password);
-        TextView passwordErrorTv = (TextView) dialog.findViewById(R.id.dialog_reset_password_error);
-
-        EditText confirmPasswordEt = (EditText) dialog.findViewById(R.id.dialog_confirm_password);
-        TextView confirmPasswordErrorTv = (TextView) dialog.findViewById(R.id.dialog_confirm_password_error);
-
-        Button closeBtn = (Button) dialog.findViewById(R.id.dialog_vault_close);
-        Button resetBtn = (Button) dialog.findViewById(R.id.dialog_vault_reset);
-
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-
-        resetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String password = passwordEt.getText().toString();
-                String confirmPassword = confirmPasswordEt.getText().toString();
-
-                if (password.length() != PIN_LENGTH) {
-                    passwordErrorTv.setText(R.string.signup_vault_pin_too_short);
-                    passwordErrorTv.setVisibility(View.VISIBLE);
-
-                    return;
-                } else {
-                    passwordErrorTv.setVisibility(View.GONE);
-                }
-
-                if (!confirmPassword.equals(password)) {
-                    confirmPasswordErrorTv.setText(R.string.signup_vault_pin_not_match);
-                    confirmPasswordErrorTv.setVisibility(View.VISIBLE);
-
-                    return;
-                } else {
-                    confirmPasswordErrorTv.setVisibility(View.GONE);
-                }
-
-                Toast.makeText(VaultAlbumActivity.this, "da doi thanh cong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
+    private void onDeselectAll() {
+        gridPhotosAdapter.deselectAll();
+        invalidateOptionsMenu();
+        appbar.setTitle(getResources().getString(R.string.vault_title));
     }
 
-    private void convertToOriginalAlbum() {
-        Toast.makeText(this, "convert to original album", Toast.LENGTH_SHORT).show();
+    private void onSelectAll() {
+        gridPhotosAdapter.selectAll();
+        int allCount = decryptedBitmaps.size();
+        appbar.setTitle(allCount + "/" + allCount);
     }
+
+    private void onRevertSelected() {
+        for (int i : selectedIndices) {
+            vaultManager.revertToGallery(i);
+        }
+        Collections.sort(selectedIndices);
+        for (int i = selectedIndices.size() - 1; i >= 0; i--) {
+            decryptedBitmaps.remove(selectedIndices.get(i).intValue());
+        }
+        gridPhotosAdapter.setImageBitmaps(decryptedBitmaps);
+        onDeselectAll();
+    }
+
+//    private void openResetPassword() {
+//        Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.dialog_vault_reset_password);
+//
+//        EditText passwordEt = (EditText) dialog.findViewById(R.id.dialog_reset_password);
+//        TextView passwordErrorTv = (TextView) dialog.findViewById(R.id.dialog_reset_password_error);
+//
+//        EditText confirmPasswordEt = (EditText) dialog.findViewById(R.id.dialog_confirm_password);
+//        TextView confirmPasswordErrorTv = (TextView) dialog.findViewById(R.id.dialog_confirm_password_error);
+//
+//        Button closeBtn = (Button) dialog.findViewById(R.id.dialog_vault_close);
+//        Button resetBtn = (Button) dialog.findViewById(R.id.dialog_vault_reset);
+//
+//        closeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        resetBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String password = passwordEt.getText().toString();
+//                String confirmPassword = confirmPasswordEt.getText().toString();
+//
+//                if (password.length() != PIN_LENGTH) {
+//                    passwordErrorTv.setText(R.string.signup_vault_pin_too_short);
+//                    passwordErrorTv.setVisibility(View.VISIBLE);
+//
+//                    return;
+//                } else {
+//                    passwordErrorTv.setVisibility(View.GONE);
+//                }
+//
+//                if (!confirmPassword.equals(password)) {
+//                    confirmPasswordErrorTv.setText(R.string.signup_vault_pin_not_match);
+//                    confirmPasswordErrorTv.setVisibility(View.VISIBLE);
+//
+//                    return;
+//                } else {
+//                    confirmPasswordErrorTv.setVisibility(View.GONE);
+//                }
+//
+//                Toast.makeText(VaultAlbumActivity.this, "da doi thanh cong", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        dialog.show();
+//    }
 
     private void setupAppBar() {
         appbar = (Toolbar) findViewById(R.id.appbar_vault);
         setSupportActionBar(appbar);
-        ActionBar actionBar  = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
 
         // add X icon to appbar
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -145,16 +169,21 @@ public class VaultAlbumActivity extends AppCompatActivity {
     }
 
     private void setupBody() {
+        fullImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullImageView.setVisibility(View.GONE);
+            }
+        });
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.body_vault);
         recyclerView.setHasFixedSize(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
-        // TODO: Ảnh giả, cần thay bằng ảnh thật
-        Bitmap dummyBitmap = decodeFile(DataUtils.allImages.get(0));
-        VaultImages.list.add(dummyBitmap);
+        decryptedBitmaps = VaultManager.getInstance(this).getAllDecryptedBitmaps();
 
-        gridPhotosAdapter = new GridPhotosAdapter(this, VaultImages.list, selectedIndices, new GridPhotosAdapter.ClickListener() {
+        gridPhotosAdapter = new GridPhotosAdapter(this, decryptedBitmaps, selectedIndices, new GridPhotosAdapter.ClickListener() {
             @Override
             public void onClick(int index) {
                 // Nếu đang không ở chế độ Selection (có ảnh đang được chọn)
@@ -167,25 +196,45 @@ public class VaultAlbumActivity extends AppCompatActivity {
                     //          + Ở activity này luôn: widget ImageView và 2 nút L-R ban đầu được INVISIBILE và khi
                     //            click ảnh thì INVISIBLE nó đồng thời set ảnh
 
+                    fullImageView.setImageBitmap(decryptedBitmaps.get(index));
+                    fullImageView.setVisibility(View.VISIBLE);
+
                 } else {
                     // Ngược lại, nếu đang ở chế độ Selection,
                     // và ta click lại 1 ảnh đang được select, thì bỏ select cho ảnh đó
                     if (selectedIndices.contains(index)) {
-                        // TODO: Chưa cần làm
-
+                        gridPhotosAdapter.deselect(index);
+//                        selectedIndices.remove(Integer.valueOf(index));
+                        if (selectedIndices.isEmpty()) {
+                            appbar.setTitle(getResources().getString(R.string.vault_title));
+                            invalidateOptionsMenu();
+                        } else {
+                            int selectedCount = selectedIndices.size();
+                            int allCount = decryptedBitmaps.size();
+                            appbar.setTitle(selectedCount + "/" + allCount);
+                        }
                     } else {
-                        // TODO: Chưa cần làm
-
+                        // nếu click 1 ảnh mới, thì thêm ảnh đó vào danh sách ảnh được select
+                        gridPhotosAdapter.select(index);
+                        int selectedCount = selectedIndices.size();
+                        int allCount = decryptedBitmaps.size();
+                        appbar.setTitle(selectedCount + "/" + allCount);
                     }
                 }
-
             }
 
             @Override
             public void onLongClick(int index) {
                 // Nếu long click một ảnh chưa có trong danh sách được select, thì thêm ảnh vào danh sách select
+                if (selectedIndices.isEmpty()) {
+                    invalidateOptionsMenu();
+                }
                 if (!selectedIndices.contains(index)) {
-                    // TODO: Chưa cần làm
+//                    selectedIndices.add(index);
+                    gridPhotosAdapter.select(index);
+                    int selectedCount = selectedIndices.size();
+                    int allCount = decryptedBitmaps.size();
+                    appbar.setTitle(selectedCount + "/" + allCount);
                 }
             }
         });

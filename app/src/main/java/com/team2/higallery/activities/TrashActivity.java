@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.fragments.GridPhotosFragment;
 import com.team2.higallery.models.TrashManager;
-import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
 
     TrashManager trashManager;
     Fragment fragmentBody;
-    ArrayList<Integer> selectedPhotoIndices = new ArrayList<>();
+    ArrayList<Integer> selectedIndices = new ArrayList<>();
 
     Toolbar appbar;
     Button buttonDelete;
@@ -35,9 +35,18 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
         setContentView(R.layout.activity_trash);
 
         setupAppBar();
+
         trashManager = TrashManager.getInstance(this);
+        trashManager.autoClean();
+
         setupBody();
         setupBottomBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
     }
 
     private void setupAppBar() {
@@ -54,7 +63,7 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
     }
 
     private void setupBody() {
-        fragmentBody = new GridPhotosFragment(trashManager.getAllPaths());
+        fragmentBody = new GridPhotosFragment(trashManager.getAllPaths(), "trash");
         getSupportFragmentManager().beginTransaction().add(R.id.body_trash, fragmentBody).commit();
     }
 
@@ -67,12 +76,12 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (selectedPhotoIndices.isEmpty()) {
+                if (selectedIndices.isEmpty()) {
                     finish();
                 } else {
                     appbar.setTitle(getResources().getString(R.string.trash_title));
                     appbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
-                    ((GridPhotosFragment)fragmentBody).sendFromActivityToFragment("trash", "deselect_all", -1);
+                    ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "deselect_all", -1);
                 }
                 return true;
         }
@@ -80,30 +89,30 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
     }
 
     public void onDelete(View view) {
-        if (selectedPhotoIndices.isEmpty()) {
+        if (selectedIndices.isEmpty()) {
             trashManager.deletePermanentlyAll();
         } else {
-            Collections.sort(selectedPhotoIndices);
-            Collections.reverse(selectedPhotoIndices);
-            for (int index : selectedPhotoIndices) {
+            Collections.sort(selectedIndices);
+            Collections.reverse(selectedIndices);
+            for (int index : selectedIndices) {
                 trashManager.deletePermanently(index);
             }
         }
-        ((GridPhotosFragment)fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
         disableSelectionMode();
-}
+    }
 
     public void onRestore(View view) {
-        if (selectedPhotoIndices.isEmpty()) {
+        if (selectedIndices.isEmpty()) {
             trashManager.restoreAll();
         } else {
-            Collections.sort(selectedPhotoIndices);
-            Collections.reverse(selectedPhotoIndices);
-            for (int index : selectedPhotoIndices) {
+            Collections.sort(selectedIndices);
+            Collections.reverse(selectedIndices);
+            for (int index : selectedIndices) {
                 trashManager.restore(index);
             }
         }
-        ((GridPhotosFragment)fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
         disableSelectionMode();
     }
 
@@ -118,8 +127,8 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
         appbar.setTitle(R.string.trash_title);
         buttonDelete.setText(R.string.trash_delete_all);
         buttonRestore.setText(R.string.trash_restore_all);
-        selectedPhotoIndices.clear();
-        ((GridPhotosFragment)fragmentBody).sendFromActivityToFragment("trash", "deselect_all", -1);
+        selectedIndices.clear();
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "deselect_all", -1);
     }
 
     @Override
@@ -127,18 +136,18 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
         if (sender.equals("grid_photos")) {
             switch (header) {
                 case "select":
-                    if (selectedPhotoIndices.isEmpty()) {
+                    if (selectedIndices.isEmpty()) {
                         enableSelectionMode();
                     }
                 case "deselect":
                     if (header.equals("select")) {
-                        if (!selectedPhotoIndices.contains(value)) {
-                            selectedPhotoIndices.add(value);
+                        if (!selectedIndices.contains(value)) {
+                            selectedIndices.add(value);
                         }
                     } else {
-                        selectedPhotoIndices.remove(Integer.valueOf(value));
+                        selectedIndices.remove(Integer.valueOf(value));
                     }
-                    int selectedCount = selectedPhotoIndices.size();
+                    int selectedCount = selectedIndices.size();
                     int allCount = trashManager.count();
                     if (selectedCount == 0) {
                         disableSelectionMode();

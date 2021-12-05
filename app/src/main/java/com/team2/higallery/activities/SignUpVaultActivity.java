@@ -9,17 +9,32 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.models.Account;
+import com.team2.higallery.models.EncryptedImage;
+import com.team2.higallery.models.VaultManager;
 import com.team2.higallery.utils.DataUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class SignUpVaultActivity extends AppCompatActivity {
@@ -27,12 +42,19 @@ public class SignUpVaultActivity extends AppCompatActivity {
 
     EditText emailInput, pinInput, retypeInput;
     TextView emailError, passwordError, retypePasswordError;
+    ProgressBar progressBar;
+
+    boolean finishAfterSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Configuration.set(this);
         setContentView(R.layout.activity_sign_up_vault);
+
+        Intent intent = getIntent();
+        finishAfterSignUp = intent.getBooleanExtra("finishAfterSignUp", false);
+        setResult(RESULT_CANCELED);
 
         emailInput = (EditText) findViewById(R.id.email_input_signup_vault);
         emailError = (TextView) findViewById(R.id.signup_vault_email_error);
@@ -43,6 +65,8 @@ public class SignUpVaultActivity extends AppCompatActivity {
         retypeInput = (EditText) findViewById(R.id.retype_pin_input_signup_vault);
         retypePasswordError = (TextView) findViewById(R.id.signup_vault_confirm_password_error);
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_sign_up_vault);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     public void restore(View v) {
@@ -54,20 +78,71 @@ public class SignUpVaultActivity extends AppCompatActivity {
             return;
         }
 
-        Account.auth.signInWithEmailAndPassword(email, pin).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        progressBar.setVisibility(View.VISIBLE);
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pin).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Account.store(email, pin, SignUpVaultActivity.this);
-                    goToVaultAlbum();
+                    String uid = task.getResult().getUser().getUid();
+                    Account.store(uid, email, pin, SignUpVaultActivity.this);
+
+                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                    firestore.collection("users").document(uid).collection("encrypted_images").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                final int[] nRemainFiles = {task.getResult().size()};
+
+                                if (nRemainFiles[0] == 0) {
+                                    if (finishAfterSignUp) {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    } else {
+                                        goToVaultAlbum();
+                                    }
+                                }
+
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    EncryptedImage encryptedImage = EncryptedImage.fromMap(document.getData());
+                                    String fileName = encryptedImage.getFileName();
+                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                    StorageReference ref = storage.getReference().child("encrypted_files/" + fileName);
+
+                                    File localFile = new File(SignUpVaultActivity.this.getFilesDir(), fileName);
+                                    ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            VaultManager.getInstance(SignUpVaultActivity.this).addEncryptedImage(encryptedImage);
+                                            nRemainFiles[0]--;
+                                            if (nRemainFiles[0] == 0) {
+                                                if (finishAfterSignUp) {
+                                                    setResult(RESULT_OK);
+                                                    finish();
+                                                } else {
+                                                    goToVaultAlbum();
+                                                }
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                            progressBar.setVisibility(View.INVISIBLE);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
                 } else {
+                    progressBar.setVisibility(View.INVISIBLE);
                     FirebaseAuthException exception = (FirebaseAuthException) task.getException();
                     showAuthError(exception.getErrorCode());
                 }
             }
         });
 
-        // TODO: Download info and data from Firebase database
     }
 
     public void start(View v) {
@@ -79,19 +154,33 @@ public class SignUpVaultActivity extends AppCompatActivity {
             return;
         }
 
-        Account.auth.createUserWithEmailAndPassword(email, pin)
+        progressBar.setVisibility(View.VISIBLE);
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pin)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Account.store(email, pin, SignUpVaultActivity.this);
-                            goToVaultAlbum();
+                            String uid = task.getResult().getUser().getUid();
+                            Account.store(uid, email, pin, SignUpVaultActivity.this);
+                            if (finishAfterSignUp) {
+                                setResult(RESULT_OK);
+                                finish();
+                            } else {
+                                goToVaultAlbum();
+                            }
                         } else {
                             FirebaseAuthException exception = (FirebaseAuthException) task.getException();
                             showAuthError(exception.getErrorCode());
                         }
+                        progressBar.setVisibility(View.VISIBLE);
                     }
-                });
+                }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private boolean validateInput(String email, String pin, String retype) {
@@ -148,8 +237,7 @@ public class SignUpVaultActivity extends AppCompatActivity {
                 if (!pin.equals(retype)) {
                     retypePasswordError.setText(R.string.signup_vault_pin_not_match);
                     retypePasswordError.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     retypePasswordError.setVisibility(View.GONE);
                 }
             }
@@ -160,12 +248,10 @@ public class SignUpVaultActivity extends AppCompatActivity {
         pinInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -174,8 +260,7 @@ public class SignUpVaultActivity extends AppCompatActivity {
                 if (pin.length() != PIN_LENGTH) {
                     passwordError.setText(R.string.signup_vault_pin_too_short);
                     passwordError.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     passwordError.setVisibility(View.GONE);
                 }
             }
@@ -200,8 +285,7 @@ public class SignUpVaultActivity extends AppCompatActivity {
                 if (!DataUtils.validateEmail(email)) {
                     emailError.setText(R.string.signup_vault_invalid_email);
                     emailError.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     emailError.setVisibility(View.GONE);
                 }
             }

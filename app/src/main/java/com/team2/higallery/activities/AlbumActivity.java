@@ -70,7 +70,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     }
 
     private void setupBody() {
-        fragment = new GridPhotosFragment(imagePaths);
+        fragment = new GridPhotosFragment(imagePaths, "album");
         getSupportFragmentManager().beginTransaction().add(R.id.body_album, fragment).commit();
     }
 
@@ -88,7 +88,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.deselect_menu_main:
+            case R.id.deselect_all_menu_main:
                 onDeselect();
                 return true;
             case R.id.select_all_menu_main:
@@ -97,7 +97,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
             case R.id.delete_selected_menu_main:
                 onDeleteSelectedPhoto();
                 return true;
-            case R.id.vault_selected_trash_menu_main:
+            case R.id.vault_selected_menu_main:
                 onVaultSelectedPhoto();
                 return true;
         }
