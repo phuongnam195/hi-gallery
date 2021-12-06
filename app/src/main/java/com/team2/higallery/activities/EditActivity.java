@@ -51,6 +51,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 import com.team2.higallery.R;
+import com.team2.higallery.utils.FileUtils;
 
 public class EditActivity extends AppCompatActivity{
 
@@ -422,10 +423,28 @@ public class EditActivity extends AppCompatActivity{
     private  Uri imageUri;
 
     private File createImageFile(){
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/HiGallery");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            //Toast.makeText(MainActivity.this, "Directory Created", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Create folder HiGallery fail!", Toast.LENGTH_SHORT).show();
+        }
+
         final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        final String imageFileName = "/JPEG_" + timeStamp + ".jpg";
+        final String imageFileName = "/HiGallery/JPEG_" + timeStamp + ".jpg";
         final File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return new File(storageDir + imageFileName);
+    }
+
+    private File createImageFile2(){
+        final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        final String imageFileName = "/JPEG_" + timeStamp + ".jpg";
+        String path = pathList.get(currentIndex);
+        return new File(path.substring(0, path.lastIndexOf("/")) + imageFileName);
     }
 
     private boolean editing = false;
@@ -460,32 +479,6 @@ public class EditActivity extends AppCompatActivity{
 
         imageUri = Uri.parse("file://" + pathList.get(currentIndex));
 
-//        if(resultCode != RESULT_OK){
-//            return;
-//        }
-//        if(requestCode == REQUEST_IMAGE_CAPTURE){
-//            if(imageUri == null){
-//                //lấy đường dẫn đã lưu trong trường hợp lạc mất image URI
-//                final SharedPreferences pref = getSharedPreferences(appID, 0);
-//                final String path = pref.getString("path", "");
-//
-//                // Nếu không có đường dẫn thì sẽ out ra ngoài (lỗi đường dẫn)
-//                if (path.length() < 1){
-//                    recreate();
-//                    return;
-//                }
-//                imageUri = Uri.parse("file://" + path);
-//            }
-//
-//            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-//        }
-//        else if(data == null){
-//            recreate();
-//            return;
-//        }
-//        else if(requestCode == REQUEST_PICK_IMAGE){
-//            imageUri = data.getData();
-//        }
         final ProgressDialog dialog = ProgressDialog.show(EditActivity.this, "Loading", "Please Wait", true);
         currentDeg = 0;
         editMode = true;
@@ -593,43 +586,18 @@ public class EditActivity extends AppCompatActivity{
                     }
                 } else if (which == DialogInterface.BUTTON_NEGATIVE) {
                     editing = false;
-//                    final File outFile = createImageFile();
-//                    try(FileOutputStream out = new FileOutputStream(outFile)){
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-////                        imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
-//                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
-//                        Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
-//                    }catch(IOException e){
-//                        e.printStackTrace();
-//                    }
-                    String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                            "/Pictures";
-                    File dir = new File(file_path);
-                    if(!dir.exists())
-                        dir.mkdirs();
+                    final File outFile = createImageFile2();
+                    try(FileOutputStream out = new FileOutputStream(outFile)){
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
+                        File deleteIMG= new File(pathList.get(currentIndex));
+                        FileUtils.removeImageFile(EditActivity.this, deleteIMG);
 
-                    String format = new SimpleDateFormat("yyyyMMddHHmmss",
-                            java.util.Locale.getDefault()).format(new Date());
-
-                    File file = new File(dir, format + ".jpg");
-                    FileOutputStream fOut;
-                    try {
-                        fOut = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-                        fOut.flush();
-                        fOut.close();
-                    } catch (Exception e) {
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
+                        Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();
+                    }catch(IOException e){
                         e.printStackTrace();
                     }
-
-                    Uri uri = Uri.fromFile(file);
-                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                    intent.setType("image/*");
-                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                    intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);
-
-                    startActivity(Intent.createChooser(intent,"Sharing something"));
                 }
                 else{
 
@@ -638,7 +606,7 @@ public class EditActivity extends AppCompatActivity{
         };
         builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
                 .setPositiveButton("Save", dialogClickListener)
-                .setNegativeButton("Share", dialogClickListener)
+                .setNegativeButton("Save Override", dialogClickListener)
                 .setNeutralButton("No", dialogClickListener)
                 .show();
     }
@@ -758,6 +726,7 @@ public class EditActivity extends AppCompatActivity{
         editing = true;
         new Thread(){
             public void run(){
+                getPixelOfBitmap(bitmap);
                 negative(pixels, width, height);
                 bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
