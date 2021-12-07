@@ -99,5 +99,6 @@
     <string name="set_wall_both_button">Tất cả</string>
     <string name="set_wall_title">Đặt hình nền</string>
     <string name="signup_vault_not_found">Email không tồn tại! Có thể Bắt đầu.</string>
+    <string name="login_vault_forgot_message">Đã gửi email chứa link reset mã PIN!</string>
 
 </resources>

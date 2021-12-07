@@ -166,6 +166,6 @@ public class LoginVaultActivity extends Activity {
     public void onForgot(View view) {
         FirebaseAuth.getInstance().sendPasswordResetEmail(Account.email);
         alreadyResetPIN = true;
-        Toast.makeText(this, "Đã gửi email chứa link reset mã PIN!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getResources().getString(R.string.login_vault_forgot_message), Toast.LENGTH_LONG).show();
     }
 }

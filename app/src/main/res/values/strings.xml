@@ -32,6 +32,7 @@
     <string name="login_vault_password_incorrect">Incorrect. Please try again!</string>
     <string name="login_vault_forgot">Forgot</string>
     <string name="login_vault_delete">Del</string>
+    <string name="login_vault_forgot_message">A password reset link was sent to your email!</string>
 
     <string name="signup_vault_title">Welcome to Vault!</string>
     <string name="signup_vault_label_email">Email</string>
