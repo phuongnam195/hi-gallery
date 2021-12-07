@@ -3,35 +3,95 @@ package com.team2.higallery.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.team2.higallery.models.Account;
+
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.spec.KeySpec;
+import java.util.Arrays;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptUtils {
-    public static byte[] encryptImage(Bitmap bitmap) {
-        //Convert Bitmap to Byte array
+    private static final byte[] FIXED_SALT = "PTPMCTBDD-Nhom02".getBytes();
+
+    private static EncryptUtils instance = null;
+    public static EncryptUtils getInstance() {
+        if (instance == null) {
+            instance = new EncryptUtils();
+        }
+        return instance;
+    }
+    private EncryptUtils() {
+        try {
+            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            String hashedPIN = Account.hashedPIN;
+            byte[] key = Account.hashedPIN.getBytes(StandardCharsets.UTF_8);
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 16);
+            secretKey = new SecretKeySpec(key, "AES");
+            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    private Cipher cipher;
+    private SecretKeySpec secretKey;
+
+    public byte[] encryptImage(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bytes = stream.toByteArray();
 
-        //Mã hóa một cách tùy biến ở đây
-        int lengthBytes = bytes.length;
-        int step = bytes.length/1024;
-        for (int i = 0; i < lengthBytes; i += step) {
-            bytes[i] += (byte)1;
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            return cipher.doFinal(bytes);
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
         }
 
-        return bytes;
+        return null;
     }
 
-    public static Bitmap decryptImage(byte[] bytes) {
-        //Giải mã theo cách đã mã hóa ở hàm mã hóa
-        int length = bytes.length;
-        int step = bytes.length/1024;
-        for (int i = 0; i < length; i += step) {
-            bytes[i] -= (byte)1;
+    public Bitmap decryptImage(byte[] encryptedBytes) {
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[]  decryptedBytes = cipher.doFinal(encryptedBytes);
+            return BitmapFactory.decodeByteArray(decryptedBytes,  0, decryptedBytes.length);
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
         }
 
-        //Convert Byte array to Bitmap
-        Bitmap result = BitmapFactory.decodeByteArray(bytes,  0, bytes.length);
-        return result;
+        return null;
+    }
+
+    public static String hash(String input) {
+        try {
+            KeySpec spec = new PBEKeySpec(input.toCharArray(), FIXED_SALT, 65536, 128);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            String output = new String(hash, "UTF-8");
+            return output;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return null;
     }
 }

@@ -11,7 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.team2.higallery.R;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.models.VaultManager;
@@ -27,15 +34,15 @@ public class LoginVaultActivity extends Activity {
     private Animation animationForRadioGroups;
     ProgressBar progressBar;
 
+    boolean alreadyResetPIN = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_vault);
 
         //Add animation
-        animationForRadioGroups = AnimationUtils.loadAnimation(
-                getApplicationContext(), R.anim.login_vault_vibrate_animation
-        );
+        animationForRadioGroups = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.login_vault_vibrate_animation);
 
         //Get radio
         for (int i = 0; i < PIN_LENGTH; i++) {
@@ -52,6 +59,7 @@ public class LoginVaultActivity extends Activity {
         setupKeyboard();
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_login_vault);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void setupKeyboard() {
@@ -81,6 +89,7 @@ public class LoginVaultActivity extends Activity {
 
                     //Check password when input enough
                     if (currentPIN.length() == PIN_LENGTH) {
+                        progressBar.setVisibility(View.VISIBLE);
                         validatePIN();
                     }
                 }
@@ -89,28 +98,62 @@ public class LoginVaultActivity extends Activity {
     }
 
     private void validatePIN() {
-        if (Account.checkPIN(currentPIN, this)) {
-            progressBar.setVisibility(View.VISIBLE);
-            VaultManager.getInstance(this).getAllDecryptedBitmaps();
-            progressBar.setVisibility(View.INVISIBLE);
+        new Thread() {
+            @Override
+            public void run() {
+                if (alreadyResetPIN) {
+                    FirebaseAuth.getInstance().signOut();
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(Account.email, currentPIN).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Account.updatePIN(currentPIN, LoginVaultActivity.this);
+                                progressBar.setVisibility(View.INVISIBLE);
+                                alreadyResetPIN = false;
 
-            Intent intent = new Intent(this, VaultAlbumActivity.class);
-            finish();
-            startActivity(intent);
-        } else {
-            //Add animation for radio group
-            LinearLayout radioGroup = (LinearLayout) findViewById(R.id.pin_login_vault);
-            radioGroup.startAnimation(animationForRadioGroups);
+                                Intent intent = new Intent(LoginVaultActivity.this, VaultAlbumActivity.class);
+                                finish();
+                                startActivity(intent);
+                            } else {
+                                alertWrongPIN();
+                            }
 
-            //Delete status of all dots
-            currentPIN = "";
-            for (int i = 0; i < PIN_LENGTH; i++) {
-                dots[i].setChecked(false);
+                        }
+                    });
+                } else if (Account.checkPIN(currentPIN)) {
+                    VaultManager.getInstance(LoginVaultActivity.this).getAllDecryptedBitmaps();
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    Intent intent = new Intent(LoginVaultActivity.this, VaultAlbumActivity.class);
+                    finish();
+                    startActivity(intent);
+                } else {
+                    alertWrongPIN();
+                }
             }
+        }.start();
+    }
 
-            //Notification for user that "password fail"
-            message.setText(R.string.login_vault_password_incorrect);
-        }
+    private void alertWrongPIN() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+
+                //Add animation for radio group
+                LinearLayout radioGroup = (LinearLayout) findViewById(R.id.pin_login_vault);
+                radioGroup.startAnimation(animationForRadioGroups);
+
+                //Delete status of all dots
+                currentPIN = "";
+                for (int i = 0; i < PIN_LENGTH; i++) {
+                    dots[i].setChecked(false);
+                }
+
+                //Notification for user that "password fail"
+                message.setText(R.string.login_vault_password_incorrect);
+            }
+        });
     }
 
     public void onDelete(View view) {
@@ -121,5 +164,8 @@ public class LoginVaultActivity extends Activity {
     }
 
     public void onForgot(View view) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(Account.email);
+        alreadyResetPIN = true;
+        Toast.makeText(this, "Đã gửi email chứa link reset mã PIN!", Toast.LENGTH_LONG).show();
     }
 }

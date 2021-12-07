@@ -11,7 +11,6 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -24,14 +23,12 @@ import com.team2.higallery.R;
 
 import java.io.IOException;
 
-public class ConstrainLayout extends AppCompatActivity {
-    private ActionBar appBar;
-    private LinearLayout bottomBar;
-    private ImageView imageWall;
-    private Button lockScreen;
-    private Button homeScreen;
-    private Button allScreen;
-
+public class SetWallActivity extends AppCompatActivity {
+    ActionBar appBar;
+    LinearLayout bottomBar;
+    ImageView imageWall;
+    Bitmap bitmap;
+    Dialog waitingDialog;
 
     WallpaperManager wallpaperManager;
     String imagePath;
@@ -46,65 +43,36 @@ public class ConstrainLayout extends AppCompatActivity {
         Intent intent = getIntent();
         imagePath = intent.getStringExtra("currentImagePath");
         wallpaperManager = WallpaperManager.getInstance(this);
-        // chuyển ảnh sang bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap tempBitMap = BitmapFactory.decodeFile(imagePath,bmOptions);
+        bitmap = BitmapFactory.decodeFile(imagePath, new BitmapFactory.Options());
 
         setupAppBar();
         setupBottomBar();
 
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_wait_set_wall);
-
-        imageWall.setImageBitmap(tempBitMap);
-
-        homeScreen.setOnClickListener(new View.OnClickListener() {
+        imageWall.setImageBitmap(bitmap);
+        imageWall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    dialog.show();
-                    Bitmap bitmap = createImageFitScreen(tempBitMap);
-                    wallpaperManager.setBitmap( bitmap,null,true,WallpaperManager.FLAG_SYSTEM);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-//                dialog.cancel();
-                finish();
+                toggleBarVisibility();
             }
+        });
 
-        });
-        lockScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    dialog.show();
-                    Bitmap bitmap = createImageFitScreen(tempBitMap);
-                    wallpaperManager.setBitmap(bitmap,null,true,WallpaperManager.FLAG_LOCK);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finish();
-            }
-        });
-        allScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    dialog.show();
-                    Bitmap bitmap = createImageFitScreen(tempBitMap);
-                    wallpaperManager.setBitmap(bitmap,null,true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finish();
-            }
-        });
+        waitingDialog = new Dialog(this);
+        waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        waitingDialog.setContentView(R.layout.dialog_wait_set_wall);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (waitingDialog.isShowing()) {
+            waitingDialog.dismiss();
+        }
     }
 
     @SuppressLint("RestrictedApi")
     private void setupAppBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_photo);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_set_wall);
         setSupportActionBar(toolbar);
         appBar = getSupportActionBar();
 
@@ -114,13 +82,12 @@ public class ConstrainLayout extends AppCompatActivity {
 
         // disable show/hide animation
         appBar.setShowHideAnimationEnabled(false);
+
+        appBar.setTitle(R.string.set_wall_title);
     }
 
     private void setupBottomBar() {
-        bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo);
-        lockScreen = (Button) findViewById(R.id.set_wall_button_lock_screen);
-        homeScreen = (Button) findViewById(R.id.set_wall_button_home_screen);
-        allScreen = (Button) findViewById(R.id.set_wall_button_all_screen);
+        bottomBar = (LinearLayout) findViewById(R.id.bottombar_set_wall);
     }
 
     @Override
@@ -144,6 +111,39 @@ public class ConstrainLayout extends AppCompatActivity {
         }
     }
 
+    public void onLockScreen(View v) {
+        try {
+            waitingDialog.show();
+            Bitmap bitmap = createImageFitScreen(this.bitmap);
+            wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finish();
+    }
+
+    public void onHomeScreen(View v) {
+        try {
+            waitingDialog.show();
+            Bitmap bitmap = createImageFitScreen(this.bitmap);
+            wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finish();
+    }
+
+    public void onBothScreens(View v) {
+        try {
+            waitingDialog.show();
+            Bitmap bitmap = createImageFitScreen(this.bitmap);
+            wallpaperManager.setBitmap(bitmap, null, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finish();
+    }
+
     private Bitmap createImageFitScreen(Bitmap tempBitmap) {
         DisplayMetrics metrics = new DisplayMetrics();
         // lấy chiều dài rộng màn hình
@@ -153,21 +153,20 @@ public class ConstrainLayout extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int realHeight = metrics.heightPixels;
         if (realHeight > height)
-            height =  realHeight;
+            height = realHeight;
 
         double rate = (float) height / (float) width;
 
         Bitmap bitmap;
         int newWidth, newHeight;
         if (tempBitmap.getHeight() < tempBitmap.getWidth() * rate) {
-            newWidth = (int) ( (float) tempBitmap.getHeight() / rate);
+            newWidth = (int) ((float) tempBitmap.getHeight() / rate);
             newHeight = tempBitmap.getHeight();
-            bitmap = Bitmap.createBitmap(tempBitmap, tempBitmap.getWidth()/2 - newWidth/2, 0 , newWidth , newHeight);
-        }
-        else {
+            bitmap = Bitmap.createBitmap(tempBitmap, tempBitmap.getWidth() / 2 - newWidth / 2, 0, newWidth, newHeight);
+        } else {
             newHeight = (int) (tempBitmap.getWidth() * rate);
             newWidth = tempBitmap.getWidth();
-            bitmap = Bitmap.createBitmap(tempBitmap, 0,tempBitmap.getHeight()/2 - newHeight/2, newWidth , newHeight);
+            bitmap = Bitmap.createBitmap(tempBitmap, 0, tempBitmap.getHeight() / 2 - newHeight / 2, newWidth, newHeight);
         }
 
         return bitmap;

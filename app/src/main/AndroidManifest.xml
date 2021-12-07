@@ -57,7 +57,7 @@
             android:name=".activities.TrashActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ConstrainLayout"
+            android:name=".activities.SetWallActivity"
             android:exported="true" />
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -26,7 +26,7 @@
     <string name="photo_details">Chi tiết</string>
     <string name="photo_delete">Xóa</string>
     <string name="photo_set_as">Đặt làm</string>
-    <string name="photo_secure">Thêm vào Bí mật</string>
+    <string name="photo_secure">Chuyển tới Bí mật</string>
     <string name="photo_new_album">Album mới</string>
     <string name="photo_unfavorite">Bỏ yêu thích</string>
     <string name="photo_favorite">Yêu thích</string>
@@ -36,14 +36,14 @@
 
     <string name="signup_vault_title">Đăng kí</string>
     <string name="signup_vault_label_email">Email</string>
-    <string name="signup_vault_label_password">Mật khẩu(6 số)</string>
-    <string name="signup_vault_label_confirm_password">Xác nhận mật khẩu</string>
+    <string name="signup_vault_label_password">Mã PIN (6 số)</string>
+    <string name="signup_vault_label_confirm_password">Xác nhận mã PIN</string>
     <string name="signup_vault_btn_restore">Phục hồi</string>
-    <string name="signup_vault_btn_signup">Xác nhận</string>
+    <string name="signup_vault_btn_signup">Bắt đầu</string>
     <string name="signup_vault_invalid_email">Email không hợp lệ. Vui lòng nhập lại!</string>
     <string name="signup_vault_pin_not_match">Mã PIN không khớp. Vui lòng nhập lại!</string>
     <string name="signup_vault_pin_too_short">Độ dài của mã PIN là 6. Vui lòng nhập lại!</string>
-    <string name="signup_vault_email_exists">Email đã tồn tại. Có lẽ bạn nên khôi phục.</string>
+    <string name="signup_vault_email_exists">Email đã tồn tại! Có thể Khôi phục.</string>
     <string name="signup_vault_unknown_error">Lỗi không xác định. Vui lòng thử lại!</string>
     <string name="restore_vault_wrong_pin">Mật khẩu sai. Vui lòng nhập lại!</string>
 
@@ -94,9 +94,10 @@
     <string name="photo_share_title">Chia sẻ qua</string>
     <string name="vault_revert">Trả về thư viện</string>
 
-    <string name="photo_set_wall_home_screen">Màn hình chính</string>
-    <string name="photo_set_wall_lock_screen">Màn hình khóa</string>
-    <string name="photo_set_wall_all_screen">Tất cả</string>
-    <string name="wait_set_wall">Chờ trong giây lát</string>
+    <string name="set_wall_home_button">Màn hình chính</string>
+    <string name="set_wall_lock_button">Màn hình khóa</string>
+    <string name="set_wall_both_button">Tất cả</string>
+    <string name="set_wall_title">Đặt hình nền</string>
+    <string name="signup_vault_not_found">Email không tồn tại! Có thể Bắt đầu.</string>
 
 </resources>

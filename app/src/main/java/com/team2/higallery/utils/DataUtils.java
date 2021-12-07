@@ -14,7 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
@@ -40,11 +39,6 @@ public class DataUtils {
             builder.append(alphanum.charAt(r));
         }
         return builder.toString();
-    }
-
-    public static String hash(String pin) {
-        // Băm mã PIN
-        return pin;
     }
 
     public static ArrayList<String> allImages = new ArrayList<>();
@@ -112,7 +106,7 @@ public class DataUtils {
 
     public static String getNamePhoto(String pathPhoto) {
         int pos = pathPhoto.lastIndexOf('/');
-        String namePhoto = " " + pathPhoto.substring(pos+1);
+        String namePhoto = " " + pathPhoto.substring(pos + 1);
         return namePhoto;
     }
 
@@ -123,7 +117,7 @@ public class DataUtils {
             size = size / 1024;
             count++;
         }
-        size =Math.round(size * 10)*1.0 / 10;
+        size = Math.round(size * 10) * 1.0 / 10;
         switch (count) {
             case 0:
                 result = " " + size + " B";
@@ -148,8 +142,7 @@ public class DataUtils {
         // chỉnh thời gian theo ngôn ngữ
         if (LocaleHelper.getLocale(context).getLanguage() == "vi") {
             dateFormat = new SimpleDateFormat("MMM dd, yyyy '-' h:mm a", new Locale("vi", "VN"));
-        }
-        else {
+        } else {
             dateFormat = new SimpleDateFormat("MMM dd, yyyy '-' h:mm a", Locale.ENGLISH);
         }
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -167,7 +160,7 @@ public class DataUtils {
     public static String getResolutionPhoto(String path, Context context) {
         // tạo ảnh bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap bitmap = BitmapFactory.decodeFile(path,bmOptions);
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
         Uri myUri = Uri.parse(path);
         PhotoView photoView = new PhotoView(context);
         photoView.setImageURI(myUri);
@@ -176,7 +169,7 @@ public class DataUtils {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         double MP = width * height * 1.0 / 1000000;
-        MP = Math.round(MP * 10)*1.0 / 10;
+        MP = Math.round(MP * 10) * 1.0 / 10;
         String result = " " + width + "x" + height + " (" + MP + " MP)";
         return result;
     }
