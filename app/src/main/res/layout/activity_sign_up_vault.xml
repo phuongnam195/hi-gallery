@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup_vault_background"
+    android:background="#091E40"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="40dp"
@@ -15,7 +15,7 @@
         android:id="@+id/title_signup_vault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="45dp"
         android:text="@string/signup_vault_title"
         android:textColor="@color/white"
         android:textSize="40sp"
@@ -141,7 +141,7 @@
 
         <Button
             android:id="@+id/restore_signup_vault"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:background="@drawable/signup_vault_restore_btn"
@@ -153,7 +153,7 @@
 
         <Button
             android:id="@+id/start_signup_vault"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/signup_vault_signup_btn"

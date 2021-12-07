@@ -45,22 +45,23 @@ public class VaultManager {
     private VaultManager(Context context) {
         this.context = context;
         dbHelper = DatabaseHelper.getInstance(context);
+        encryptUtils = EncryptUtils.getInstance();
         encryptedImages = dbHelper.getAllEncryptedImages();
     }
 
     Context context;
     DatabaseHelper dbHelper;
+    EncryptUtils encryptUtils;
     ArrayList<EncryptedImage> encryptedImages;
-    ArrayList<Bitmap> bitmaps;
+    ArrayList<Bitmap> bitmaps = new ArrayList<>();
 
     public ArrayList<Bitmap> getAllDecryptedBitmaps() {
-        if (bitmaps == null) {
-            bitmaps = new ArrayList<>();
+        if (bitmaps.isEmpty()) {
             try {
                 for (EncryptedImage image : encryptedImages) {
                     File file = new File(context.getFilesDir().getAbsolutePath(), image.fileName);
                     byte[] bytes = Files.readAllBytes(file.toPath());
-                    Bitmap decryptedBitmap = EncryptUtils.decryptImage(bytes);
+                    Bitmap decryptedBitmap = encryptUtils.decryptImage(bytes);
                     bitmaps.add(decryptedBitmap);
                 }
             } catch (IOException e) {
@@ -70,11 +71,15 @@ public class VaultManager {
         return bitmaps;
     }
 
+    public void clearBitmaps() {
+        bitmaps.clear();
+    }
+
     public void moveImageToVault(String imagePath) {
         String encryptedFileName = DataUtils.generateRandomString(20) + ".hgv";   // HiGallery Vault
 
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-        byte[] data = EncryptUtils.encryptImage(bitmap);
+        byte[] data = encryptUtils.encryptImage(bitmap);
         try {
             FileOutputStream out = context.openFileOutput(encryptedFileName, Context.MODE_PRIVATE);
             out.write(data);
@@ -93,7 +98,7 @@ public class VaultManager {
         //Credit: https://firebase.google.com/docs
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        StorageReference ref = storageRef.child("encrypted_files/"+encryptedFileName);
+        StorageReference ref = storageRef.child("encrypted_files/" + encryptedFileName);
         UploadTask uploadTask = ref.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -119,7 +124,7 @@ public class VaultManager {
 
         try {
             byte[] bytes = Files.readAllBytes(Paths.get(context.getFilesDir().getAbsolutePath() + "/" + encryptedPath));
-            Bitmap bitmap = EncryptUtils.decryptImage(bytes);
+            Bitmap bitmap = encryptUtils.decryptImage(bytes);
 
             File imageFile = new File(oldPath);
             OutputStream fOut = new FileOutputStream(imageFile);
@@ -178,11 +183,12 @@ public class VaultManager {
 
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
-            StorageReference ref = storageRef.child("encrypted_files/"+encryptedImage.getFileName());
+            StorageReference ref = storageRef.child("encrypted_files/" + encryptedImage.getFileName());
             UploadTask uploadTask = ref.putFile(file);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {}
+                public void onFailure(@NonNull Exception exception) {
+                }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

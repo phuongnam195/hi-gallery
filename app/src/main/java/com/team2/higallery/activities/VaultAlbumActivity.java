@@ -26,9 +26,6 @@ public class VaultAlbumActivity extends AppCompatActivity {
     //Variable for activity
     private Toolbar appbar;
 
-    //Variable for dialog
-    private final int PIN_LENGTH = 6;
-
     ArrayList<Bitmap> decryptedBitmaps;
     GridPhotosAdapter gridPhotosAdapter;
     ArrayList<Integer> selectedIndices = new ArrayList<>();
@@ -50,6 +47,12 @@ public class VaultAlbumActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vaultManager.clearBitmaps();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!selectedIndices.isEmpty()) {
             getMenuInflater().inflate(R.menu.menu_vault_select_mode, menu);
@@ -61,7 +64,7 @@ public class VaultAlbumActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBack();
+                onClose();
                 return true;
             case R.id.deselect_all_menu_vault:
                 onDeselectAll();
@@ -77,7 +80,7 @@ public class VaultAlbumActivity extends AppCompatActivity {
         return false;
     }
 
-    private void onBack() {
+    private void onClose() {
         finish();
     }
 

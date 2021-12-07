@@ -37,14 +37,13 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
         Configuration.set(this);
         setContentView(R.layout.activity_album);
 
-        Intent intent = getIntent();
-        albumIndex = intent.getIntExtra("albumIndex", -1);
-        album = DataUtils.allAlbums.get(albumIndex);
-        albumName = album.getName();
-        imagePaths = album.getImages();
-
         setupAppBar();
-        setupBody();
+        new Thread() {
+            @Override
+            public void run() {
+                setupBody();
+            }
+        }.start();
     }
 
     @Override
@@ -70,6 +69,12 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     }
 
     private void setupBody() {
+        Intent intent = getIntent();
+        albumIndex = intent.getIntExtra("albumIndex", -1);
+        album = DataUtils.allAlbums.get(albumIndex);
+        albumName = album.getName();
+        imagePaths = album.getImages();
+
         fragment = new GridPhotosFragment(imagePaths, "album");
         getSupportFragmentManager().beginTransaction().add(R.id.body_album, fragment).commit();
     }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.team2.higallery.utils.DataUtils;
+import com.team2.higallery.utils.EncryptUtils;
 
 public class Account {
     private static final String UID = "uid";
@@ -20,7 +20,7 @@ public class Account {
     }
 
     public static void store(String uid, String email, String pin, Context context) {
-        String hashedPIN = DataUtils.hash(pin);
+        String hashedPIN = EncryptUtils.hash(pin);
 
         Account.uid = uid;
         Account.email = email;
@@ -42,8 +42,22 @@ public class Account {
         hashedPIN = preferences.getString(HASHED_PIN, null);
     }
 
-    public static boolean checkPIN(String inputPIN, Context context) {
-        String hashedInputPIN = DataUtils.hash(inputPIN);
+    public static boolean checkPIN(String inputPIN) {
+        String hashedInputPIN = EncryptUtils.hash(inputPIN);
         return hashedInputPIN.equals(hashedPIN);
     }
+
+    public static boolean updatePIN(String newPIN, Context context) {
+        String hashedNewPIN = EncryptUtils.hash(newPIN);
+        if (hashedNewPIN.equals(hashedPIN)) {
+            return false;
+        }
+        hashedPIN = hashedNewPIN;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(HASHED_PIN, hashedPIN);
+        editor.apply();
+        return true;
+    }
+
 }

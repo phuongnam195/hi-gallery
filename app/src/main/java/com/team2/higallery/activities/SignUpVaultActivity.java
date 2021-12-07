@@ -80,7 +80,7 @@ public class SignUpVaultActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pin).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pin).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
@@ -302,6 +302,9 @@ public class SignUpVaultActivity extends AppCompatActivity {
         switch (errorCode) {
             case "ERROR_INVALID_EMAIL":
                 Toast.makeText(this, getResources().getString(R.string.signup_vault_invalid_email), Toast.LENGTH_LONG).show();
+                break;
+            case "ERROR_USER_NOT_FOUND":
+                Toast.makeText(this, getResources().getString(R.string.signup_vault_not_found), Toast.LENGTH_LONG).show();
                 break;
             case "ERROR_EMAIL_ALREADY_IN_USE":
                 Toast.makeText(this, getResources().getString(R.string.signup_vault_email_exists), Toast.LENGTH_LONG).show();

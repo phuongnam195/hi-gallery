@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_baseline_edit"
         android:title="@string/photo_edit"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/new_album_action_photo"
-        android:title="@string/photo_new_album" />
+<!--    <item-->
+<!--        android:id="@+id/new_album_action_photo"-->
+<!--        android:title="@string/photo_new_album" />-->
     <item
         android:id="@+id/secure_action_photo"
         android:title="@string/photo_secure" />

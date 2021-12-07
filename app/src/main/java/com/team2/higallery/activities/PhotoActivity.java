@@ -2,10 +2,6 @@ package com.team2.higallery.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.WallpaperManager;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.firebase.internal.InternalTokenProvider;
 import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
@@ -65,11 +60,46 @@ public class PhotoActivity extends AppCompatActivity {
 
         setupAppBar();
         setupBottomBar();
+
+        new Thread() {
+            @Override
+            public void run() {
+                setupBody();
+            }
+        }.start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        pagerAdapter.notifyDataSetChanged();
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void setupAppBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_photo);
+        setSupportActionBar(toolbar);
+        appBar = getSupportActionBar();
+
+        // add back arrow to appbar
+        appBar.setDisplayHomeAsUpEnabled(true);
+        appBar.setDisplayShowHomeEnabled(true);
+
+        // disable show/hide animation
+        appBar.setShowHideAnimationEnabled(false);
+    }
+
+    private void setupBottomBar() {
+        if (source.equals("trash")) {
+            bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo_trash);
+        } else {
+            bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo);
+            favoriteButton = (FloatingActionButton) findViewById(R.id.favorite_action_photo);
+        }
+        bottomBar.setVisibility(View.VISIBLE);
+    }
+
+    private void setupBody() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         pagerAdapter = new PhotosPagerAdapter(this, imagePaths, new PhotosPagerAdapter.ClickListener() {
             @Override
@@ -98,30 +128,6 @@ public class PhotoActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("RestrictedApi")
-    private void setupAppBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_photo);
-        setSupportActionBar(toolbar);
-        appBar = getSupportActionBar();
-
-        // add back arrow to appbar
-        appBar.setDisplayHomeAsUpEnabled(true);
-        appBar.setDisplayShowHomeEnabled(true);
-
-        // disable show/hide animation
-        appBar.setShowHideAnimationEnabled(false);
-    }
-
-    private void setupBottomBar() {
-        if (source.equals("trash")) {
-            bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo_trash);
-        } else {
-            bottomBar = (LinearLayout) findViewById(R.id.bottombar_photo);
-            favoriteButton = (FloatingActionButton) findViewById(R.id.favorite_action_photo);
-        }
-        bottomBar.setVisibility(View.VISIBLE);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!source.equals("trash")) {
@@ -139,9 +145,9 @@ public class PhotoActivity extends AppCompatActivity {
             case R.id.edit_action_photo:
                 onEdit();
                 return true;
-            case R.id.new_album_action_photo:
-                onNewAlbum();
-                return true;
+//            case R.id.new_album_action_photo:
+//                onNewAlbum();
+//                return true;
             case R.id.secure_action_photo:
                 onSecure();
                 return true;
@@ -172,7 +178,6 @@ public class PhotoActivity extends AppCompatActivity {
 
     public void onEdit() {
         Bundle myData = new Bundle();
-
         myData.putInt("currentIndex", currentIndex);
         myData.putStringArrayList("pathList", imagePaths);
         Intent intent = new Intent(this, EditActivity.class);
@@ -187,15 +192,15 @@ public class PhotoActivity extends AppCompatActivity {
     public void onSecure() {
         VaultManager vaultManager = VaultManager.getInstance(this);
         vaultManager.moveImageToVault(imagePaths.get(currentIndex));
+        pagerAdapter.removeItem(currentIndex);
     }
 
     public void onSetAs() {
         Bundle myData = new Bundle();
         myData.putString("currentImagePath", imagePaths.get(viewPager.getCurrentItem()));
-        Intent intent = new Intent(this, ConstrainLayout.class);
+        Intent intent = new Intent(this, SetWallActivity.class);
         intent.putExtras(myData);
         startActivity(intent);
-        Toast.makeText(this, "Đặt làm hình nền, hình khóa...", Toast.LENGTH_SHORT).show();
     }
 
     public void onDetails() {

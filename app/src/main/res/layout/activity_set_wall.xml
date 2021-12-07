@@ -5,77 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.PhotoActivity">
+    tools:context=".activities.SetWallActivity">
 
-   <ImageView
-       android:id="@+id/image_set_wall"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+    <ImageView
+        android:id="@+id/image_set_wall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/appbar_photo"
+        android:id="@+id/appbar_set_wall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/primary_color"
+        android:background="@color/primary"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_photo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/bottombar_photo"
+        android:id="@+id/bottombar_set_wall"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/primary_color"
+        android:background="@color/primary"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/set_wall_button_lock_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:minWidth="70dip"
-            android:text="@string/photo_set_wall_lock_screen"
+            android:id="@+id/lock_button_set_wall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/primary"
+            android:onClick="onLockScreen"
+            android:text="@string/set_wall_lock_button"
             android:textAllCaps="false"
-            android:textSize="@dimen/photo_details_content_size"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/photo_details_content_size" />
 
         <Button
-            android:id="@+id/set_wall_button_home_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:minWidth="70dip"
-            android:text="@string/photo_set_wall_home_screen"
+            android:id="@+id/both_button_set_wall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/primary"
+            android:onClick="onBothScreens"
+            android:text="@string/set_wall_both_button"
             android:textAllCaps="false"
-            android:textSize="@dimen/photo_details_content_size"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/photo_details_content_size" />
 
         <Button
-            android:id="@+id/set_wall_button_all_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:minWidth="70dip"
-            android:text="@string/photo_set_wall_all_screen"
+            android:id="@+id/home_button_set_wall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/primary"
+            android:onClick="onHomeScreen"
+            android:text="@string/set_wall_home_button"
             android:textAllCaps="false"
-            android:textSize="@dimen/photo_details_content_size"
-            android:textStyle="bold" />
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/photo_details_content_size" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

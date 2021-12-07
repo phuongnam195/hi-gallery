@@ -33,14 +33,15 @@
     <string name="login_vault_forgot">Forgot</string>
     <string name="login_vault_delete">Del</string>
 
-    <string name="signup_vault_title">Register</string>
+    <string name="signup_vault_title">Welcome to Vault!</string>
     <string name="signup_vault_label_email">Email</string>
-    <string name="signup_vault_label_password">Password(6 numbers)</string>
-    <string name="signup_vault_label_confirm_password">Confirm password</string>
+    <string name="signup_vault_label_password">PIN (6 digits)</string>
+    <string name="signup_vault_label_confirm_password">Confirm PIN</string>
     <string name="signup_vault_btn_restore">Restore</string>
-    <string name="signup_vault_btn_signup">Sign up</string>
+    <string name="signup_vault_btn_signup">Start</string>
     <string name="signup_vault_invalid_email">Invalid email. Please enter again!</string>
     <string name="signup_vault_email_exists">Email exists. Maybe restore!</string>
+    <string name="signup_vault_not_found">Email does not exists. Maybe start</string>
     <string name="signup_vault_pin_not_match">PINs do not match. Please retype!</string>
     <string name="signup_vault_pin_too_short">PIN length is 6. Please enter again!</string>
     <string name="signup_vault_unknown_error">Unknown error. Please try again!</string>
@@ -48,7 +49,7 @@
 
     <string name="photo_edit">Edit</string>
     <string name="photo_details">Details</string>
-    <string name="photo_secure">Add to Vault</string>
+    <string name="photo_secure">Move to Vault</string>
     <string name="photo_set_as">Set as</string>
     <string name="photo_new_album">New album</string>
     <string name="photo_share">Share to…</string>
@@ -103,9 +104,9 @@
     <string name="edit_horizontal_flip_tooltip">Horizontal</string>
     <string name="edit_vertical_flip_tooltip">Vertical</string>
 
-    <string name="photo_set_wall_home_screen">Home screen</string>
-    <string name="photo_set_wall_lock_screen">Lock screen</string>
-    <string name="photo_set_wall_all_screen">All</string>
-    <string name="wait_set_wall">Wait a moment</string>
+    <string name="set_wall_title">Set wallpaper</string>
+    <string name="set_wall_home_button">Home screen</string>
+    <string name="set_wall_lock_button">Lock screen</string>
+    <string name="set_wall_both_button">Both</string>
 
 </resources>
