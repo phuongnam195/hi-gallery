@@ -79,9 +79,7 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
                 if (selectedIndices.isEmpty()) {
                     finish();
                 } else {
-                    appbar.setTitle(getResources().getString(R.string.trash_title));
-                    appbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
-                    ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "deselect_all", -1);
+                    disableSelectionMode();
                 }
                 return true;
         }

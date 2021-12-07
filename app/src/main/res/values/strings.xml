@@ -80,9 +80,11 @@
 
     <string name="edit_save_message_dialog">Do you want to save this image to the gallery?</string>
     <string name="edit_back_message_dialog">The image has not been saved, do you want to save it?</string>
+    <string name="edit_save_action_dialog">SAVE</string>
+    <string name="edit_save_new_action_dialog">SAVE NEW</string>
     <string name="edit_yes_dialog">YES</string>
     <string name="edit_no_dialog">NO</string>
-    <string name="edit_cancel_dialog">CANCEL</string>
+    <string name="edit_cancel_action_dialog">CANCEL</string>
 
     <string name="edit_filters_tooltip">Filters</string>
     <string name="edit_addText_tooltip">Add Text</string>
@@ -91,8 +93,8 @@
 
     <string name="edit_black_and_white_tooltip">B&amp;W</string>
     <string name="edit_negative_tooltip">Negative</string>
-    <string name="edit_brightness_tooltip">Negative</string>
-    <string name="edit_temperature_tooltip">Negative</string>
+    <string name="edit_brightness_tooltip">Brightness</string>
+    <string name="edit_temperature_tooltip">Temperature</string>
 
     <string name="edit_increase_tooltip">Increase</string>
     <string name="edit_decrease_tooltip">Decrease</string>

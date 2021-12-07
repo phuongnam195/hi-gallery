@@ -65,10 +65,12 @@ public class DataUtils {
 
         // Kiểm tra có sự thay đổi hay không?
         if (allImages.size() != oldAllImages.size()) {
+            DataUtils.divideAllImagesToAlbums();
             return true;
         }
         for (int i = 0; i < allImages.size(); i++) {
             if (!allImages.get(i).equals(oldAllImages.get(i))) {
+                DataUtils.divideAllImagesToAlbums();
                 return true;
             }
         }

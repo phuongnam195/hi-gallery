@@ -8,13 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,7 +45,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 import com.team2.higallery.R;
 import com.team2.higallery.utils.FileUtils;
@@ -198,9 +194,9 @@ public class EditActivity extends AppCompatActivity{
                     }
                 };
                 builder.setMessage(getResources().getString(R.string.edit_back_message_dialog))
-                        .setPositiveButton(getResources().getString(R.string.edit_yes_dialog), dialogClickListener)
-                        .setNegativeButton(getResources().getString(R.string.edit_no_dialog), dialogClickListener)
-                        .setNeutralButton(getResources().getString(R.string.edit_cancel_dialog), dialogClickListener)
+                        .setPositiveButton(R.string.edit_yes_dialog, dialogClickListener)
+                        .setNegativeButton(R.string.edit_no_dialog, dialogClickListener)
+                        .setNeutralButton(R.string.edit_cancel_action_dialog, dialogClickListener)
                         .show();
             }
             else{
@@ -440,7 +436,7 @@ public class EditActivity extends AppCompatActivity{
         return new File(storageDir + imageFileName);
     }
 
-    private File createImageFile2(){
+    private File createImageFile2() {
         final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         final String imageFileName = "/JPEG_" + timeStamp + ".jpg";
         String path = pathList.get(currentIndex);
@@ -573,7 +569,7 @@ public class EditActivity extends AppCompatActivity{
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == DialogInterface.BUTTON_POSITIVE){
+                if (which == DialogInterface.BUTTON_POSITIVE) {
                     editing = false;
                     final File outFile = createImageFile();
                     try(FileOutputStream out = new FileOutputStream(outFile)){
@@ -604,10 +600,10 @@ public class EditActivity extends AppCompatActivity{
                 }
             }
         };
-        builder.setMessage("Lưu ảnh hiện tại vào thư viện?")
-                .setPositiveButton("Save", dialogClickListener)
-                .setNegativeButton("Save Override", dialogClickListener)
-                .setNeutralButton("No", dialogClickListener)
+        builder.setMessage(R.string.edit_save_message_dialog)
+                .setPositiveButton(R.string.edit_save_new_action_dialog, dialogClickListener)
+                .setNegativeButton(R.string.edit_save_action_dialog, dialogClickListener)
+                .setNeutralButton(R.string.edit_cancel_action_dialog, dialogClickListener)
                 .show();
     }
 

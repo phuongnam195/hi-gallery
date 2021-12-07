@@ -136,8 +136,13 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
         for (int i = selectedPhotoIndices.size() - 1; i >= 0; i--) {
             String imagePath = imagePaths.get(selectedPhotoIndices.get(i));
             imagePaths.remove(selectedPhotoIndices.get(i).intValue());
-            DataUtils.allImages.remove(imagePath);
         }
+
+        if (imagePaths.isEmpty()) {
+            finish();
+            return;
+        }
+
         album.setImages(imagePaths);
         DataUtils.allAlbums.set(albumIndex, album);
 
@@ -148,7 +153,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     }
 
     private  void onVaultSelectedPhoto() {
-
+        // TODO: CHƯA LÀM
     }
 
     @Override

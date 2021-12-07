@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         setupAppBar();
         setupBottomBar();
 
-        if (PermissionHelper.checkReadExternalStorage(this)
-                && PermissionHelper.checkWriteExternalStorage(this)) {
+        if (PermissionHelper.check(this)) {
             setupBody();
         }
 
@@ -73,10 +72,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             Configuration.appliedChanges();
         }
 
-        if (currentNavID == R.id.navigation_photos) {
-            if (DataUtils.updateAllImagesFromExternalStorage(this)) {
-                ((GridPhotosFragment)fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
-            }
+        if (DataUtils.updateAllImagesFromExternalStorage(MainActivity.this)) {
+            ((GridPhotosFragment)fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
+            ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
         }
     }
 
@@ -259,8 +257,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case PermissionHelper.REQUEST_READ_EXTERNAL_STORAGE:
-            case PermissionHelper.REQUEST_WRITE_EXTERNAL_STORAGE:
+            case PermissionHelper.REQUEST_CODE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     refreshActivity();
                 } else {

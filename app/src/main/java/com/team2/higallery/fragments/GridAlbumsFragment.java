@@ -31,7 +31,6 @@ public class GridAlbumsFragment extends Fragment implements FragmentCallbacks {
     ArrayList<Album> albums;
 
     public GridAlbumsFragment() {
-        DataUtils.divideAllImagesToAlbums();
         this.albums = DataUtils.allAlbums;
     }
 

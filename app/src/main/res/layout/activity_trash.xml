@@ -51,7 +51,7 @@
             android:onClick="onDelete"
             android:text="@string/trash_delete_all"
             android:textAllCaps="false"
-            android:textColor="?android:attr/textColor"
+            android:textColor="?attr/colorError"
             android:textSize="@dimen/trash_text_button_size" />
 
         <Space

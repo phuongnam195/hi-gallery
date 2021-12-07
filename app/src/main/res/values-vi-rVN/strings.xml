@@ -79,7 +79,7 @@
     <string name="edit_save_message_dialog">Lưu ảnh hiện tại vào thư viện?</string>
     <string name="edit_yes_dialog">CÓ</string>
     <string name="edit_no_dialog">KHÔNG</string>
-    <string name="edit_cancel_dialog">HỦY</string>
+    <string name="edit_cancel_action_dialog">HỦY</string>
     <string name="main_appbar_delete_selected">Xóa</string>
     <string name="main_appbar_vault_selected">Chuyển tới Bí mật</string>
     <string name="main_appbar_select_all">Chọn tất cả</string>
@@ -100,5 +100,7 @@
     <string name="set_wall_title">Đặt hình nền</string>
     <string name="signup_vault_not_found">Email không tồn tại! Có thể Bắt đầu.</string>
     <string name="login_vault_forgot_message">Đã gửi email chứa link reset mã PIN!</string>
+    <string name="edit_save_action_dialog">LƯU</string>
+    <string name="edit_save_new_action_dialog">LƯU MỚI</string>
 
 </resources>
