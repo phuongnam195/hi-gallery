@@ -34,7 +34,7 @@
     <string name="photo_save">Lưu</string>
     <string name="settings_darktheme_title">Giao diện tối</string>
 
-    <string name="signup_vault_title">Đăng kí</string>
+    <string name="signup_vault_title">Thư mục bí mật</string>
     <string name="signup_vault_label_email">Email</string>
     <string name="signup_vault_label_password">Mã PIN (6 số)</string>
     <string name="signup_vault_label_confirm_password">Xác nhận mã PIN</string>

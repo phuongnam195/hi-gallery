@@ -52,8 +52,6 @@ public class Configuration {
         } else {
             context.setTheme(R.style.AppTheme);
         }
-
-
     }
 
     public static boolean languageChanged = false;

@@ -59,13 +59,11 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     private void setupAppBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_album);
         setSupportActionBar(toolbar);
-       appbar = getSupportActionBar();
+        appbar = getSupportActionBar();
 
         // add back arrow to appbar
         appbar.setDisplayHomeAsUpEnabled(true);
         appbar.setDisplayShowHomeEnabled(true);
-
-        appbar.setTitle(albumName);
     }
 
     private void setupBody() {
@@ -74,6 +72,8 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
         album = DataUtils.allAlbums.get(albumIndex);
         albumName = album.getName();
         imagePaths = album.getImages();
+
+        appbar.setTitle(albumName);
 
         fragment = new GridPhotosFragment(imagePaths, "album");
         getSupportFragmentManager().beginTransaction().add(R.id.body_album, fragment).commit();

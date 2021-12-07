@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.team2.higallery.activities.PhotoActivity;
 import com.team2.higallery.adapters.GridPhotosAdapter;
@@ -80,10 +82,13 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                 // Nếu đang không ở chế độ Selection (có ảnh đang được chọn)
                 // thì mở ảnh đó
                 if (selectedIndices.isEmpty()) {
+                    Log.d("CLICK TIME", String.valueOf(System.currentTimeMillis()));
                     Intent intent = new Intent(context, PhotoActivity.class);
-                    intent.putStringArrayListExtra("imagePaths", imagePaths);
                     intent.putExtra("currentIndex", index);
                     intent.putExtra("source", source);
+                    if (!source.equals("all_photos")) {
+                        intent.putExtra("imagePaths", imagePaths);
+                    }
                     startActivity(intent);
                 } else {
                     // Ngược lại, nếu đang ở chế độ Selection,
@@ -97,7 +102,6 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                         gridPhotosAdapter.select(index);
                     }
                 }
-
             }
 
             @Override

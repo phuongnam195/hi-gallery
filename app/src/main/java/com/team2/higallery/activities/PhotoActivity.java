@@ -24,6 +24,7 @@ import com.team2.higallery.Configuration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.PhotosPagerAdapter;
+import com.team2.higallery.models.Account;
 import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.models.TrashManager;
 import com.team2.higallery.models.VaultManager;
@@ -36,6 +37,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
 public class PhotoActivity extends AppCompatActivity {
+    private final int REQUEST_CODE_SIGN_UP_VAULT = 542;
+
     private ActionBar appBar;
     private LinearLayout bottomBar;
     private FloatingActionButton favoriteButton;
@@ -54,9 +57,13 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photo);
 
         Intent intent = getIntent();
-        imagePaths = intent.getStringArrayListExtra("imagePaths");
         currentIndex = intent.getIntExtra("currentIndex", 0);
         source = intent.getStringExtra("source");
+        if (source.equals("all_photos")) {
+            imagePaths = DataUtils.allImages;
+        } else {
+            imagePaths = intent.getStringArrayListExtra("imagePaths");
+        }
 
         setupAppBar();
         setupBottomBar();
@@ -72,7 +79,9 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        pagerAdapter.notifyDataSetChanged();
+        if (pagerAdapter != null) {
+            pagerAdapter.notifyDataSetChanged();
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -125,6 +134,20 @@ public class PhotoActivity extends AppCompatActivity {
 
         if (!source.equals("trash")) {
             setFavorite(FavoriteImages.check(imagePaths.get(currentIndex)));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_SIGN_UP_VAULT:
+                if (resultCode == RESULT_OK) {
+                    VaultManager.getInstance(this).moveImageToVault(imagePaths.get(currentIndex));
+                    pagerAdapter.removeItem(currentIndex);
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -190,9 +213,15 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onSecure() {
-        VaultManager vaultManager = VaultManager.getInstance(this);
-        vaultManager.moveImageToVault(imagePaths.get(currentIndex));
-        pagerAdapter.removeItem(currentIndex);
+        if (!Account.isSigned()) {
+            Intent intent = new Intent(this, SignUpVaultActivity.class);
+            intent.putExtra("finishAfterSignUp", true);
+            startActivityForResult(intent, REQUEST_CODE_SIGN_UP_VAULT);
+        } else {
+            VaultManager.getInstance(this).moveImageToVault(imagePaths.get(currentIndex));
+            pagerAdapter.removeItem(currentIndex);
+        }
+
     }
 
     public void onSetAs() {

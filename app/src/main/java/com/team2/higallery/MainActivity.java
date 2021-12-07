@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         invalidateOptionsMenu();
     }
 
-    private  void onVaultSelectedPhoto() {
+    private void onVaultSelectedPhoto() {
         if (!Account.isSigned()) {
             Intent intent = new Intent(this, SignUpVaultActivity.class);
             intent.putExtra("finishAfterSignUp", true);

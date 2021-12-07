@@ -29,22 +29,27 @@ public class EncryptUtils {
         }
         return instance;
     }
-    private EncryptUtils() {
-        try {
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            String hashedPIN = Account.hashedPIN;
-            byte[] key = Account.hashedPIN.getBytes(StandardCharsets.UTF_8);
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "AES");
-            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }
+    private EncryptUtils() { }
 
-    private Cipher cipher;
+    private Cipher _cipher;
     private SecretKeySpec secretKey;
+
+    private Cipher getCipher() {
+        if (_cipher == null) {
+            try {
+                MessageDigest sha = MessageDigest.getInstance("SHA-1");
+                String hashedPIN = Account.hashedPIN;
+                byte[] key = Account.hashedPIN.getBytes(StandardCharsets.UTF_8);
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16);
+                secretKey = new SecretKeySpec(key, "AES");
+                _cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+        return _cipher;
+    }
 
     public byte[] encryptImage(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -52,6 +57,7 @@ public class EncryptUtils {
         byte[] bytes = stream.toByteArray();
 
         try {
+            Cipher cipher = getCipher();
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return cipher.doFinal(bytes);
         } catch (BadPaddingException e) {
@@ -67,6 +73,7 @@ public class EncryptUtils {
 
     public Bitmap decryptImage(byte[] encryptedBytes) {
         try {
+            Cipher cipher = getCipher();
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             byte[]  decryptedBytes = cipher.doFinal(encryptedBytes);
             return BitmapFactory.decodeByteArray(decryptedBytes,  0, decryptedBytes.length);

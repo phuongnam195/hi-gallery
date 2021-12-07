@@ -97,11 +97,9 @@ public class VaultAlbumActivity extends AppCompatActivity {
     }
 
     private void onRevertSelected() {
-        for (int i : selectedIndices) {
-            vaultManager.revertToGallery(i);
-        }
         Collections.sort(selectedIndices);
         for (int i = selectedIndices.size() - 1; i >= 0; i--) {
+            vaultManager.revertToGallery(i);
             decryptedBitmaps.remove(selectedIndices.get(i).intValue());
         }
         gridPhotosAdapter.setImageBitmaps(decryptedBitmaps);

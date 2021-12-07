@@ -34,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 import java.io.File;
-import java.io.IOException;
 
 
 public class SignUpVaultActivity extends AppCompatActivity {
@@ -173,12 +172,12 @@ public class SignUpVaultActivity extends AppCompatActivity {
                             FirebaseAuthException exception = (FirebaseAuthException) task.getException();
                             showAuthError(exception.getErrorCode());
                         }
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
