@@ -179,9 +179,8 @@ public class EditActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE){
                             saveIMG();
-                            editing =false;
                             editMode = false;
-                            finish();
+
                         }
                         else if (which == DialogInterface.BUTTON_NEGATIVE){
                             editing = false;
@@ -596,7 +595,8 @@ public class EditActivity extends AppCompatActivity{
                     }
                 }
                 else{
-
+                        editMode = true;
+                        editing = true;
                 }
             }
         };
