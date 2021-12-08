@@ -57,16 +57,19 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!PermissionHelper.isGranted(this)) {
+            PermissionHelper.request(this);
+            return;
+        }
+
         setConfiguration();
         setContentView(R.layout.activity_main);
 
         setupAppBar();
         setupBottomBar();
 
-        if (PermissionHelper.check(this)) {
-            setupBody();
-        }
-
+        setupBody();
         FavoriteImages.load(this);
         Account.load(this);
         VaultManager.getInstance(this).synchronize();
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (!PermissionHelper.isGranted(this)) {
+            return;
+        }
 
         if (Configuration.alreadyChanged()) {
             refreshActivity();
@@ -90,6 +97,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     @Override
     protected void onStop() {
         super.onStop();
+
+        if (!PermissionHelper.isGranted(this)) {
+            return;
+        }
+
         Configuration.save(this);
 
         // Lưu path của các ảnh được yêu thích

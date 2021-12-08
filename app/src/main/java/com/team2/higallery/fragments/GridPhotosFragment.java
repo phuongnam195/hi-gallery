@@ -2,7 +2,6 @@ package com.team2.higallery.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.team2.higallery.Configuration;
 import com.team2.higallery.activities.PhotoActivity;
 import com.team2.higallery.adapters.GridPhotosAdapter;
 import com.team2.higallery.R;
@@ -29,9 +28,6 @@ import com.team2.higallery.utils.DataUtils;
 import java.util.ArrayList;
 
 public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
-    private final int PORTRAIT_COLUMNS = 4;
-    private final int LANDSCAPE_COLUMNS = 6;        // Hiện tại đang bị lỗi xoay màn hình
-
     Context context;
     GridPhotosAdapter gridPhotosAdapter;
 
@@ -39,12 +35,17 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
     ArrayList<Integer> selectedIndices = new ArrayList<>();     // Chứa các index của ảnh trong imagePaths đang được select
     ActivityCallbacks callbacks;                                // Truyền thông tin từ fragment về activity
     String source;
+    int columns;
 
-    public GridPhotosFragment() {}
+    RecyclerView recyclerView;
+
+    public GridPhotosFragment() {
+    }
 
     public GridPhotosFragment(ArrayList<String> imagePaths, String source) {
         this.imagePaths = imagePaths;
         this.source = source;
+        this.columns = 4;
     }
 
     @Override
@@ -67,14 +68,10 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                              Bundle savedInstanceState) {
         ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_grid_photos, null);
 
-        RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.photos_recycler_view);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.photos_recycler_view);
         recyclerView.setHasFixedSize(true);
-        ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), PORTRAIT_COLUMNS));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), LANDSCAPE_COLUMNS));
-        }
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), columns));
 
         gridPhotosAdapter = new GridPhotosAdapter(context, imagePaths, selectedIndices, new GridPhotosAdapter.ClickListener() {
             @Override
@@ -123,6 +120,12 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
         super.onResume();
         // Thông báo cho activity là fragment này vừa mới resume, cần reload, nhưng activity có reload không thì tùy
         callbacks.sendFromFragmentToActivity("grid_photos", "should_reload", -1);
+
+        if (recyclerView != null && gridPhotosAdapter != null && columns != Configuration.gridTypeColumns) {
+            columns = Configuration.gridTypeColumns;
+            recyclerView.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), columns));
+            recyclerView.setAdapter(gridPhotosAdapter);
+        }
     }
 
     @Override

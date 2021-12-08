@@ -16,6 +16,7 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_more_vert_black_24dp.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_photo_camera.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_photo_library.xml" value="0.14635416666666667" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/splash_background.xml" value="0.1140625" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_album.xml" value="0.24682971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_all_images.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_edit.xml" value="0.15625" />
@@ -39,6 +40,7 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/fragment_grid_photos.xml" value="0.24682971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/frame_album.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/frame_all_images.xml" value="0.18432971014492755" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/image_fullscreen.xml" value="0.13802083333333334" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/image_fullscreen_preview.xml" value="0.22871376811594202" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/thumbnail_album_item.xml" value="0.11979166666666667" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/thumbnail_item.xml" value="0.1947463768115942" />
@@ -46,6 +48,7 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_appbar.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_auto_clean.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_edit.xml" value="0.15364583333333334" />
+        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_grid_type.xml" value="0.13854166666666667" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main_select_mode.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_photo.xml" value="0.13854166666666667" />

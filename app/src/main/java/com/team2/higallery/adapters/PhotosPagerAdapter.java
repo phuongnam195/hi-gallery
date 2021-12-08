@@ -6,10 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.team2.higallery.R;
+import com.team2.higallery.utils.FileUtils;
 
 import java.util.ArrayList;
 
@@ -35,6 +40,24 @@ public class PhotosPagerAdapter extends PagerAdapter {
 
     @Override
     public View instantiateItem(ViewGroup container, int position) {
+        final String imagePath = imageList.get(position);
+
+        // Đối với ảnh động (GIF)
+        if (FileUtils.getExtension(imagePath).equalsIgnoreCase("gif")) {
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.image_fullscreen, container, false);
+            ImageView imageView = (ImageView) view.findViewById(R.id.image_view_fullscreen);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onClick();
+                }
+            });
+            Glide.with(context).asGif().load(imagePath).fitCenter().into(imageView);
+            container.addView(view);
+            return view;
+        }
+
         PhotoView photoView = new PhotoView(container.getContext());
         Uri myUri = Uri.parse(imageList.get(position));
         photoView.setImageURI(myUri);

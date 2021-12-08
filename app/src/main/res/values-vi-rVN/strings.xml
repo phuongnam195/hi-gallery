@@ -103,5 +103,10 @@
     <string name="edit_save_action_dialog">LƯU</string>
     <string name="edit_save_new_action_dialog">LƯU MỚI</string>
     <string name="main_appbar_new_album_selected">Album mới</string>
+    <string name="main_dialog_new_album_title">Tên album:</string>
+    <string name="settings_grid_type_title">Số cột ảnh</string>
+    <string name="settings_grid_type_menu_0">4 cột</string>
+    <string name="settings_grid_type_menu_1">6 cột</string>
+    <string name="settings_grid_type_menu_2">8 cột</string>
 
 </resources>

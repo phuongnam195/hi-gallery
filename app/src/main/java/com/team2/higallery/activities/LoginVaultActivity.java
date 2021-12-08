@@ -24,9 +24,7 @@ import com.team2.higallery.models.Account;
 import com.team2.higallery.models.VaultManager;
 
 public class LoginVaultActivity extends Activity {
-    private final int PIN_LENGTH = 6;
-
-    private RadioButton[] dots = new RadioButton[PIN_LENGTH];
+    private RadioButton[] dots = new RadioButton[Account.PIN_LENGTH];
     private String currentPIN = "";
     private TextView message;
     private Button[] numkeys = new Button[10];
@@ -45,7 +43,7 @@ public class LoginVaultActivity extends Activity {
         animationForRadioGroups = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.login_vault_vibrate_animation);
 
         //Get radio
-        for (int i = 0; i < PIN_LENGTH; i++) {
+        for (int i = 0; i < Account.PIN_LENGTH; i++) {
             String radioID = "dot" + String.valueOf(i) + "_login_vault";
             int resID = getResources().getIdentifier(radioID, "id", getPackageName());
             dots[i] = (RadioButton) findViewById(resID);
@@ -74,7 +72,7 @@ public class LoginVaultActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     //Tránh trường hợp đang xác thực mã PIN mà người dùng vẫn nhập
-                    if (currentPIN.length() == PIN_LENGTH) {
+                    if (currentPIN.length() == Account.PIN_LENGTH) {
                         return;
                     }
 
@@ -88,7 +86,7 @@ public class LoginVaultActivity extends Activity {
                     }
 
                     //Check password when input enough
-                    if (currentPIN.length() == PIN_LENGTH) {
+                    if (currentPIN.length() == Account.PIN_LENGTH) {
                         progressBar.setVisibility(View.VISIBLE);
                         validatePIN();
                     }
@@ -146,7 +144,7 @@ public class LoginVaultActivity extends Activity {
 
                 //Delete status of all dots
                 currentPIN = "";
-                for (int i = 0; i < PIN_LENGTH; i++) {
+                for (int i = 0; i < Account.PIN_LENGTH; i++) {
                     dots[i].setChecked(false);
                 }
 

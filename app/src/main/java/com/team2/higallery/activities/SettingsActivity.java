@@ -21,6 +21,7 @@ import com.team2.higallery.R;
 
 public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     TextView txtSubtitleAutoClean;
+    TextView txtSubtitleGridType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnM
 
         txtSubtitleAutoClean = (TextView) findViewById(R.id.subtitle_settings_auto_clean);
         txtSubtitleAutoClean.setText(Configuration.getAutoCleanString());
+
+        txtSubtitleGridType = (TextView) findViewById(R.id.subtitle_settings_grid_type);
+        txtSubtitleGridType.setText(Configuration.getGridType());
     }
 
     @Override
@@ -81,9 +85,17 @@ public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnM
     }
 
     public void onAutoClean(View view) {
-        PopupMenu popup = new PopupMenu(this, view, Gravity.RIGHT, R.attr.actionOverflowMenuStyle, 0);
+        PopupMenu popup = new PopupMenu(this, view, Gravity.END, R.attr.actionOverflowMenuStyle, 0);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_auto_clean, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
+    public void onGridType(View view) {
+        PopupMenu popup = new PopupMenu(this, view, Gravity.END, R.attr.actionOverflowMenuStyle, 0);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_grid_type, popup.getMenu());
         popup.setOnMenuItemClickListener(this);
         popup.show();
     }
@@ -105,20 +117,35 @@ public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnM
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        txtSubtitleAutoClean.setText(item.getTitle());
 
         switch (item.getItemId()) {
             case R.id.menu_0_auto_clean:
                 Configuration.autoCleanTime = Configuration.AUTO_CLEAN_OFF;
+                txtSubtitleAutoClean.setText(item.getTitle());
                 return true;
             case R.id.menu_1_auto_clean:
                 Configuration.autoCleanTime = Configuration.AUTO_CLEAN_TIME_1;
+                txtSubtitleAutoClean.setText(item.getTitle());
                 return true;
             case R.id.menu_2_auto_clean:
                 Configuration.autoCleanTime = Configuration.AUTO_CLEAN_TIME_2;
+                txtSubtitleAutoClean.setText(item.getTitle());
                 return true;
             case R.id.menu_3_auto_clean:
                 Configuration.autoCleanTime = Configuration.AUTO_CLEAN_TIME_3;
+                txtSubtitleAutoClean.setText(item.getTitle());
+                return true;
+            case R.id.menu_0_grid_type:
+                Configuration.gridTypeColumns = Configuration.GRID_TYPE_0;
+                txtSubtitleGridType.setText(item.getTitle());
+                return true;
+            case R.id.menu_1_grid_type:
+                Configuration.gridTypeColumns = Configuration.GRID_TYPE_1;
+                txtSubtitleGridType.setText(item.getTitle());
+                return true;
+            case R.id.menu_2_grid_type:
+                Configuration.gridTypeColumns = Configuration.GRID_TYPE_2;
+                txtSubtitleGridType.setText(item.getTitle());
                 return true;
         }
 

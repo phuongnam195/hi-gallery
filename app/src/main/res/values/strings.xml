@@ -28,6 +28,10 @@
     <string name="settings_auto_clean_menu_2">90 days</string>
     <string name="settings_auto_clean_menu_3">1 minute</string>
     <string name="settings_about_title">About</string>
+    <string name="settings_grid_type_title">Grid type</string>
+    <string name="settings_grid_type_menu_0">4 columns</string>
+    <string name="settings_grid_type_menu_1">6 columns</string>
+    <string name="settings_grid_type_menu_2">8 columns</string>
 
     <string name="login_vault_title">Vault Album</string>
     <string name="login_vault_subtitle">Please enter your passcode.</string>
