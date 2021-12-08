@@ -1,15 +1,21 @@
 package com.team2.higallery.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.team2.higallery.models.Album;
+import com.team2.higallery.models.DeletedImage;
+import com.team2.higallery.models.FavoriteImages;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,6 +108,28 @@ public class DataUtils {
                 Album album = new Album(imageParentFolder);
                 album.addImage(imagePath);
                 allAlbums.add(album);
+            }
+        }
+    }
+
+    public static void createNewAlbum(ArrayList<String> imagePaths, String albumName, Context context) {
+        File albumFolder = new File(Environment.DIRECTORY_PICTURES, albumName);
+        if (!albumFolder.exists()) {
+            albumFolder.mkdirs();
+        }
+
+        for (String imagePath : imagePaths) {
+            File newFile = FileUtils.moveImageFile(imagePath, albumFolder, context);
+            if (newFile == null) {
+                Toast.makeText(context, "Cannot move " + imagePath, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newFile)));
+
+                int favoriteIndex = FavoriteImages.list.indexOf(imagePath);
+                if (favoriteIndex != -1) {
+                    FavoriteImages.list.set(favoriteIndex, newFile.getPath());
+                }
             }
         }
     }

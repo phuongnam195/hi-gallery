@@ -76,4 +76,36 @@ public class FileUtils {
         }
         return Bitmap.CompressFormat.PNG;
     }
+
+    public static File moveImageFile(String imagePath, File newFolder, Context context) {
+        File oldFile = new File(imagePath);
+
+        if (!newFolder.exists()) {
+            if (!newFolder.mkdirs()) {
+                return null;
+            }
+        }
+
+        String fullname = oldFile.getName();
+        String name = fullname.substring(0, fullname.lastIndexOf('.'));
+        String extension = fullname.substring(name.length());
+        File newFile = new File(newFolder + "/" + fullname);
+
+        int countExist = 0;
+        while (newFile.exists()) {
+            countExist++;
+            String newFullname = name + " (" + String.valueOf(countExist) + ")" + extension;
+            newFile = new File(newFolder + "/" + newFullname);
+        }
+
+        if (!oldFile.renameTo(newFile)) {
+            return null;
+        }
+
+        if (!FileUtils.removeImageFile(context, oldFile)) {
+            return null;
+        }
+
+        return newFile;
+    }
 }

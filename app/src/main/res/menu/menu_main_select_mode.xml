@@ -10,6 +10,9 @@
         android:id="@+id/select_all_menu_main"
         android:title="@string/main_appbar_select_all" />
     <item
+        android:id="@+id/new_album_selected_menu_main"
+        android:title="@string/main_appbar_new_album_selected" />
+    <item
         android:id="@+id/delete_selected_menu_main"
         android:title="@string/main_appbar_delete_selected" />
     <item

@@ -9,52 +9,52 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:layout_marginVertical="@dimen/dialog_vert_margin"
         android:ems="20"
         android:gravity="center"
         android:text="@string/photo_details"
-        android:textSize="@dimen/photo_details_title_size"
+        android:textSize="@dimen/dialog_title_size"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/photo_details_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:layout_marginVertical="@dimen/dialog_vert_margin"
         android:text="@string/photo_details_name"
-        android:textSize="@dimen/photo_details_content_size" />
+        android:textSize="@dimen/dialog_content_size" />
 
     <TextView
         android:id="@+id/photo_details_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:layout_marginVertical="@dimen/dialog_vert_margin"
         android:text="@string/photo_details_size"
-        android:textSize="@dimen/photo_details_content_size" />
+        android:textSize="@dimen/dialog_content_size" />
 
     <TextView
         android:id="@+id/photo_details_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:layout_marginVertical="@dimen/dialog_vert_margin"
         android:text="@string/photo_details_path"
-        android:textSize="@dimen/photo_details_content_size" />
+        android:textSize="@dimen/dialog_content_size" />
 
     <TextView
         android:id="@+id/photo_details_resolution"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:layout_marginVertical="@dimen/dialog_vert_margin"
         android:text="@string/photo_details_resolution"
-        android:textSize="@dimen/photo_details_content_size" />
+        android:textSize="@dimen/dialog_content_size" />
 
     <TextView
         android:id="@+id/photo_details_last_modified"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/photo_details_vert_margin"
+        android:layout_marginVertical="@dimen/dialog_vert_margin"
         android:text="@string/photo_details_last_modified"
-        android:textSize="@dimen/photo_details_content_size" />
+        android:textSize="@dimen/dialog_content_size" />
 
     <Button
         android:id="@+id/photo_details_button_close"
@@ -65,6 +65,6 @@
         android:minWidth="70dip"
         android:text="@string/photo_details_close"
         android:textAllCaps="false"
-        android:textSize="@dimen/photo_details_content_size"
+        android:textSize="@dimen/dialog_content_size"
         android:textStyle="bold" />
 </LinearLayout>

@@ -1,11 +1,18 @@
 package com.team2.higallery;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +34,10 @@ import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.models.TrashManager;
 import com.team2.higallery.models.VaultManager;
 import com.team2.higallery.utils.DataUtils;
+import com.team2.higallery.utils.FileUtils;
 import com.team2.higallery.utils.PermissionHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -117,6 +126,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                 return true;
             case R.id.select_all_menu_main:
                 onSelectAll();
+                return true;
+            case R.id.new_album_selected_menu_main:
+                onNewAlbumSelectedPhoto();
                 return true;
             case R.id.delete_selected_menu_main:
                 onDeleteSelectedPhoto();
@@ -310,6 +322,47 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         } else {
             moveSelectedImagesToVault();
         }
+    }
+
+    private void onNewAlbumSelectedPhoto() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_new_album);
+
+        EditText input = (EditText) dialog.findViewById(R.id.input_dialog_new_album);
+        Button btnOK = (Button) dialog.findViewById(R.id.ok_dialog_new_album);
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String albumName = input.getText().toString();
+                File albumFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName);
+
+                Collections.sort(selectedIndices);
+                for (int i = selectedIndices.size() - 1; i >= 0; i--) {
+                    String imagePath = DataUtils.allImages.get(selectedIndices.get(i));
+                    File newFile = FileUtils.moveImageFile(imagePath, albumFolder, MainActivity.this);
+                    if (newFile != null) {
+                        MainActivity.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newFile)));
+                    }
+                }
+
+                selectedIndices.clear();
+                appbar.setTitle(getResources().getString(R.string.main_title));
+                invalidateOptionsMenu();
+                ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
+
+                DataUtils.updateAllImagesFromExternalStorage(MainActivity.this);
+                ArrayList<String> allNow = DataUtils.allImages;
+                if (fragment2 != null) {
+                    ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", 0);
+                }
+
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 
     private void moveSelectedImagesToVault() {

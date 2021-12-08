@@ -168,9 +168,6 @@ public class PhotoActivity extends AppCompatActivity {
             case R.id.edit_action_photo:
                 onEdit();
                 return true;
-//            case R.id.new_album_action_photo:
-//                onNewAlbum();
-//                return true;
             case R.id.secure_action_photo:
                 onSecure();
                 return true;

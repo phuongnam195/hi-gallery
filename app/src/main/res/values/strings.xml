@@ -9,8 +9,10 @@
     <string name="main_appbar_vault">Vault</string>
     <string name="main_appbar_delete_selected">Delete</string>
     <string name="main_appbar_vault_selected">Move to Vault</string>
+    <string name="main_appbar_new_album_selected">New album</string>
     <string name="main_appbar_select_all">Select all</string>
     <string name="main_appbar_deselect">Deselect</string>
+    <string name="main_dialog_new_album_title">Album name:</string>
 
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>

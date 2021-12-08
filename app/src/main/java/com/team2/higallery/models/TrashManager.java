@@ -58,25 +58,10 @@ public class TrashManager {
         if (trashFolder == null) {
             return false;
         }
-        File imageFile = new File(imagePath);
 
-        String fullname = imageFile.getName();
-        String name = fullname.substring(0, fullname.lastIndexOf('.'));
-        String extension = fullname.substring(name.length());
-        File trashFile = new File(trashFolder + "/" + fullname);
-        int countExist = 0;
+        File trashFile = FileUtils.moveImageFile(imagePath, trashFolder, context);
 
-        while (trashFile.exists()) {
-            countExist++;
-            String newFullname = name + " (" + String.valueOf(countExist) + ")" + extension;
-            trashFile = new File(trashFolder + "/" + newFullname);
-        }
-
-        if (!imageFile.renameTo(trashFile)) {
-            return false;
-        }
-
-        if (!FileUtils.removeImageFile(context, imageFile)) {
+        if (trashFile == null) {
             return false;
         }
 
@@ -115,11 +100,10 @@ public class TrashManager {
         DeletedImage deletedImage = deletedImages.get(index);
         String trashPath = deletedImage.getTrashPath();
         String oldPath = deletedImage.getOldPath();
-        File trashFile = new File(trashPath);
-        File oldFile = new File(oldPath);
-        boolean success = trashFile.renameTo(oldFile);
 
-        if (!success) {
+        File oldFile = FileUtils.moveImageFile(trashPath, new File(FileUtils.getParentFolder(oldPath)), context);
+
+        if (oldFile == null) {
             return false;
         }
 
