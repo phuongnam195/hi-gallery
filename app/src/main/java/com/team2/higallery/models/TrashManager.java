@@ -60,6 +60,8 @@ public class TrashManager {
         }
 
         File trashFile = FileUtils.moveImageFile(imagePath, trashFolder, context);
+        File imageFile = new File(imagePath);
+        boolean ex = imageFile.exists();
 
         if (trashFile == null) {
             return false;

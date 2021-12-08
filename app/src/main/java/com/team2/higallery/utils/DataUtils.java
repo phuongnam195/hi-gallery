@@ -59,7 +59,7 @@ public class DataUtils {
         if (cursor == null) {
             return false;
         }
-        ArrayList<String> oldAllImages = new ArrayList<String>(allImages);
+        ArrayList<String> oldAllImages = new ArrayList<>(allImages);
         if (!allImages.isEmpty()) {
             allImages.clear();
         }

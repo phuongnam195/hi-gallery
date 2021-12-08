@@ -60,7 +60,7 @@ public class PhotoActivity extends AppCompatActivity {
         currentIndex = intent.getIntExtra("currentIndex", 0);
         source = intent.getStringExtra("source");
         if (source.equals("all_photos")) {
-            imagePaths = DataUtils.allImages;
+            imagePaths = new ArrayList<>(DataUtils.allImages);
         } else {
             imagePaths = intent.getStringArrayListExtra("imagePaths");
         }

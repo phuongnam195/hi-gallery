@@ -88,9 +88,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             Configuration.appliedChanges();
         }
 
-        if (DataUtils.updateAllImagesFromExternalStorage(MainActivity.this)) {
+        if (DataUtils.updateAllImagesFromExternalStorage(this)) {
             ((GridPhotosFragment)fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
-            ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
+            if (fragment2 != null) {
+                ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
+            }
         }
     }
 
