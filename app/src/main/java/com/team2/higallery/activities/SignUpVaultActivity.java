@@ -95,6 +95,9 @@ public class SignUpVaultActivity extends AppCompatActivity {
 
                                 if (nRemainFiles[0] == 0) {
                                     if (finishAfterSignUp) {
+//                                        Intent resultIntent = new Intent();
+//                                        resultIntent.putExtra("rawPIN", pin);
+//                                        setResult(RESULT_OK, resultIntent);
                                         setResult(RESULT_OK);
                                         finish();
                                     } else {
@@ -116,7 +119,9 @@ public class SignUpVaultActivity extends AppCompatActivity {
                                             nRemainFiles[0]--;
                                             if (nRemainFiles[0] == 0) {
                                                 if (finishAfterSignUp) {
-                                                    setResult(RESULT_OK);
+//                                                    Intent resultIntent = new Intent();
+//                                                    resultIntent.putExtra("rawPIN", pin);
+//                                                    setResult(RESULT_OK, resultIntent);
                                                     finish();
                                                 } else {
                                                     goToVaultAlbum();
@@ -163,7 +168,9 @@ public class SignUpVaultActivity extends AppCompatActivity {
                             String uid = task.getResult().getUser().getUid();
                             Account.store(uid, email, pin, SignUpVaultActivity.this);
                             if (finishAfterSignUp) {
-                                setResult(RESULT_OK);
+//                                Intent resultIntent = new Intent();
+//                                resultIntent.putExtra("rawPIN", pin);
+//                                setResult(RESULT_OK, resultIntent);
                                 finish();
                             } else {
                                 goToVaultAlbum();

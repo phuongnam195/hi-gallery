@@ -63,7 +63,7 @@
     <string name="photo_favorite">Favorite</string>
     <string name="photo_unfavorite">Unfavorite</string>
     <string name="photo_delete">Delete</string>
-    <string name="photo_save">Save</string>
+    <string name="photo_slideshow">Slideshow</string>
 
     <string name="photo_share_title">Share via</string>
 
@@ -117,6 +117,4 @@
     <string name="set_wall_home_button">Home screen</string>
     <string name="set_wall_lock_button">Lock screen</string>
     <string name="set_wall_both_button">Both</string>
-
-    <string name="photo_slideshow">Slide Show</string>
 </resources>

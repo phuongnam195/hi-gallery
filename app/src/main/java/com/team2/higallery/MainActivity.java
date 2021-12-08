@@ -3,7 +3,7 @@ package com.team2.higallery;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
         setupAppBar();
         setupBottomBar();
-
         setupBody();
+
         FavoriteImages.load(this);
         Account.load(this);
         VaultManager.getInstance(this).synchronize();
@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         }
 
         if (DataUtils.updateAllImagesFromExternalStorage(this)) {
-            ((GridPhotosFragment)fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
+            ((GridPhotosFragment) fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
             if (fragment2 != null) {
-                ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
+                ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
             }
         }
     }
@@ -187,8 +187,6 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     private void setupBody() {
-        DataUtils.updateAllImagesFromExternalStorage(this);
-
         fragment1 = new GridPhotosFragment(DataUtils.allImages, "all_photos");
         fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
         currentFragment = fragment1;
@@ -206,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
                 if (!selectedIndices.isEmpty()) {
                     selectedIndices.clear();
-                    ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
+                    ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
                     appbar.setTitle(getResources().getString(R.string.main_title));
                     invalidateOptionsMenu();
                 }
@@ -224,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                             fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment2, "2").commit();
                         } else {
                             fm.beginTransaction().hide(currentFragment).show(fragment2).commit();
-                            ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", -1);
+                            ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
                         }
                         currentFragment = fragment2;
                         return true;
@@ -235,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                             fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment3, "3").commit();
                         } else {
                             fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
-                            ((GridPhotosFragment)fragment3).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                            ((GridPhotosFragment) fragment3).sendFromActivityToFragment("main", "update_favorite_images", -1);
                         }
                         currentFragment = fragment3;
                         return true;
@@ -297,14 +295,14 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     private void onDeselectAll() {
-        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
+        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
         selectedIndices.clear();
         invalidateOptionsMenu();
         appbar.setTitle(getResources().getString(R.string.main_title));
     }
 
     private void onSelectAll() {
-        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "select_all", 0);
+        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "select_all", 0);
         selectedIndices.clear();
         for (int i = 0; i < DataUtils.allImages.size(); i++) {
             selectedIndices.add(i);
@@ -323,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             DataUtils.allImages.remove(selectedIndices.get(i).intValue());
         }
         selectedIndices.clear();
-        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "remove", 0);
+        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
     }
@@ -352,24 +350,31 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                 String albumName = input.getText().toString();
                 File albumFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName);
 
-                Collections.sort(selectedIndices);
-                for (int i = selectedIndices.size() - 1; i >= 0; i--) {
-                    String imagePath = DataUtils.allImages.get(selectedIndices.get(i));
+                ArrayList<String> newFileList = new ArrayList<>();
+
+                for (Integer index : selectedIndices) {
+                    String imagePath = DataUtils.allImages.get(index);
                     File newFile = FileUtils.moveImageFile(imagePath, albumFolder, MainActivity.this);
                     if (newFile != null) {
-                        MainActivity.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newFile)));
+                        newFileList.add(newFile.toString());
+                        DataUtils.allImages.set(index, newFile.getPath());
                     }
                 }
+
+                String[] newFiles = new String[newFileList.size()];
+                newFiles = newFileList.toArray(newFiles);
+                MediaScannerConnection.scanFile(MainActivity.this,
+                        newFiles,
+                        null, null);
 
                 selectedIndices.clear();
                 appbar.setTitle(getResources().getString(R.string.main_title));
                 invalidateOptionsMenu();
-                ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
+                ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
 
-                DataUtils.updateAllImagesFromExternalStorage(MainActivity.this);
-                ArrayList<String> allNow = DataUtils.allImages;
+                DataUtils.divideAllImagesToAlbums();
                 if (fragment2 != null) {
-                    ((GridAlbumsFragment)fragment2).sendFromActivityToFragment("main", "update", 0);
+                    ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
                 }
 
                 dialog.cancel();
@@ -389,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             DataUtils.allImages.remove(selectedIndices.get(i).intValue());
         }
         selectedIndices.clear();
-        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "remove", 0);
+        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
     }
@@ -426,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                     break;
                 case "should_reload":
                     if (currentNavID == R.id.navigation_favorite) {
-                        ((GridPhotosFragment)currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
                     }
             }
 
