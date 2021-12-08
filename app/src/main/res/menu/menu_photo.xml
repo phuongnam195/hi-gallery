@@ -10,6 +10,9 @@
 <!--        android:id="@+id/new_album_action_photo"-->
 <!--        android:title="@string/photo_new_album" />-->
     <item
+        android:id="@+id/slideshow_action_photo"
+        android:title="@string/photo_slideshow" />
+    <item
         android:id="@+id/secure_action_photo"
         android:title="@string/photo_secure" />
     <item

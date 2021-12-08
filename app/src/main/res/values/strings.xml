@@ -118,4 +118,5 @@
     <string name="set_wall_lock_button">Lock screen</string>
     <string name="set_wall_both_button">Both</string>
 
+    <string name="photo_slideshow">Slide Show</string>
 </resources>

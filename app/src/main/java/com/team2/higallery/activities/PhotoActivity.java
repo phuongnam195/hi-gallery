@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,39 @@ public class PhotoActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     PhotosPagerAdapter pagerAdapter;
+
+    // Tham  khảo thread trong slide tuần 11
+    private boolean isSlideShow = false;
+    Handler myHandler = new Handler();
+    private Runnable foregroundRunnable = new Runnable() {
+        @Override
+        public void run() {
+            viewPager.setCurrentItem(currentIndex, false);
+        }
+    };
+    long time = 0;
+    private Runnable backgroundTask = new Runnable() {
+        @Override
+        public void run() {
+            while (isSlideShow) {
+                try {
+                    time += 100;
+                    Thread.sleep(100);
+                    if (time == 1500) {
+                        time = 0;
+                        currentIndex++;
+                        if (currentIndex == imagePaths.size())
+                            currentIndex = 0;
+                        myHandler.post(foregroundRunnable);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +148,9 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onClick() {
                 toggleBarVisibility();
+                if (isSlideShow) {
+                    isSlideShow = false;
+                }
             }
         });
         viewPager.setAdapter(pagerAdapter);
@@ -168,6 +205,9 @@ public class PhotoActivity extends AppCompatActivity {
             case R.id.edit_action_photo:
                 onEdit();
                 return true;
+            case R.id.slideshow_action_photo:
+                onSlideShow();
+                return true;
             case R.id.secure_action_photo:
                 onSecure();
                 return true;
@@ -207,6 +247,13 @@ public class PhotoActivity extends AppCompatActivity {
 
     public void onNewAlbum() {
         Toast.makeText(this, "Thêm vào album mới (tạo album)...", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onSlideShow() {
+        isSlideShow = true;
+        toggleBarVisibility();
+        Thread threadSlideShow = new Thread(backgroundTask);
+        threadSlideShow.start();
     }
 
     public void onSecure() {
