@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import com.team2.higallery.utils.EncryptUtils;
 
 public class Account {
+    public static final int PIN_LENGTH = 6;
+
     private static final String UID = "uid";
     private static final String EMAIL = "email";
     private static final String HASHED_PIN = "hashed_pin";

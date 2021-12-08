@@ -10,15 +10,21 @@ public class Configuration {
     private static final String SELECTED_LANGUAGE = "language";
     private static final String SELECTED_THEME = "dark_theme";
     private static final String SELECTED_AUTO_CLEAN_TIME = "auto_clean_time";
+    private static final String SELECTED_GRID_TYPE_COLUMNS = "grid_type_columns";
 
     public static final long AUTO_CLEAN_OFF = -1;           // tắt tự động xóa
     public static final long AUTO_CLEAN_TIME_1 = 2592000000L;  // 30 ngày
     public static final long AUTO_CLEAN_TIME_2 = 7776000000L;  // 90 ngày
     public static final long AUTO_CLEAN_TIME_3 = 60000;        // 1 phút
 
+    public static final int GRID_TYPE_0 = 4;
+    public static final int GRID_TYPE_1 = 6;
+    public static final int GRID_TYPE_2 = 8;
+
     public static String language;
     public static boolean isDarkTheme = false;
     public static long autoCleanTime;
+    public static int gridTypeColumns;
 
     public static void load(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -31,6 +37,7 @@ public class Configuration {
         isDarkTheme = preferences.getBoolean(SELECTED_THEME, false);
 
         autoCleanTime = preferences.getLong(SELECTED_AUTO_CLEAN_TIME, AUTO_CLEAN_OFF);
+        gridTypeColumns = preferences.getInt(SELECTED_GRID_TYPE_COLUMNS, GRID_TYPE_0);
     }
 
     public static void save(Context context) {
@@ -39,6 +46,7 @@ public class Configuration {
         editor.putString(SELECTED_LANGUAGE, language);
         editor.putBoolean(SELECTED_THEME, isDarkTheme);
         editor.putLong(SELECTED_AUTO_CLEAN_TIME, autoCleanTime);
+        editor.putInt(SELECTED_GRID_TYPE_COLUMNS, gridTypeColumns);
         editor.apply();
     }
 
@@ -94,5 +102,16 @@ public class Configuration {
         }
 
         return R.string.settings_auto_clean_menu_3;
+    }
+
+    public static int getGridType() {
+        if (gridTypeColumns == GRID_TYPE_0) {
+            return R.string.settings_grid_type_menu_0;
+        }
+        if (gridTypeColumns == GRID_TYPE_1) {
+            return R.string.settings_grid_type_menu_1;
+        }
+
+        return R.string.settings_grid_type_menu_2;
     }
 }

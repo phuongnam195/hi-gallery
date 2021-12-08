@@ -18,25 +18,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.AlbumActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="locale|orientation"
-            android:exported="true"
-            android:launchMode="singleTop">
+            android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.AlbumActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="locale|orientation"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".activities.PhotoActivity"
             android:exported="true">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.VaultAlbumActivity"
@@ -59,6 +61,7 @@
         <activity
             android:name=".activities.SetWallActivity"
             android:exported="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.team2.higallery.provider"

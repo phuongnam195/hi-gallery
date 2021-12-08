@@ -106,7 +106,7 @@ public class VaultAlbumActivity extends AppCompatActivity {
         onDeselectAll();
     }
 
-//    private void openResetPassword() {
+//    private void openResetPIN() {
 //        Dialog dialog = new Dialog(this);
 //        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        dialog.setContentView(R.layout.dialog_vault_reset_password);
@@ -133,10 +133,9 @@ public class VaultAlbumActivity extends AppCompatActivity {
 //                String password = passwordEt.getText().toString();
 //                String confirmPassword = confirmPasswordEt.getText().toString();
 //
-//                if (password.length() != PIN_LENGTH) {
+//                if (password.length() != Account.PIN_LENGTH) {
 //                    passwordErrorTv.setText(R.string.signup_vault_pin_too_short);
 //                    passwordErrorTv.setVisibility(View.VISIBLE);
-//
 //                    return;
 //                } else {
 //                    passwordErrorTv.setVisibility(View.GONE);
@@ -145,13 +144,21 @@ public class VaultAlbumActivity extends AppCompatActivity {
 //                if (!confirmPassword.equals(password)) {
 //                    confirmPasswordErrorTv.setText(R.string.signup_vault_pin_not_match);
 //                    confirmPasswordErrorTv.setVisibility(View.VISIBLE);
-//
 //                    return;
 //                } else {
 //                    confirmPasswordErrorTv.setVisibility(View.GONE);
 //                }
 //
-//                Toast.makeText(VaultAlbumActivity.this, "da doi thanh cong", Toast.LENGTH_SHORT).show();
+//                // TODO: Cần truyền pass cũ mới cập nhật được pass mới, nên cần thêm field cho dialog
+//                AuthCredential credential = EmailAuthProvider.getCredential(Account.email, );
+//                FirebaseAuth.getInstance().getCurrentUser().reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            user.
+//                        }
+//                    }
+//                })
 //            }
 //        });
 //
