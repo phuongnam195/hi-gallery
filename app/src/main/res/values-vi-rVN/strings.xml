@@ -31,7 +31,6 @@
     <string name="photo_unfavorite">Bỏ yêu thích</string>
     <string name="photo_favorite">Yêu thích</string>
     <string name="photo_share">Chia sẻ…</string>
-    <string name="photo_save">Lưu</string>
     <string name="settings_darktheme_title">Giao diện tối</string>
 
     <string name="signup_vault_title">Thư mục bí mật</string>
@@ -110,4 +109,6 @@
     <string name="settings_grid_type_menu_2">8 cột</string>
 
     <string name="photo_slideshow">Trình diễn</string>
+    <string name="settings_delete_duplicates_title">Xóa ảnh trùng lặp</string>
+    <string name="settings_delete_duplicates_result">Xóa thành công! Số lượng: </string>
 </resources>

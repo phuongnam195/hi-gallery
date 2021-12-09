@@ -14,12 +14,14 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.team2.higallery.models.Album;
 import com.team2.higallery.models.DeletedImage;
 import com.team2.higallery.models.FavoriteImages;
+import com.team2.higallery.models.TrashManager;
 
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
@@ -112,27 +114,57 @@ public class DataUtils {
         }
     }
 
-    public static void createNewAlbum(ArrayList<String> imagePaths, String albumName, Context context) {
-        File albumFolder = new File(Environment.DIRECTORY_PICTURES, albumName);
-        if (!albumFolder.exists()) {
-            albumFolder.mkdirs();
-        }
+    // Loại bỏ ảnh trùng lặp, trả về số lượng ảnh bị loại bỏ
+    public static int deleteDuplicateImages(Context context) {
+        int count = 0;
+        HashMap<Integer, ArrayList<Bitmap>> hashMap = new HashMap<>();
+        TrashManager trashManager = TrashManager.getInstance(context);
 
-        for (String imagePath : imagePaths) {
-            File newFile = FileUtils.moveImageFile(imagePath, albumFolder, context);
-            if (newFile == null) {
-                Toast.makeText(context, "Cannot move " + imagePath, Toast.LENGTH_SHORT).show();
+        // Duyệt tất cả các path ảnh
+        for (String imagePath : allImages) {
+            if (FileUtils.getExtension(imagePath).equalsIgnoreCase("gif")) {
+                continue;
             }
-            else {
-                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newFile)));
 
-                int favoriteIndex = FavoriteImages.list.indexOf(imagePath);
-                if (favoriteIndex != -1) {
-                    FavoriteImages.list.set(favoriteIndex, newFile.getPath());
+            Bitmap currBitmap = BitmapFactory.decodeFile(imagePath);
+
+            // Lấy mã hash của bitmap
+            int hashCode = BitmapUtils.getHashCode(currBitmap);
+
+            // Nếu trong map đã có hashCode này
+            if (hashMap.containsKey(hashCode)) {
+                ArrayList<Bitmap> insertedBitmaps = hashMap.get(hashCode);
+                boolean notFound = true;
+
+                // Thì duyệt các bitmap có cùng hashCode
+                for (Bitmap ibm : insertedBitmaps) {
+                    // Nếu đã tồn tại bitmap giống 100%
+                    if (BitmapUtils.compare(ibm, currBitmap)) {
+                        count++;
+                        notFound = false;
+                        // Xóa ảnh cũ hơn (cũng chính là ảnh hiện tại của vòng lặp) và không cần kiểm tra thêm
+                        trashManager.delete(imagePath);
+                        break;
+                    }
+                }
+                // Nếu không có bitmap (cùng hashCode) nào giống currBitmap, thì thêm vào danh sách
+                if (notFound) {
+                    insertedBitmaps.add(currBitmap);
+                    hashMap.put(hashCode, insertedBitmaps);
                 }
             }
+            // Nếu trong map chưa có hashCode này
+            else {
+                ArrayList<Bitmap> newValue = new ArrayList<>();
+                newValue.add(currBitmap);
+                hashMap.put(hashCode, newValue);
+            }
         }
+
+        return count;
     }
+
+
 
     public static String getNamePhoto(String pathPhoto) {
         int pos = pathPhoto.lastIndexOf('/');

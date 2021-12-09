@@ -217,10 +217,6 @@ public class PhotoActivity extends AppCompatActivity {
             case R.id.details_action_photo:
                 onDetails();
                 return true;
-            case R.id.delete_permanently_action_photo:
-                return true;
-            case R.id.restore_action_photo:
-                return true;
         }
         return false;
     }
@@ -243,10 +239,6 @@ public class PhotoActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtras(myData);
         startActivityForResult(intent, 1234);
-    }
-
-    public void onNewAlbum() {
-        Toast.makeText(this, "Thêm vào album mới (tạo album)...", Toast.LENGTH_SHORT).show();
     }
 
     public void onSlideShow() {

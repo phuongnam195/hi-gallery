@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="?attr/background_color"
     android:orientation="vertical"
-    android:textAlignment="center">
+    android:textAlignment="center"
+    tools:context=".activities.SettingsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/appbar_settings"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/primary_color"
         android:minHeight="?attr/actionBarSize"
+        android:onClick="onDeleteDuplicates"
         android:theme="@style/AppBarTheme"
         android:visibility="visible"
         app:title="@string/settings_title"
@@ -205,6 +207,39 @@
 
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
+
+            <LinearLayout
+                android:id="@+id/delete_duplicates_settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="auto"
+                android:onClick="onDeleteDuplicates"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    android:id="@+id/title_settings_delete_duplicates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_delete_duplicates_title"
+                    android:textSize="@dimen/settings_title_size" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="?attr/divider_color" />
+
             <LinearLayout
                 android:id="@+id/about_settings"
                 android:layout_width="match_parent"
@@ -227,7 +262,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider4"
+                android:id="@+id/divider6"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
                 android:background="?attr/divider_color" />

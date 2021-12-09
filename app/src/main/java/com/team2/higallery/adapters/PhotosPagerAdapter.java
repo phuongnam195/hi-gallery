@@ -53,7 +53,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
                     clickListener.onClick();
                 }
             });
-            Glide.with(context).asGif().load(imagePath).fitCenter().into(imageView);
+            Glide.with(context).load(imagePath).fitCenter().into(imageView);
             container.addView(view);
             return view;
         }

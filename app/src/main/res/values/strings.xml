@@ -32,6 +32,8 @@
     <string name="settings_grid_type_menu_0">4 columns</string>
     <string name="settings_grid_type_menu_1">6 columns</string>
     <string name="settings_grid_type_menu_2">8 columns</string>
+    <string name="settings_delete_duplicates_title">Delete duplicated images</string>
+    <string name="settings_delete_duplicates_result">Deleted successfully! Count: </string>
 
     <string name="login_vault_title">Vault Album</string>
     <string name="login_vault_subtitle">Please enter your passcode.</string>

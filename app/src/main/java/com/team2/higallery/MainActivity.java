@@ -324,6 +324,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
+
+        if (fragment2 != null) {
+            DataUtils.divideAllImagesToAlbums();
+            ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
+        }
     }
 
     private void onVaultSelectedPhoto() {
@@ -397,6 +402,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
+
+        if (fragment2 != null) {
+            DataUtils.divideAllImagesToAlbums();
+            ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
+        }
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.team2.higallery.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
+import com.team2.higallery.utils.DataUtils;
 
 public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     TextView txtSubtitleAutoClean;
@@ -98,6 +101,27 @@ public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnM
         inflater.inflate(R.menu.menu_grid_type, popup.getMenu());
         popup.setOnMenuItemClickListener(this);
         popup.show();
+    }
+
+    public void onDeleteDuplicates(View view) {
+        Dialog waitingDialog = new Dialog(this);
+        waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        waitingDialog.setContentView(R.layout.dialog_waiting);
+        waitingDialog.show();
+
+        new Thread() {
+            @Override
+            public void run() {
+                int count = DataUtils.deleteDuplicateImages(SettingsActivity.this);
+                String result = getResources().getString(R.string.settings_delete_duplicates_result) + count;
+                SettingsActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        waitingDialog.dismiss();
+                        Toast.makeText(SettingsActivity.this, result, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }.start();
     }
 
     private void onBack() {

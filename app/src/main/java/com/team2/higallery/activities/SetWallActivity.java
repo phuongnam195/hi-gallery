@@ -58,8 +58,7 @@ public class SetWallActivity extends AppCompatActivity {
 
         waitingDialog = new Dialog(this);
         waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        waitingDialog.setContentView(R.layout.dialog_wait_set_wall);
-
+        waitingDialog.setContentView(R.layout.dialog_waiting);
     }
 
     @Override
