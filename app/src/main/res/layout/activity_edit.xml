@@ -40,99 +40,101 @@
         app:layout_constraintTop_toBottomOf="@id/image_view">
 
         <!--        Danh sách nút gồm: BACK, FILTER, ROTATE, SAVE -->
-        <LinearLayout
-            android:id="@+id/main_group"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/primary_color"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <Space
+            <LinearLayout
+                android:id="@+id/main_group"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:background="?attr/primary_color"
+                android:orientation="horizontal">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/filters_main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="onFilter"
-                android:tooltipText="@string/edit_filters_tooltip"
-                app:backgroundTint="@color/primary"
-                app:elevation="0dp"
-                app:pressedTranslationZ="0dp"
-                app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_edit_filter"
-                app:tint="#FFFFFF" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/filters_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:clickable="true"
+                    android:onClick="onFilter"
+                    android:tooltipText="@string/edit_filters_tooltip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_filter"
+                    app:tint="#FFFFFF" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/rotate_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:clickable="true"
+                    android:onClick="onRotate"
+                    android:tooltipText="@string/edit_rotate_tooltip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_rotate"
+                    app:tint="#FFFFFF" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/rotate_main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:clickable="true"
-                android:onClick="onRotate"
-                android:tooltipText="@string/edit_rotate_tooltip"
-                app:backgroundTint="@color/primary"
-                app:elevation="0dp"
-                app:pressedTranslationZ="0dp"
-                app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_edit_rotate"
-                app:tint="#FFFFFF" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/flip_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:clickable="true"
+                    android:onClick="onFlip"
+                    android:tooltipText="@string/edit_flip_tooltip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_flip"
+                    app:tint="#FFFFFF" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:clickable="true"
+                    android:onClick="onAddText"
+                    android:tooltipText="@string/edit_addText_tooltip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_text"
+                    app:tint="#FFFFFF" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/flip_main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:clickable="true"
-                android:onClick="onFlip"
-                android:tooltipText="@string/edit_flip_tooltip"
-                app:backgroundTint="@color/primary"
-                app:elevation="0dp"
-                app:pressedTranslationZ="0dp"
-                app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_edit_flip"
-                app:tint="#FFFFFF" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="20dp"
+                    android:clickable="true"
+                    android:onClick="onAddText"
+                    android:tooltipText="@string/edit_addText_tooltip"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_text"
+                    app:tint="#FFFFFF" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            </LinearLayout>
+        </HorizontalScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:clickable="true"
-                android:onClick="onAddText"
-                android:tooltipText="@string/edit_addText_tooltip"
-                app:backgroundTint="@color/primary"
-                app:elevation="0dp"
-                app:pressedTranslationZ="0dp"
-                app:rippleColor="@color/ripple_button"
-                app:srcCompat="@drawable/ic_edit_text"
-                app:tint="#FFFFFF" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
         <!--        Danh sách nút của chức năng FILTER -->
+
         <LinearLayout
             android:id="@+id/filters_group"
             android:layout_width="match_parent"
@@ -587,18 +589,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="23sp"
-                android:textAlignment="center"
                 android:background="@drawable/edittext_border"
                 android:hint="Write your text here"
-                android:textColor="@color/black"/>
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="23sp" />
 
             <LinearLayout
                 android:id="@+id/addText_group2"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/primary_color"
-                >
+                android:background="?attr/primary_color">
 
                 <Space
                     android:layout_width="wrap_content"
@@ -648,12 +649,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textAlignment="center"
                     android:background="@drawable/edittext_border"
+                    android:hint="size"
                     android:paddingHorizontal="10dp"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:hint="size"/>
+                    android:textSize="20sp" />
 
                 <Space
                     android:layout_width="wrap_content"

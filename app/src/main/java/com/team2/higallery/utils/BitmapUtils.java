@@ -5,20 +5,14 @@ import android.graphics.Bitmap;
 import java.util.Arrays;
 
 public class BitmapUtils {
-    public static int getHashCode(Bitmap bitmap) {
-//        long hash = 31;
-//        for(int x = 0; x < bitmap.getWidth(); x++){
-//            for (int y = 0; y < bitmap.getHeight(); y++){
-//                hash *= (bitmap.getPixel(x,y) + 31);
-//            }
-//        }
-//        return hash;
-
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int[] buffer = new int[width * height];
-        bitmap.getPixels(buffer, 0, width, 0, 0, width, height);
-        return Arrays.hashCode(buffer);
+    public static long getHashCode(Bitmap bitmap) {
+        long result = 343;
+        for(int x = 0; x < bitmap.getWidth(); x++){
+            for (int y = 0; y < bitmap.getHeight(); y++){
+                result = result * (bitmap.getPixel(x,y) + 31);
+            }
+        }
+        return result;
     }
 
     public static boolean compare(Bitmap bitmap1, Bitmap bitmap2) {
