@@ -2,6 +2,7 @@ package com.team2.higallery.models;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -16,12 +17,14 @@ import java.sql.Date;
 public class TrashManager {
     // Singleton pattern
     private static TrashManager instance;
+
     public static TrashManager getInstance(Context context) {
         if (instance == null) {
             instance = new TrashManager(context);
         }
         return instance;
     }
+
     private TrashManager(Context context) {
         trashFolder = new File(Environment.getExternalStorageDirectory(), "HiGallery/.nomedia/");
         if (!trashFolder.exists()) {
@@ -105,11 +108,11 @@ public class TrashManager {
 
         File oldFile = FileUtils.moveImageFile(trashPath, new File(FileUtils.getParentFolder(oldPath)), context);
 
-        if (oldFile == null) {
-            return false;
-        }
-
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(oldFile)));
+
+        MediaScannerConnection.scanFile(context,
+                new String[]{oldFile.toString()},
+                null, null);
 
         deletedImages.remove(index);
         long id = deletedImage.getId();
@@ -153,7 +156,9 @@ public class TrashManager {
                 return false;
             }
 
-            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(oldFile)));
+            MediaScannerConnection.scanFile(context,
+                    new String[]{oldFile.toString()},
+                    null, null);
         }
 
         dbHelper.removeAllDeletedImages();

@@ -122,6 +122,7 @@ public class SignUpVaultActivity extends AppCompatActivity {
 //                                                    Intent resultIntent = new Intent();
 //                                                    resultIntent.putExtra("rawPIN", pin);
 //                                                    setResult(RESULT_OK, resultIntent);
+                                                    setResult(RESULT_OK);
                                                     finish();
                                                 } else {
                                                     goToVaultAlbum();
@@ -171,6 +172,7 @@ public class SignUpVaultActivity extends AppCompatActivity {
 //                                Intent resultIntent = new Intent();
 //                                resultIntent.putExtra("rawPIN", pin);
 //                                setResult(RESULT_OK, resultIntent);
+                                setResult(RESULT_OK);
                                 finish();
                             } else {
                                 goToVaultAlbum();
