@@ -3,7 +3,10 @@ package com.team2.higallery;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,11 +35,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.models.FavoriteImages;
-import com.team2.higallery.models.TrashManager;
-import com.team2.higallery.models.VaultManager;
+import com.team2.higallery.providers.ImagesProvider;
+import com.team2.higallery.providers.TrashManager;
+import com.team2.higallery.providers.VaultManager;
 import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.FileUtils;
 import com.team2.higallery.utils.PermissionHelper;
+import com.team2.higallery.utils.gif.AnimatedGifEncoder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         FavoriteImages.load(this);
         Account.load(this);
         VaultManager.getInstance(this).synchronize();
+
+        File ourPictureFolder = new File(FileUtils.HIGALERRY_FOLDER_PATH);
+        if (!ourPictureFolder.exists()) {
+            ourPictureFolder.mkdirs();
+        }
     }
 
     @Override
@@ -88,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             Configuration.appliedChanges();
         }
 
-        if (DataUtils.updateAllImagesFromExternalStorage(this)) {
+        if (ImagesProvider.updateAllImagesFromExternalStorage(this)) {
             ((GridPhotosFragment) fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
             if (fragment2 != null) {
                 ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
@@ -150,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             case R.id.vault_selected_menu_main:
                 onVaultSelectedPhoto();
                 return true;
+            case R.id.generate_gif_selected_menu_main:
+                onGenerateGifSelectedPhoto();
+                return true;
         }
         return false;
     }
@@ -168,6 +182,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             case REQUEST_CODE_SIGN_UP_VAULT:
                 if (resultCode == RESULT_OK) {
                     moveSelectedImagesToVault();
+                    Toast.makeText(this, R.string.main_toast_move_to_vault_done, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.main_toast_move_to_vault_failed, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -187,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     private void setupBody() {
-        fragment1 = new GridPhotosFragment(DataUtils.allImages, "all_photos");
+        fragment1 = new GridPhotosFragment(ImagesProvider.allImages, "all_photos");
         fm.beginTransaction().add(R.id.body_main, fragment1, "1").commit();
         currentFragment = fragment1;
         currentNavID = R.id.navigation_photos;
@@ -304,21 +321,21 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     private void onSelectAll() {
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "select_all", 0);
         selectedIndices.clear();
-        for (int i = 0; i < DataUtils.allImages.size(); i++) {
+        for (int i = 0; i < ImagesProvider.allImages.size(); i++) {
             selectedIndices.add(i);
         }
-        int allCount = DataUtils.allImages.size();
+        int allCount = ImagesProvider.allImages.size();
         appbar.setTitle(allCount + "/" + allCount);
     }
 
     private void onDeleteSelectedPhoto() {
         TrashManager trashManager = TrashManager.getInstance(this);
         for (int i : selectedIndices) {
-            trashManager.delete(DataUtils.allImages.get(i));
+            trashManager.delete(ImagesProvider.allImages.get(i));
         }
         Collections.sort(selectedIndices);
         for (int i = selectedIndices.size() - 1; i >= 0; i--) {
-            DataUtils.allImages.remove(selectedIndices.get(i).intValue());
+            ImagesProvider.allImages.remove(selectedIndices.get(i).intValue());
         }
         selectedIndices.clear();
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
@@ -326,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         invalidateOptionsMenu();
 
         if (fragment2 != null) {
-            DataUtils.divideAllImagesToAlbums();
+            ImagesProvider.divideAllImagesToAlbums();
             ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
         }
     }
@@ -338,7 +355,41 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             startActivityForResult(intent, REQUEST_CODE_SIGN_UP_VAULT);
         } else {
             moveSelectedImagesToVault();
+            Toast.makeText(this, R.string.main_toast_move_to_vault_done, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void onGenerateGifSelectedPhoto() {
+        ArrayList<Bitmap> bitmaps = new ArrayList<>();
+        for (Integer index : selectedIndices) {
+            String imagePath = ImagesProvider.allImages.get(index);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            bitmaps.add(bitmap);
+        }
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.set(bitmaps);
+        encoder.encode();
+        String fileName = "hi_animated_" + DataUtils.generateRandomString(10) + ".gif";
+        String filePath = FileUtils.HIGALERRY_FOLDER_PATH + "/" + fileName;
+        boolean ok = encoder.export(filePath);
+
+        if (ok) {
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
+            ImagesProvider.allImages.add(0, filePath);
+            Toast.makeText(this, R.string.main_toast_generate_gif_done, Toast.LENGTH_SHORT).show();
+
+            if (fragment2 != null) {
+                ImagesProvider.divideAllImagesToAlbums();
+                ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
+            }
+        } else {
+            Toast.makeText(this, R.string.main_toast_generate_gif_failed, Toast.LENGTH_SHORT).show();
+        }
+
+        selectedIndices.clear();
+        appbar.setTitle(getResources().getString(R.string.main_title));
+        invalidateOptionsMenu();
+        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
     }
 
     private void onNewAlbumSelectedPhoto() {
@@ -358,11 +409,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                 ArrayList<String> newFileList = new ArrayList<>();
 
                 for (Integer index : selectedIndices) {
-                    String imagePath = DataUtils.allImages.get(index);
+                    String imagePath = ImagesProvider.allImages.get(index);
                     File newFile = FileUtils.moveImageFile(imagePath, albumFolder, MainActivity.this);
                     if (newFile != null) {
                         newFileList.add(newFile.toString());
-                        DataUtils.allImages.set(index, newFile.getPath());
+                        ImagesProvider.allImages.set(index, newFile.getPath());
                     }
                 }
 
@@ -377,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                 invalidateOptionsMenu();
                 ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "deselect_all", 0);
 
-                DataUtils.divideAllImagesToAlbums();
+                ImagesProvider.divideAllImagesToAlbums();
                 if (fragment2 != null) {
                     ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
                 }
@@ -392,11 +443,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     private void moveSelectedImagesToVault() {
         VaultManager vaultManager = VaultManager.getInstance(this);
         for (int i : selectedIndices) {
-            vaultManager.moveImageToVault(DataUtils.allImages.get(i));
+            vaultManager.moveImageToVault(ImagesProvider.allImages.get(i));
         }
         Collections.sort(selectedIndices);
         for (int i = selectedIndices.size() - 1; i >= 0; i--) {
-            DataUtils.allImages.remove(selectedIndices.get(i).intValue());
+            ImagesProvider.allImages.remove(selectedIndices.get(i).intValue());
         }
         selectedIndices.clear();
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
@@ -404,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         invalidateOptionsMenu();
 
         if (fragment2 != null) {
-            DataUtils.divideAllImagesToAlbums();
+            ImagesProvider.divideAllImagesToAlbums();
             ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
         }
     }
@@ -432,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                     } else {
                         int allCount = 0;
                         if (currentNavID == R.id.navigation_photos) {
-                            allCount = DataUtils.allImages.size();
+                            allCount = ImagesProvider.allImages.size();
                         } else if (currentNavID == R.id.navigation_favorite) {
                             allCount = FavoriteImages.list.size();
                         }

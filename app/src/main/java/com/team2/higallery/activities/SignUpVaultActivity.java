@@ -27,7 +27,7 @@ import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.models.EncryptedImage;
-import com.team2.higallery.models.VaultManager;
+import com.team2.higallery.providers.VaultManager;
 import com.team2.higallery.utils.DataUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

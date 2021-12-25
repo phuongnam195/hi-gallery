@@ -1,4 +1,4 @@
-package com.team2.higallery.models;
+package com.team2.higallery.providers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.team2.higallery.models.Account;
+import com.team2.higallery.models.EncryptedImage;
 import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.DatabaseHelper;
 import com.team2.higallery.utils.EncryptUtils;
@@ -59,7 +61,7 @@ public class VaultManager {
         if (bitmaps.isEmpty()) {
             try {
                 for (EncryptedImage image : encryptedImages) {
-                    File file = new File(context.getFilesDir().getAbsolutePath(), image.fileName);
+                    File file = new File(context.getFilesDir().getAbsolutePath(), image.getFileName());
                     byte[] bytes = Files.readAllBytes(file.toPath());
                     Bitmap decryptedBitmap = encryptUtils.decryptImage(bytes);
                     bitmaps.add(decryptedBitmap);
@@ -174,12 +176,12 @@ public class VaultManager {
     public void synchronize() {
         for (int i = 0; i < encryptedImages.size(); i++) {
             EncryptedImage encryptedImage = encryptedImages.get(i);
-            if (encryptedImage.isSynced) {
+            if (encryptedImage.isSynced()) {
                 break;
             }
 
             final int index = i;
-            Uri file = Uri.fromFile(new File(context.getFilesDir().getAbsolutePath(), encryptedImage.fileName));
+            Uri file = Uri.fromFile(new File(context.getFilesDir().getAbsolutePath(), encryptedImage.getFileName()));
 
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();

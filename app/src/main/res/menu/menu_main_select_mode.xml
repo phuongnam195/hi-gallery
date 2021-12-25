@@ -18,5 +18,8 @@
     <item
         android:id="@+id/vault_selected_menu_main"
         android:title="@string/main_appbar_vault_selected" />
+    <item
+        android:id="@+id/generate_gif_selected_menu_main"
+        android:title="@string/main_appbar_generate_gif_selected" />
 
 </menu>

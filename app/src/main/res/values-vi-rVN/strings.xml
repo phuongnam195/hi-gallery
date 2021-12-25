@@ -111,4 +111,10 @@
     <string name="photo_slideshow">Trình diễn</string>
     <string name="settings_delete_duplicates_title">Xóa ảnh trùng lặp</string>
     <string name="settings_delete_duplicates_result">Xóa thành công! Số lượng: </string>
+    <string name="main_toast_move_to_vault_done">Đã chuyển tới Bí mật</string>
+    <string name="main_toast_move_to_vault_failed">Chuyển tới Bí mật thất bại!</string>
+    <string name="photo_toast_edit_gif">Không thể chỉnh sửa ảnh GIF!</string>
+    <string name="main_appbar_generate_gif_selected">Tạo ảnh GIF</string>
+    <string name="main_toast_generate_gif_done">Tạo ảnh GIF thành công</string>
+    <string name="main_toast_generate_gif_failed">Tạo ảnh GIF thất bại!</string>
 </resources>

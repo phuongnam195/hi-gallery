@@ -21,7 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.team2.higallery.R;
 import com.team2.higallery.models.Account;
-import com.team2.higallery.models.VaultManager;
+import com.team2.higallery.providers.VaultManager;
 
 public class LoginVaultActivity extends Activity {
     private RadioButton[] dots = new RadioButton[Account.PIN_LENGTH];

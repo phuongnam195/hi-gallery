@@ -13,7 +13,7 @@ import android.widget.Button;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.fragments.GridPhotosFragment;
-import com.team2.higallery.models.TrashManager;
+import com.team2.higallery.providers.TrashManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
