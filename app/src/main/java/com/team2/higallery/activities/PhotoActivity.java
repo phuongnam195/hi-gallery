@@ -30,7 +30,6 @@ import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.providers.ImagesProvider;
 import com.team2.higallery.providers.TrashManager;
 import com.team2.higallery.providers.VaultManager;
-import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.FileUtils;
 
 import java.io.File;

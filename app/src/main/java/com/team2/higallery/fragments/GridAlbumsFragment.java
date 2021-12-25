@@ -20,7 +20,6 @@ import com.team2.higallery.adapters.GridAlbumsAdapter;
 import com.team2.higallery.interfaces.FragmentCallbacks;
 import com.team2.higallery.models.Album;
 import com.team2.higallery.providers.ImagesProvider;
-import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
 

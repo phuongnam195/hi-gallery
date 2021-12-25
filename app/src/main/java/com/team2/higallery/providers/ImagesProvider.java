@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.team2.higallery.models.Album;
 import com.team2.higallery.utils.BitmapUtils;
-import com.team2.higallery.utils.DataUtils;
 import com.team2.higallery.utils.FileUtils;
 import com.team2.higallery.utils.LocaleHelper;
 
