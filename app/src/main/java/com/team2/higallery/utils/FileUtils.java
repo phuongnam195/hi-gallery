@@ -6,11 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 
 import java.io.File;
 
 public class FileUtils {
+    public static String HIGALERRY_FOLDER_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/HiGallery";
+
 
     // Credit: https://stackoverflow.com/questions/39530663/delete-image-file-from-device-programmatically
     public static boolean removeImageFile(Context context, File imageFile) {

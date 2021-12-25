@@ -19,6 +19,7 @@ import com.team2.higallery.R;
 import com.team2.higallery.adapters.GridAlbumsAdapter;
 import com.team2.higallery.interfaces.FragmentCallbacks;
 import com.team2.higallery.models.Album;
+import com.team2.higallery.providers.ImagesProvider;
 import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class GridAlbumsFragment extends Fragment implements FragmentCallbacks {
     ArrayList<Album> albums;
 
     public GridAlbumsFragment() {
-        this.albums = DataUtils.allAlbums;
+        this.albums = ImagesProvider.allAlbums;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class GridAlbumsFragment extends Fragment implements FragmentCallbacks {
     public void sendFromActivityToFragment(String sender, String header, int value) {
         switch (header) {
             case "update":
-                this.albums = DataUtils.allAlbums;
+                this.albums = ImagesProvider.allAlbums;
                 gridAlbumsAdapter.notifyDataSetChanged();
                 break;
         }

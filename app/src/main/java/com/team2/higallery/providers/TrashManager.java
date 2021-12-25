@@ -1,4 +1,4 @@
-package com.team2.higallery.models;
+package com.team2.higallery.providers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.team2.higallery.Configuration;
+import com.team2.higallery.models.DeletedImage;
+import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.utils.DatabaseHelper;
 import com.team2.higallery.utils.FileUtils;
 

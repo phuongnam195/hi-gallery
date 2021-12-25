@@ -3,6 +3,7 @@ package com.team2.higallery.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.team2.higallery.providers.ImagesProvider;
 import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class FavoriteImages {
     public static ArrayList<String> get() {
         ArrayList<String> result = new ArrayList<>();
         for (String path : list) {
-            if (DataUtils.allImages.contains(path)) {
+            if (ImagesProvider.allImages.contains(path)) {
                 result.add(path);
             }
         }

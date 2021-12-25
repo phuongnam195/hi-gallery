@@ -418,7 +418,7 @@ public class EditActivity extends AppCompatActivity{
     private  Uri imageUri;
 
     private File createImageFile(){
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/HiGallery");
+        File folder = new File(FileUtils.HIGALERRY_FOLDER_PATH);
         boolean success = true;
         if (!folder.exists()) {
             success = folder.mkdir();
@@ -430,9 +430,8 @@ public class EditActivity extends AppCompatActivity{
         }
 
         final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        final String imageFileName = "/HiGallery/JPEG_" + timeStamp + ".jpg";
-        final File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        return new File(storageDir + imageFileName);
+        final String imageFileName = "/JPEG_" + timeStamp + ".jpg";
+        return new File(FileUtils.HIGALERRY_FOLDER_PATH + imageFileName);
     }
 
     private File createImageFile2() {

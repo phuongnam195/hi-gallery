@@ -14,7 +14,8 @@ import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.fragments.GridPhotosFragment;
 import com.team2.higallery.models.Album;
-import com.team2.higallery.models.TrashManager;
+import com.team2.higallery.providers.ImagesProvider;
+import com.team2.higallery.providers.TrashManager;
 import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     private void setupBody() {
         Intent intent = getIntent();
         albumIndex = intent.getIntExtra("albumIndex", -1);
-        album = DataUtils.allAlbums.get(albumIndex);
+        album = ImagesProvider.allAlbums.get(albumIndex);
         albumName = album.getName();
         imagePaths = album.getImages();
 
@@ -144,7 +145,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
         }
 
         album.setImages(imagePaths);
-        DataUtils.allAlbums.set(albumIndex, album);
+        ImagesProvider.allAlbums.set(albumIndex, album);
 
         selectedPhotoIndices.clear();
         ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "remove", 0);

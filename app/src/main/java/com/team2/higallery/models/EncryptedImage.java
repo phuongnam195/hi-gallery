@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EncryptedImage {
-    long id;
-    String oldPath;              // Đường dẫn cũ
-    String fileName;             // Tên file (đuôi .hgv)
-    boolean isSynced = true;     // true nếu đã được upload lên cloud
+    private long id;
+    private String oldPath;              // Đường dẫn cũ
+    private String fileName;             // Tên file (đuôi .hgv)
+    private boolean isSynced = true;     // true nếu đã được upload lên cloud
 
     public EncryptedImage() { }
 

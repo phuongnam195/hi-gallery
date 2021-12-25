@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.GridPhotosAdapter;
-import com.team2.higallery.models.VaultManager;
+import com.team2.higallery.providers.VaultManager;
 
 import java.util.ArrayList;
 import java.util.Collections;

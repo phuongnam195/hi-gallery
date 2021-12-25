@@ -22,7 +22,8 @@ import com.team2.higallery.adapters.GridPhotosAdapter;
 import com.team2.higallery.R;
 import com.team2.higallery.interfaces.FragmentCallbacks;
 import com.team2.higallery.models.FavoriteImages;
-import com.team2.higallery.models.TrashManager;
+import com.team2.higallery.providers.ImagesProvider;
+import com.team2.higallery.providers.TrashManager;
 import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
@@ -139,11 +140,11 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                 break;
             case "remove":          // Vừa có các ảnh (được select) đã bị xóa
                 selectedIndices.clear();
-                gridPhotosAdapter.setImagePaths(DataUtils.allImages);
-                imagePaths = DataUtils.allImages;
+                gridPhotosAdapter.setImagePaths(ImagesProvider.allImages);
+                imagePaths = ImagesProvider.allImages;
                 break;
             case "update_all_photos":       // Cập nhật lại danh sách tất cả ảnh
-                imagePaths = DataUtils.allImages;
+                imagePaths = ImagesProvider.allImages;
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
             case "update_favorite_images":  // Cập nhật lại danh sách ảnh được yêu thích
@@ -155,7 +156,7 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
             case "update_album_images":     // Cập nhật lại danh sách ảnh của album có index là value
-                imagePaths = DataUtils.allAlbums.get(value).getImages();
+                imagePaths = ImagesProvider.allAlbums.get(value).getImages();
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
         }

@@ -27,9 +27,11 @@ import com.team2.higallery.R;
 import com.team2.higallery.adapters.PhotosPagerAdapter;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.models.FavoriteImages;
-import com.team2.higallery.models.TrashManager;
-import com.team2.higallery.models.VaultManager;
+import com.team2.higallery.providers.ImagesProvider;
+import com.team2.higallery.providers.TrashManager;
+import com.team2.higallery.providers.VaultManager;
 import com.team2.higallery.utils.DataUtils;
+import com.team2.higallery.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,14 +56,14 @@ public class PhotoActivity extends AppCompatActivity {
     // Tham  khảo thread trong slide tuần 11
     private boolean isSlideShow = false;
     Handler myHandler = new Handler();
-    private Runnable foregroundRunnable = new Runnable() {
+    private final Runnable foregroundRunnable = new Runnable() {
         @Override
         public void run() {
             viewPager.setCurrentItem(currentIndex, false);
         }
     };
     long time = 0;
-    private Runnable backgroundTask = new Runnable() {
+    private final Runnable backgroundTask = new Runnable() {
         @Override
         public void run() {
             while (isSlideShow) {
@@ -94,7 +96,7 @@ public class PhotoActivity extends AppCompatActivity {
         currentIndex = intent.getIntExtra("currentIndex", 0);
         source = intent.getStringExtra("source");
         if (source.equals("all_photos")) {
-            imagePaths = new ArrayList<>(DataUtils.allImages);
+            imagePaths = new ArrayList<>(ImagesProvider.allImages);
         } else {
             imagePaths = intent.getStringArrayListExtra("imagePaths");
         }
@@ -233,6 +235,11 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public void onEdit() {
+        if (FileUtils.getExtension(imagePaths.get(currentIndex)).equalsIgnoreCase("GIF")) {
+            Toast.makeText(this, R.string.photo_toast_edit_gif, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Bundle myData = new Bundle();
         myData.putInt("currentIndex", currentIndex);
         myData.putStringArrayList("pathList", imagePaths);
@@ -290,11 +297,11 @@ public class PhotoActivity extends AppCompatActivity {
         try {
             File file = new File(imagePaths.get(currentIndex));
             BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-            detailName.append(DataUtils.getNamePhoto(imagePaths.get(viewPager.getCurrentItem())));
-            detailSize.append(DataUtils.getSizePhoto(attr.size()*1.0));
+            detailName.append(ImagesProvider.getNamePhoto(imagePaths.get(viewPager.getCurrentItem())));
+            detailSize.append(ImagesProvider.getSizePhoto(attr.size()*1.0));
             detailPath.append(imagePaths.get(viewPager.getCurrentItem()));
-            detailResolution.append(DataUtils.getResolutionPhoto(imagePaths.get(viewPager.getCurrentItem()), this));
-            detailLastModified.append(DataUtils.convertDateTimeToString(attr.lastModifiedTime().toString(), this));
+            detailResolution.append(ImagesProvider.getResolutionPhoto(imagePaths.get(viewPager.getCurrentItem()), this));
+            detailLastModified.append(ImagesProvider.convertDateTimeToString(attr.lastModifiedTime().toString(), this));
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
+import com.team2.higallery.providers.ImagesProvider;
 import com.team2.higallery.utils.DataUtils;
 
 public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
@@ -112,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnM
         new Thread() {
             @Override
             public void run() {
-                int count = DataUtils.deleteDuplicateImages(SettingsActivity.this);
+                int count = ImagesProvider.deleteDuplicateImages(SettingsActivity.this);
                 String result = getResources().getString(R.string.settings_delete_duplicates_result) + count;
                 SettingsActivity.this.runOnUiThread(new Runnable() {
                     public void run() {

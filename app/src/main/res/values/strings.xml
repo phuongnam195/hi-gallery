@@ -10,9 +10,14 @@
     <string name="main_appbar_delete_selected">Delete</string>
     <string name="main_appbar_vault_selected">Move to Vault</string>
     <string name="main_appbar_new_album_selected">New album</string>
+    <string name="main_appbar_generate_gif_selected">Generate GIF</string>
     <string name="main_appbar_select_all">Select all</string>
     <string name="main_appbar_deselect">Deselect</string>
     <string name="main_dialog_new_album_title">Album name:</string>
+    <string name="main_toast_move_to_vault_done">Moved to vault</string>
+    <string name="main_toast_move_to_vault_failed">Move to vault failed!</string>
+    <string name="main_toast_generate_gif_done">Generated GIF done</string>
+    <string name="main_toast_generate_gif_failed">Generated GIF failed!</string>
 
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>
@@ -66,6 +71,7 @@
     <string name="photo_unfavorite">Unfavorite</string>
     <string name="photo_delete">Delete</string>
     <string name="photo_slideshow">Slideshow</string>
+    <string name="photo_toast_edit_gif">Cannot edit GIF image!</string>
 
     <string name="photo_share_title">Share via</string>
 
