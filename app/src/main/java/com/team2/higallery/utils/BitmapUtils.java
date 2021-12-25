@@ -2,8 +2,6 @@ package com.team2.higallery.utils;
 
 import android.graphics.Bitmap;
 
-import java.util.Arrays;
-
 public class BitmapUtils {
     public static Bitmap resize(Bitmap bitmap, int maxWidth, int maxHeight) {
         int width = bitmap.getWidth();

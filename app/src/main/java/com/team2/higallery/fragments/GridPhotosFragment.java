@@ -24,7 +24,6 @@ import com.team2.higallery.interfaces.FragmentCallbacks;
 import com.team2.higallery.models.FavoriteImages;
 import com.team2.higallery.providers.ImagesProvider;
 import com.team2.higallery.providers.TrashManager;
-import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
 

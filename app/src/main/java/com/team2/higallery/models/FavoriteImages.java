@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.team2.higallery.providers.ImagesProvider;
-import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
 

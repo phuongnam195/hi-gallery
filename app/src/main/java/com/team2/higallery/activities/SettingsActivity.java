@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.providers.ImagesProvider;
-import com.team2.higallery.utils.DataUtils;
 
 public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     TextView txtSubtitleAutoClean;

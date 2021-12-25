@@ -7,18 +7,18 @@
     android:background="#091E40"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingHorizontal="40dp"
-    android:paddingVertical="40dp"
+    android:paddingHorizontal="35dp"
+    android:paddingVertical="35dp"
     tools:context=".activities.SignUpVaultActivity">
 
     <TextView
         android:id="@+id/title_signup_vault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/signup_vault_title"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="38sp"
         android:textStyle="bold" />
 
     <LinearLayout

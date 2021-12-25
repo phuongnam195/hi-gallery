@@ -16,7 +16,6 @@ import com.team2.higallery.fragments.GridPhotosFragment;
 import com.team2.higallery.models.Album;
 import com.team2.higallery.providers.ImagesProvider;
 import com.team2.higallery.providers.TrashManager;
-import com.team2.higallery.utils.DataUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
