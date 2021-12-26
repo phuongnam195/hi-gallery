@@ -115,19 +115,19 @@
                     app:tint="#FFFFFF" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_text2"
+                    android:id="@+id/draw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginHorizontal="20dp"
                     android:clickable="true"
-                    android:onClick="onAddText"
+                    android:onClick="onDrawing"
                     android:tooltipText="@string/edit_addText_tooltip"
                     app:backgroundTint="@color/primary"
                     app:elevation="0dp"
                     app:pressedTranslationZ="0dp"
                     app:rippleColor="@color/ripple_button"
-                    app:srcCompat="@drawable/ic_edit_text"
+                    app:srcCompat="@drawable/ic_edit_draw"
                     app:tint="#FFFFFF" />
 
             </LinearLayout>
@@ -683,6 +683,98 @@
 
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <!--        Giao diện Draw-->
+
+        <LinearLayout
+            android:id="@+id/Draw_group"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/primary_color"
+            android:visibility="gone"
+            >
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/back_draw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onBackDraw"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_back"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/color_draw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onColorDraw"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_color"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/sizedraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edittext_border"
+                    android:hint="size"
+                    android:paddingHorizontal="10dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/save_draw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:onClick="onOKDraw"
+                    app:backgroundTint="@color/primary"
+                    app:elevation="0dp"
+                    app:pressedTranslationZ="0dp"
+                    app:rippleColor="@color/ripple_button"
+                    app:srcCompat="@drawable/ic_edit_ok"
+                    app:tint="#FFFFFF" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
         </LinearLayout>
 

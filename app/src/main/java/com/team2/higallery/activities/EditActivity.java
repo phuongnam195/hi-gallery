@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -18,6 +19,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -59,6 +61,7 @@ public class EditActivity extends AppCompatActivity{
     TextView degreeCustomRotate;
     EditText text;
     EditText textSize;
+    EditText textSize2;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -67,6 +70,8 @@ public class EditActivity extends AppCompatActivity{
         seekbarCustomRotate = (SeekBar)findViewById(R.id.seekbar_custom_rotate);
         text = (EditText)findViewById(R.id.text) ;
         textSize = (EditText)findViewById(R.id.size);
+
+        textSize2 = (EditText)findViewById(R.id.sizedraw);
 
 
 
@@ -137,30 +142,7 @@ public class EditActivity extends AppCompatActivity{
     @Override
     public void onResume(){
         super.onResume();
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notPermissions()){
-//            Toast.makeText(this, "request", Toast.LENGTH_SHORT).show();
-//            requestPermissions(PERMISSION, REQUEST_PERMISSION);
-//        }
     }
-
-//    @Override
-//    public void onRequestPermissionResult(int requestCode, String[] permission, int[] grantResults){
-//        super.onRequestPermissionsResult(requestCode, permission, grantResults);
-//    }
-
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if(requestCode == REQUEST_PERMISSION && grantResults.length > 0){
-//            if(notPermissions()){
-//                // Nếu người dùng không cấp quyền thì đóng rồi mở lại
-////                ((ActivityManager) this.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-////                recreate();
-//                Toast.makeText(this, "chua cap quyen", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     //    private static final int REQUEST_PICK_IMAGE = 12345;
     private ImageView imageView;
@@ -219,22 +201,6 @@ public class EditActivity extends AppCompatActivity{
 
         imageView = findViewById(R.id.image_view);
 
-        imageView.setOnTouchListener(touchListener);
-
-
-
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int[] values = new int[2];
-//                v.getLocationOnScreen(values);
-//                int width= EditActivity.this.getResources().getDisplayMetrics().widthPixels;
-//                int height= EditActivity.this.getResources().getDisplayMetrics().heightPixels;
-//                Toast.makeText(EditActivity.this, values[0] + ", " + values[1], Toast.LENGTH_SHORT).show();
-//                Toast.makeText(EditActivity.this, width + ", " + height, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
 
         text.addTextChangedListener(new TextWatcher() {
             @Override
@@ -244,7 +210,6 @@ public class EditActivity extends AppCompatActivity{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editing = true;
                 str = text.getText().toString();
                 if (addText){
                     Draw();
@@ -265,13 +230,40 @@ public class EditActivity extends AppCompatActivity{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editing = true;
                 String tmp = textSize.getText().toString();
                 if(!tmp.equals("")){
-                    size = Integer.parseInt(tmp);
+                    try{
+                        size = Integer.parseInt(tmp);
+                    }catch (Exception err){
+                        size = 1;
+                    }
                 }
                 if (addText){
                     Draw();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        textSize2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String tmp = textSize2.getText().toString();
+                if(!tmp.equals("")){
+                    try{
+                        size2 = Integer.parseInt(tmp);
+                    }catch (Exception err){
+                        size2 = 1;
+                    }
                 }
             }
 
@@ -310,10 +302,16 @@ public class EditActivity extends AppCompatActivity{
     int locaX = 0;
     int locaY = 0;
     int size = 30;
+    int size2 = 2;
     public Bitmap bitmap_text;
     int color = 0xFF000000;
+    int colorDraw = 0xFF000000;
     String str = "";
     boolean addText = false;
+    boolean drawing = false;
+    int currX = 0;
+    int currY = 0;
+    public Bitmap drawTemp;
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
@@ -321,11 +319,11 @@ public class EditActivity extends AppCompatActivity{
 
             if(addText){
                 // save the X,Y coordinates
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    locaX = Math.round(event.getX());
-                    locaY = Math.round(event.getY());
-                    Draw();
-                }else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+//                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+//                    locaX = Math.round(event.getX());
+//                    locaY = Math.round(event.getY());
+//                    Draw();
+                if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
                     locaX = Math.round(event.getX());
                     locaY = Math.round(event.getY());
                     Draw();
@@ -334,9 +332,42 @@ public class EditActivity extends AppCompatActivity{
             }
 
             // let the touch event pass on to whoever needs it
-            return false;
+            return true;
         }
     };
+
+    View.OnTouchListener touchListener2 = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if(drawing){
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        locaX = Math.round(event.getX());
+                        locaY = Math.round(event.getY());
+                        DrawLine();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        currX = 0;
+                        currY = 0;
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // let the touch event pass on to whoever needs it
+            return true;
+        }
+    };
+
+
+
 
     private void Draw(){
         int widthBM1 = imageView.getDrawable().getIntrinsicWidth(); // Kích thước bitmap theo px
@@ -398,6 +429,91 @@ public class EditActivity extends AppCompatActivity{
 
 
 
+
+    private void DrawLine(){
+        int widthBM1 = imageView.getDrawable().getIntrinsicWidth(); // Kích thước bitmap theo px
+        int heightBM1 = imageView.getDrawable().getIntrinsicHeight();
+
+        int widthIMGV = imageView.getWidth(); //kích thước imageview theo px
+        int heightIMGV = imageView.getHeight();
+
+        float ratio = (float)widthBM1 / (float)heightBM1;
+
+        int widthBM2, heightBM2; // Kích thước bitmap hệ quy chiếu ImageView :D
+
+        if ((float)heightIMGV * ratio <= (float)widthIMGV){
+            heightBM2 = Math.round((float)heightIMGV);
+            widthBM2 = Math.round((float)heightIMGV * ratio);
+        }else{
+            widthBM2 = Math.round((float)widthIMGV);
+            heightBM2 = Math.round((float)widthIMGV / ratio);
+        }
+
+        int xx, yy; // Tọa độ thật của bitmap
+        if (widthIMGV == widthBM2 ){
+            xx = locaX;
+        }else{
+            if (locaX < (widthIMGV - widthBM2 )/2) {
+                xx = 0;
+            }else{
+                xx = locaX - (widthIMGV - widthBM2 )/2;
+            }
+        }
+
+        if (heightIMGV == heightBM2 ){
+            yy = locaY;
+        }else{
+            if (locaY < (heightIMGV - heightBM2 )/2) {
+                yy = 0;
+            }else{
+                yy = locaY - (heightIMGV - heightBM2 )/2;
+            }
+        }
+
+        int x, y;
+        x = Math.round(((float)xx / (float)widthBM2) * (float)widthBM1);
+        y = Math.round(((float)yy / (float)heightBM2) * (float)heightBM1);
+
+        if (y == 0){
+            y += size;
+        }
+        if (y > heightBM1){
+            y = heightBM1;
+        }
+
+//            int startBMX = Math.round((widthIMGV - widthBM) / 2); // tọa độ của bitmap tính từ imageview
+//            int startBMY = Math.round((heightIMGV - heightBM) / 2);
+        if(drawTemp != null){
+            drawTemp = drawLineonBitmap(drawTemp, x, y, colorDraw, size2);
+        }
+        else{
+            drawTemp = drawLineonBitmap(bitmap, x, y,colorDraw, size2);
+        }
+        imageView.setImageBitmap(drawTemp);
+    }
+
+    public Bitmap drawLineonBitmap(Bitmap src, int x, int y, int color, int size) {
+
+        Bitmap result = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+        Canvas canvas = new Canvas(result);
+        Paint paint = new Paint();
+
+        paint.setColor(color);
+        if (size <1){
+            paint.setStrokeWidth(1);
+
+        }else{
+            paint.setStrokeWidth(size);
+        }
+        canvas.drawBitmap(src, 0, 0, null);
+
+        if(currX != 0 && currY != 0){
+            canvas.drawLine(currX, currY, x, y, paint);
+        }
+        currX = x;
+        currY = y;
+        return result;
+    }
 
 
 
@@ -605,71 +721,6 @@ public class EditActivity extends AppCompatActivity{
                 .setNeutralButton(R.string.edit_cancel_action_dialog, dialogClickListener)
                 .show();
     }
-
-//    private Bitmap adjustedContrast(Bitmap src, double value)
-//    {
-//        // image size
-//        int width = src.getWidth();
-//        int height = src.getHeight();
-//        // create output bitmap
-//        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
-//        // color information
-//        int A, R, G, B;
-//        int pixel;
-//        // get contrast value
-//        double contrast = Math.pow((100 + value) / 100, 2);
-//
-//        // scan through all pixels
-//        for(int x = 0; x < width; ++x) {
-//            for(int y = 0; y < height; ++y) {
-//                // get pixel color
-//                pixel = src.getPixel(x, y);
-//                A = Color.alpha(pixel);
-//                // apply filter contrast for every channel R, G, B
-//                R = Color.red(pixel);
-//                R = (int)(((((R / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-//                if(R < 0) { R = 0; }
-//                else if(R > 255) { R = 255; }
-//
-//                G = Color.green(pixel);
-//                G = (int)(((((G / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-//                if(G < 0) { G = 0; }
-//                else if(G > 255) { G = 255; }
-//
-//                B = Color.blue(pixel);
-//                B = (int)(((((B / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-//                if(B < 0) { B = 0; }
-//                else if(B > 255) { B = 255; }
-//
-//                // set new pixel color to output bitmap
-//                bmOut.setPixel(x, y, Color.argb(A, R, G, B));
-//            }
-//        }
-//
-////        for (int i = 0; i < width*height; i++){
-////            A = Color.alpha(pixels[i]);
-////            // apply filter contrast for every channel R, G, B
-////            R = Color.red(pixels[i]);
-////            R = (int)(((((R / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-////            if(R < 0) { R = 0; }
-////            else if(R > 255) { R = 255; }
-////
-////            G = Color.green(pixels[i]);
-////            G = (int)(((((G / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-////            if(G < 0) { G = 0; }
-////            else if(G > 255) { G = 255; }
-////
-////            B = Color.blue(pixels[i]);
-////            B = (int)(((((B / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-////            if(B < 0) { B = 0; }
-////            else if(B > 255) { B = 255; }
-////
-////            // set new pixel color to output bitmap
-////            bmOut.setPixel(pixels[i]%width, pixels[i]%height, Color.argb(A, R, G, B));
-////        }
-//
-//        return bmOut;
-//    }
 
     public void setVerticalFlip(){
         int[] cpy = new int[pixelCount];
@@ -894,7 +945,7 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onAddText(View v){
-
+        imageView.setOnTouchListener(touchListener);
         addText = true;
         locaX = 0;
         locaY = 0;
@@ -916,6 +967,7 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onOkAddText(View v){
+        editing = true;
         bitmap = bitmap_text;
         addText = false;
         findViewById(R.id.addText_group).setVisibility(View.GONE);
@@ -923,8 +975,10 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onColorAddText(View v){
-        final ColorPicker cp = new ColorPicker(EditActivity.this, 0, 0, 0);
-        /* On Click listener for the dialog, when the user select the color */
+        int i = color;
+        int[] rgb = new int[]{(i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF};
+
+        final ColorPicker cp = new ColorPicker(EditActivity.this, rgb[0], rgb[1], rgb[2]);        /* On Click listener for the dialog, when the user select the color */
         Button okColor = (Button)cp.findViewById(R.id.okColorButton);
         cp.show();
         cp.enableAutoClose(); // Enable auto-dismiss for the dialog
@@ -945,9 +999,64 @@ public class EditActivity extends AppCompatActivity{
 
     }
 
+    public void onDrawing(View v){
+        imageView.setOnTouchListener(touchListener2);
+        drawing = true;
+        locaX = 0;
+        locaY = 0;
+        currX = 0;
+        currY = 0;
+        size2 = 2;
+        colorDraw = 0xFF000000;
+        textSize2.setText(Integer.toString(size2));
+
+        findViewById(R.id.Draw_group).setVisibility(View.VISIBLE);
+        findViewById(R.id.main_group).setVisibility(View.GONE);
+    }
+
+    public void onBackDraw(View v){
+        imageView.setImageBitmap(bitmap);
+        drawTemp = null;
+        drawing = false;
+        findViewById(R.id.Draw_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
+    }
+
+    public void onOKDraw(View v){
+        editing = true;
+        bitmap = drawTemp;
+        drawTemp = null;
+        drawing = false;
+        findViewById(R.id.Draw_group).setVisibility(View.GONE);
+        findViewById(R.id.main_group).setVisibility(View.VISIBLE);
+    }
+
+    public void onColorDraw(View v){
+        int i = colorDraw;
+        int[] rgb = new int[]{(i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF};
+
+        final ColorPicker cp = new ColorPicker(EditActivity.this, rgb[0], rgb[1], rgb[2]);
 
 
+        /* On Click listener for the dialog, when the user select the color */
+        Button okColor = (Button)cp.findViewById(R.id.okColorButton);
+        cp.show();
+        cp.enableAutoClose(); // Enable auto-dismiss for the dialog
 
+        /* Set a new Listener called when user click "select" */
+        cp.setCallback(new ColorPickerCallback() {
+            @Override
+            public void onColorChosen(@ColorInt int color2) {
+                // Do whatever you want
+
+                colorDraw = color2;
+
+                // If the auto-dismiss option is not enable (disabled as default) you have to manually dimiss the dialog
+                // cp.dismiss();
+            }
+        });
+
+    }
 
 }
 
