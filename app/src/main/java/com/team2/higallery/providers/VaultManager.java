@@ -89,7 +89,7 @@ public class VaultManager {
         } catch (Exception e) {
         }
 
-        FileUtils.removeImageFile(context, new File(imagePath));
+        FileUtils.removeImageMedia(context, new File(imagePath));
 
         EncryptedImage encryptedImage = new EncryptedImage(encryptedFileName, imagePath);
         long id = dbHelper.insertEncryptedImage(encryptedImage);

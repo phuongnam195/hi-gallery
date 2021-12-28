@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/deselect_all_menu_main"
-        android:title="@string/main_appbar_deselect"
-        app:showAsAction="ifRoom"
-        />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/select_all_menu_main"
-        android:title="@string/main_appbar_select_all" />
+        android:title="@string/main_appbar_select_all"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/deselect_all_menu_main"
+        android:title="@string/main_appbar_deselect" />
     <item
         android:id="@+id/new_album_selected_menu_main"
         android:title="@string/main_appbar_new_album_selected" />

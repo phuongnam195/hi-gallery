@@ -14,31 +14,6 @@ import java.io.File;
 public class FileUtils {
     public static String HIGALERRY_FOLDER_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/HiGallery";
 
-
-    // Credit: https://stackoverflow.com/questions/39530663/delete-image-file-from-device-programmatically
-    public static boolean removeImageFile(Context context, File imageFile) {
-        String[] projection = {MediaStore.Images.Media._ID};
-
-        String selection = MediaStore.Images.Media.DATA + " = ?";
-        String[] selectionArgs = new String[]{imageFile.getAbsolutePath()};
-
-        Uri queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(queryUri, projection, selection, selectionArgs, null);
-        if (cursor == null) {
-            return false;
-        }
-        if (cursor.moveToFirst()) {
-            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
-            Uri deleteUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-            contentResolver.delete(deleteUri, null, null);
-        } else {
-            return false;
-        }
-        cursor.close();
-        return true;
-    }
-
     public static String getParentFolder(String path) {
         int lastSlash = path.length() - 2;
         while (path.charAt(lastSlash) != '/' && path.charAt(lastSlash) != '\\') {
@@ -93,7 +68,7 @@ public class FileUtils {
         int countExist = 0;
         while (newFile.exists()) {
             countExist++;
-            String newFullname = name + " (" + String.valueOf(countExist) + ")" + extension;
+            String newFullname = name + " (" + countExist + ")" + extension;
             newFile = new File(newFolder + "/" + newFullname);
         }
 
@@ -101,10 +76,30 @@ public class FileUtils {
             return null;
         }
 
-        if (!FileUtils.removeImageFile(context, oldFile)) {
-            return null;
-        }
-
         return newFile;
+    }
+
+    // Credit: https://stackoverflow.com/questions/39530663/delete-image-file-from-device-programmatically
+    public static boolean removeImageMedia(Context context, File imageFile) {
+        String[] projection = {MediaStore.Images.Media._ID};
+
+        String selection = MediaStore.Images.Media.DATA + " = ?";
+        String[] selectionArgs = new String[]{imageFile.getAbsolutePath()};
+
+        Uri queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(queryUri, projection, selection, selectionArgs, null);
+        if (cursor == null) {
+            return false;
+        }
+        if (cursor.moveToFirst()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+            Uri deleteUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+            contentResolver.delete(deleteUri, null, null);
+        } else {
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 }

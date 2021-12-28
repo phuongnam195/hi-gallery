@@ -14,7 +14,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -585,7 +584,7 @@ public class EditActivity extends AppCompatActivity{
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                         imageUri = Uri.parse("file://"+outFile.getAbsolutePath());
                         File deleteIMG= new File(pathList.get(currentIndex));
-                        FileUtils.removeImageFile(EditActivity.this, deleteIMG);
+                        FileUtils.removeImageMedia(EditActivity.this, deleteIMG);
 
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageUri));
                         Toast.makeText(EditActivity.this, "Đã lưu!", Toast.LENGTH_SHORT).show();

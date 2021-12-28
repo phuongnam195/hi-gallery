@@ -117,4 +117,13 @@
     <string name="main_appbar_generate_gif_selected">Tạo ảnh GIF</string>
     <string name="main_toast_generate_gif_done">Tạo ảnh GIF thành công</string>
     <string name="main_toast_generate_gif_failed">Tạo ảnh GIF thất bại!</string>
+    <string name="get_insta_title">Hình ảnh Instagram</string>
+    <string name="get_insta_home">Thư viện</string>
+    <string name="get_insta_get_all_title">Tải đồng loạt hình ảnh</string>
+    <string name="get_insta_small">Nhỏ</string>
+    <string name="get_insta_medium">Vừa</string>
+    <string name="get_insta_large">Lớn</string>
+    <string name="get_insta_toast_downloading">Đang tải…</string>
+    <string name="get_insta_toast_saved">Đã lưu:</string>
+    <string name="get_insta_toast_failed">Thất bại!</string>
 </resources>
