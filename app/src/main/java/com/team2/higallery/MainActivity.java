@@ -360,6 +360,12 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     private void onGenerateGifSelectedPhoto() {
+        // Trên 10 ảnh vẫn xuất được GIF, nhưng giới hạn lại cho đỡ xuất lâu
+        if (selectedIndices.size() == 1 || selectedIndices.size() > 10) {
+            Toast.makeText(this, R.string.main_toast_generate_gif_invalid_number, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
         for (Integer index : selectedIndices) {
             String imagePath = ImagesProvider.allImages.get(index);

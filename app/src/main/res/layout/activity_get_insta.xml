@@ -95,6 +95,16 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/empty_get_insta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/get_insta_empty"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/body_get_insta"
         android:layout_width="match_parent"

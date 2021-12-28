@@ -126,4 +126,6 @@
     <string name="get_insta_toast_downloading">Đang tải…</string>
     <string name="get_insta_toast_saved">Đã lưu:</string>
     <string name="get_insta_toast_failed">Thất bại!</string>
+    <string name="get_insta_empty">Xin lỗi! Hiện tại không thể truy cập hình ảnh.</string>
+    <string name="main_toast_generate_gif_invalid_number">Số lượng hình ảnh không hợp lệ!</string>
 </resources>
