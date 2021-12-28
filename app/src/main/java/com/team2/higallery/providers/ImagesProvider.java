@@ -90,7 +90,7 @@ public class ImagesProvider {
     // Loại bỏ ảnh trùng lặp, trả về số lượng ảnh bị loại bỏ
     public static int deleteDuplicateImages(Context context) {
         int count = 0;
-        HashMap<Long, ArrayList<Bitmap>> hashMap = new HashMap<>();
+        HashMap<Integer, ArrayList<Bitmap>> hashMap = new HashMap<>();
         TrashManager trashManager = TrashManager.getInstance(context);
 
         // Duyệt tất cả các path ảnh
@@ -102,7 +102,7 @@ public class ImagesProvider {
             Bitmap currBitmap = BitmapFactory.decodeFile(imagePath);
 
             // Lấy mã hash của bitmap
-            long hashCode = BitmapUtils.getHashCode(currBitmap);
+            int hashCode = BitmapUtils.getHashCode(currBitmap);
 
             // Nếu trong map đã có hashCode này
             if (hashMap.containsKey(hashCode)) {

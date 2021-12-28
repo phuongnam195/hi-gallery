@@ -14,20 +14,19 @@ import android.util.Log;
 import com.team2.higallery.utils.BitmapUtils;
 
 public class AnimatedGifEncoder {
-    private final static int MAX_WIDTH = 512;
+    private final static int MAX_WIDTH = 512;       // kích thước tối đa của ảnh GIF
     private final static int MAX_HEIGHT = 512;
-    private final static int DELAY = 1500;          // duration of once frame (millisecond)
-    private final static int PAL_SIZE = 7;          // color table size (bits-1)
+    private final static int DELAY = 1500;          // thời lượng của một tấm (ms)
 
-    int fixedWidth;     // GIF size
+    int fixedWidth;     // kích thước cố định của ảnh GIF
     int fixedHeight;
     byte[] indexedPixels;   // converted frame indexed to palette
     byte[] colorTab;        // RGB palette
     boolean[] usedEntry = new boolean[256]; // active palette entries
 
-    private ArrayList<Bitmap> bitmaps;
-    ByteArrayOutputStream out;
-    boolean isEncoded;
+    private ArrayList<Bitmap> bitmaps;      // các hình ảnh input
+    ByteArrayOutputStream out;              // luồng byte tạo file GIF
+    boolean isEncoded;                      // true, nếu đã tạo GIF thành công (chưa xuất)
 
     public void set(ArrayList<Bitmap> inputs) {
         this.bitmaps = inputs;
@@ -216,7 +215,7 @@ public class AnimatedGifEncoder {
             out.write(0);
         } else {
             // specify normal LCT
-            out.write(0x80 | PAL_SIZE);
+            out.write(0x80 | 0x07);
         }
     }
 
@@ -226,7 +225,7 @@ public class AnimatedGifEncoder {
     protected void writeLSD() throws IOException {
         writeShort(fixedWidth);
         writeShort(fixedHeight);
-        out.write((0x80 | 0x70 | PAL_SIZE));
+        out.write((0x80 | 0x70 | 0x07));
         out.write(0);
         out.write(0);
     }
@@ -281,4 +280,3 @@ public class AnimatedGifEncoder {
         }
     }
 }
-

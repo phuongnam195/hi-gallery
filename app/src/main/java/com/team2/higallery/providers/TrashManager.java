@@ -65,12 +65,12 @@ public class TrashManager {
         }
 
         File trashFile = FileUtils.moveImageFile(imagePath, trashFolder, context);
-        File imageFile = new File(imagePath);
-        boolean ex = imageFile.exists();
 
         if (trashFile == null) {
             return false;
         }
+
+        FileUtils.removeImageMedia(context, new File(imagePath));
 
         Date datetime = new Date(System.currentTimeMillis());
         DeletedImage deletedImage = new DeletedImage(trashFile.getPath(), imagePath, datetime);
@@ -111,10 +111,6 @@ public class TrashManager {
         File oldFile = FileUtils.moveImageFile(trashPath, new File(FileUtils.getParentFolder(oldPath)), context);
 
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(oldFile)));
-
-        MediaScannerConnection.scanFile(context,
-                new String[]{oldFile.toString()},
-                null, null);
 
         deletedImages.remove(index);
         long id = deletedImage.getId();

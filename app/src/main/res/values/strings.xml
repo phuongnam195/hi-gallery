@@ -125,4 +125,14 @@
     <string name="set_wall_home_button">Home screen</string>
     <string name="set_wall_lock_button">Lock screen</string>
     <string name="set_wall_both_button">Both</string>
+
+    <string name="get_insta_title">Instagram Images</string>
+    <string name="get_insta_home">Gallery</string>
+    <string name="get_insta_get_all_title">Download all images</string>
+    <string name="get_insta_small">Small</string>
+    <string name="get_insta_medium">Medium</string>
+    <string name="get_insta_large">Large</string>
+    <string name="get_insta_toast_downloading">Downloading…</string>
+    <string name="get_insta_toast_saved">Saved:</string>
+    <string name="get_insta_toast_failed">Failed!</string>
 </resources>

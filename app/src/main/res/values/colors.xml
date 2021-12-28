@@ -21,4 +21,7 @@
     <color name="hint_dark">#DFDFDF</color>
 
     <color name="icon_foreground">#FF5997FF</color>
+
+    <color name="download_all_color">#40C129</color>
+    <color name="download_color">#61CD4D</color>
 </resources>
