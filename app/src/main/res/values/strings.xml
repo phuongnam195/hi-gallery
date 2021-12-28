@@ -18,6 +18,7 @@
     <string name="main_toast_move_to_vault_failed">Move to vault failed!</string>
     <string name="main_toast_generate_gif_done">Generated GIF done</string>
     <string name="main_toast_generate_gif_failed">Generated GIF failed!</string>
+    <string name="main_toast_generate_gif_invalid_number">Invalid number of images!</string>
 
     <string name="navigation_photos">Photos</string>
     <string name="navigation_album">Album</string>

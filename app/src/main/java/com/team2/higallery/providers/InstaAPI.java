@@ -52,6 +52,18 @@ public class InstaAPI {
         properties.put("x-rapidapi-host", "instagram-scraper2.p.rapidapi.com");
         properties.put("x-rapidapi-key", "3a55b0bd14msh488b4d682014163p13b262jsna03690cb8080");
         headers.add(properties);
+
+        urls.add("https://instagram-scraper2.p.rapidapi.com/media_info?short_code={POST_ID}");
+        properties = new HashMap<>();
+        properties.put("x-rapidapi-host", "instagram-scraper2.p.rapidapi.com");
+        properties.put("x-rapidapi-key", "765bcf08e8mshda7a5c52239e74dp1569e6jsn2d0bb0ac687c");
+        headers.add(properties);
+
+        urls.add("https://instagram-scraper2.p.rapidapi.com/media_info?short_code={POST_ID}");
+        properties = new HashMap<>();
+        properties.put("x-rapidapi-host", "instagram-scraper2.p.rapidapi.com");
+        properties.put("x-rapidapi-key", "7d1395cf28msheaa93af1170d616p12c574jsn2a263fbf7e20");
+        headers.add(properties);
     }
 
     public int size() {
@@ -63,7 +75,7 @@ public class InstaAPI {
         try {
             URL url = new URL(replacedUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            if (!headers.get(index).isEmpty()) {
+            if (headers.get(index) != null && !headers.get(index).isEmpty()) {
                 headers.get(index).forEach(connection::setRequestProperty);
             }
 
@@ -76,11 +88,11 @@ public class InstaAPI {
                 if (startIdx != -1) {
                     return json.substring(startIdx);
                 } else {
-                    Log.d("FETCH JSON FAILED", "API no." + index + "\n" + json);
+                    Log.d("InstaAPI-fetchJSON", "API no." + index + "\n" + json);
                 }
             }
         } catch (Exception e) {
-            Log.d("InstaAPI-fetchJSON", e.getMessage());
+            Log.d("InstaAPI-fetchJSON", "API no." + index + "\n" + e.getMessage());
         }
         return null;
     }
