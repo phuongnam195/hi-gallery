@@ -14,24 +14,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.team2.higallery.MainActivity;
 import com.team2.higallery.R;
 import com.team2.higallery.adapters.InstaListViewAdapter;
+import com.team2.higallery.providers.InstaAPI;
 import com.team2.higallery.models.InstaImageData;
 import com.team2.higallery.models.InstaSize;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class GetInstaActivity extends AppCompatActivity {
-    final String TYPENAME_GRAPH_IMAGE = "\"__typename\":\"GraphImage\"";
-
-    private ActionBar appBar;
     Button btnAllSmall;
     Button btnAllMedium;
     Button btnAllLarge;
@@ -51,7 +46,7 @@ public class GetInstaActivity extends AppCompatActivity {
     private void setupAppBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_get_insta);
         setSupportActionBar(toolbar);
-        appBar = getSupportActionBar();
+        ActionBar appBar = getSupportActionBar();
 
         // add back arrow to appbar
         appBar.setDisplayHomeAsUpEnabled(true);
@@ -71,14 +66,18 @@ public class GetInstaActivity extends AppCompatActivity {
             @Override
             public void run() {
                 String json = getJSON(rawUrl);
-                if (json == null) {
-                    return;
-                }
                 imageList = getImageUrls(json);
-                InstaListViewAdapter adapter = new InstaListViewAdapter(GetInstaActivity.this, R.layout.insta_card, imageList);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (imageList.size() == 0) {
+                            TextView tvEmpty = (TextView) findViewById(R.id.empty_get_insta);
+                            tvEmpty.setVisibility(View.VISIBLE);
+                            return;
+                        }
+
+                        InstaListViewAdapter adapter = new InstaListViewAdapter(GetInstaActivity.this, R.layout.insta_card, imageList);
                         listView.setAdapter(adapter);
                         if (imageList.size() > 1) {
                             LinearLayout getAllLayout = (LinearLayout) findViewById(R.id.get_all_get_insta);
@@ -157,41 +156,40 @@ public class GetInstaActivity extends AppCompatActivity {
     }
 
     String getJSON(String rawUrl) {
-        int questIdx = rawUrl.indexOf('?');
-        String jsonUrl = rawUrl.substring(0, questIdx + 1) + "__a=1";
-
-//        TEST MODE: Dùng trong trường hợp Instagram không cho tải JSON
+//        TEST MODE: JSON sample
 //        jsonUrl = "https://firebasestorage.googleapis.com/v0/b/higallery-vault.appspot.com/o/insta.json?alt=media&token=101848bb-0e79-47db-b695-bc2d364d35a2";
 
-        String json = null;
-        try {
-            URL url = new URL(jsonUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                json = bufferedReader.readLine();
-                bufferedReader.close();
-                int startIdx = json.indexOf(TYPENAME_GRAPH_IMAGE);
-                if (startIdx == -1) {
-                    Log.d("JSON ERROR", json);
-                    return null;
-                }
-                json = json.substring(startIdx);
+
+        int prePostIDIdx = rawUrl.indexOf("/p/");
+        int sufPostIDIdx = rawUrl.indexOf('/', prePostIDIdx + "/p/".length() + 1);
+        String postId = rawUrl.substring(prePostIDIdx + "/p/".length(), sufPostIDIdx);
+        Log.d("JSON URL", rawUrl);
+        Log.d("POST ID", postId);
+
+        InstaAPI instaAPI = InstaAPI.getInstance();
+        for (int i = 0; i < instaAPI.size(); i++) {
+            String json = instaAPI.fetchJSON(postId, i);
+            if (json != null) {
+                return json;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        return json;
+        return null;
     }
 
     ArrayList<InstaImageData> getImageUrls(String json) {
         ArrayList<InstaImageData> imageList = new ArrayList<>();
 
-        int nodeIdx = json.indexOf(TYPENAME_GRAPH_IMAGE);
+        if (json == null) {
+            return imageList;
+        }
+
+        int nodeIdx = json.indexOf(InstaAPI.TYPENAME_GRAPH_IMAGE);
+        if (nodeIdx == -1) {
+            return imageList;
+        }
         while (true) {
-            int endNodeIdx = json.indexOf(TYPENAME_GRAPH_IMAGE, nodeIdx + TYPENAME_GRAPH_IMAGE.length() + 1);
+            int endNodeIdx = json.indexOf(InstaAPI.TYPENAME_GRAPH_IMAGE, nodeIdx + InstaAPI.TYPENAME_GRAPH_IMAGE.length() + 1);
             if (endNodeIdx == -1) {
                 endNodeIdx = json.length();
             }

@@ -135,4 +135,5 @@
     <string name="get_insta_toast_downloading">Downloading…</string>
     <string name="get_insta_toast_saved">Saved:</string>
     <string name="get_insta_toast_failed">Failed!</string>
+    <string name="get_insta_empty">Sorry! Unable to access images now.</string>
 </resources>

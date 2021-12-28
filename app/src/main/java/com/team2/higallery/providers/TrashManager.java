@@ -154,9 +154,7 @@ public class TrashManager {
                 return false;
             }
 
-            MediaScannerConnection.scanFile(context,
-                    new String[]{oldFile.toString()},
-                    null, null);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(oldFile)));
         }
 
         dbHelper.removeAllDeletedImages();
