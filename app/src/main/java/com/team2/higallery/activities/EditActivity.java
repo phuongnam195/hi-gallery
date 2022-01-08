@@ -722,6 +722,7 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void setVerticalFlip(){
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
         int[] cpy = new int[pixelCount];
         for(int i = 0; i<pixelCount; i++){
             int opposite = pixelCount - 1 - i;
@@ -731,6 +732,7 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void setHorizontalFlip(){
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
         int[] cpy = new int[pixelCount];
         for(int i = 0; i<pixelCount; i++){
             int opposite = pixelCount - 1 - i;
@@ -896,6 +898,7 @@ public class EditActivity extends AppCompatActivity{
     }
 
     public void onCustom(View v) {
+        currentDeg = 0;
         editing = true;
         findViewById(R.id.rotate_group).setVisibility(View.GONE);
         findViewById(R.id.custom_rotate_group).setVisibility(View.VISIBLE);
@@ -911,14 +914,16 @@ public class EditActivity extends AppCompatActivity{
         findViewById(R.id.rotate_group).setVisibility(View.VISIBLE);
         imageView.setImageBitmap(bitmap);
         currentDeg = 0;
-
     }
 
     public void onOkSeekBar(View v) {
         editing = true;
         findViewById(R.id.custom_rotate_group).setVisibility(View.GONE);
         findViewById(R.id.rotate_group).setVisibility(View.VISIBLE);
-        bitmap = bitmap_rotate;
+        if(bitmap_rotate != null){
+            bitmap = bitmap_rotate;
+        }
+
         imageView.setImageBitmap(bitmap);
         getPixelOfBitmap(bitmap);
 
