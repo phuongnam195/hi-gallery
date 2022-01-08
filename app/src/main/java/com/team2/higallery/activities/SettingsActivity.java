@@ -132,7 +132,6 @@ public class SettingsActivity extends AppCompatActivity implements PopupMenu.OnM
         Intent intent = new Intent(this, AboutActivity.class);
         finish();
         startActivity(intent);
-        Toast.makeText(this, "Team 2", Toast.LENGTH_SHORT).show();
     }
 
     private void refreshActivity() {
