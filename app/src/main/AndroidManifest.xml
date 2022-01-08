@@ -71,6 +71,9 @@
         <activity
             android:name=".activities.SetWallActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.AboutActivity"
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

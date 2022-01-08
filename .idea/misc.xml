@@ -4,8 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.25925925925925924" />
-        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/download_all_button.xml" value="0.26615384615384613" />
-        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/download_button.xml" value="0.159375" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.2101851851851852" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_close.xml" value="0.2703125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/drawable/ic_baseline_favorite.xml" value="0.13240740740740742" />
@@ -22,7 +20,6 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_album.xml" value="0.24682971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_all_images.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_edit.xml" value="0.15625" />
-        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_get_insta.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_login_vault.xml" value="0.14166666666666666" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_photo.xml" value="0.15625" />
@@ -32,7 +29,6 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_trash.xml" value="0.1634963768115942" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/activity_vault_album.xml" value="0.176" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/album_item.xml" value="0.24682971014492755" />
-        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/card_insta.xml" value="0.125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.13854166666666667" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/dialog_new_album.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/dialog_vault_reset_password.xml" value="0.1947463768115942" />
@@ -46,14 +42,12 @@
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/frame_all_images.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/image_fullscreen.xml" value="0.13802083333333334" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/image_fullscreen_preview.xml" value="0.22871376811594202" />
-        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/insta_card.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/thumbnail_album_item.xml" value="0.11979166666666667" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/layout/thumbnail_item.xml" value="0.1947463768115942" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/bottom_navigation_main.xml" value="0.13020833333333334" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_appbar.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_auto_clean.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_edit.xml" value="0.15364583333333334" />
-        <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_get_insta.xml" value="0.125" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_grid_type.xml" value="0.13854166666666667" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/HiGallery/app/src/main/res/menu/menu_main_select_mode.xml" value="0.25416666666666665" />
@@ -92,6 +86,11 @@
         <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.134375" />
         <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/dialog_vault_reset_password.xml" value="0.13489583333333333" />
         <entry key="..\:/android/dack/hi-gallery/app/src/main/res/layout/dialog_wait_set_wall.xml" value="0.1" />
+        <entry key="..\:/android/doan/hi-gallery/app/src/main/res/drawable/download_all_button.xml" value="0.13072916666666667" />
+        <entry key="..\:/android/doan/hi-gallery/app/src/main/res/layout/activity_about.xml" value="0.21" />
+        <entry key="..\:/android/doan/hi-gallery/app/src/main/res/layout/activity_album.xml" value="0.134375" />
+        <entry key="..\:/android/doan/hi-gallery/app/src/main/res/layout/activity_edit.xml" value="0.134375" />
+        <entry key="..\:/android/doan/hi-gallery/app/src/main/res/layout/activity_settings.xml" value="0.2609375" />
         <entry key="..\:/android/hi-gallery/app/src/main/res/layout/dialog_detail_photo.xml" value="0.1693840579710145" />
       </map>
     </option>
