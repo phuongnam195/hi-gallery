@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     private Fragment currentFragment;
     private int currentNavID;
 
+    ArrayList<String> currentImages;
     ArrayList<Integer> selectedIndices = new ArrayList<>();
 
     Toolbar appbar;
@@ -87,6 +88,18 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ArrayList<String> duplicateImagePaths = intent.getStringArrayListExtra("duplicateImagePaths");
+        if (duplicateImagePaths == null || duplicateImagePaths.isEmpty()) {
+            return;
+        }
+        for (String path : duplicateImagePaths) {
+            TrashManager.getInstance(this).delete(path);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -100,16 +113,18 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         }
 
         if (ImagesProvider.updateAllImagesFromExternalStorage(this)) {
-            ((GridPhotosFragment) fragment1).sendFromActivityToFragment("main", "update_all_photos", -1);
+            ((GridPhotosFragment) fragment1).sendFromActivityToFragment("main", "update", -1);
             if (fragment2 != null) {
                 ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
             }
         }
+
+        currentImages = ImagesProvider.allImages;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         if (!PermissionHelper.isGranted(this)) {
             return;
@@ -231,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                     case R.id.navigation_photos:
                         fm.beginTransaction().hide(currentFragment).show(fragment1).commit();
                         currentFragment = fragment1;
+                        currentImages = ImagesProvider.allImages;
                         return true;
 
                     case R.id.navigation_album:
@@ -242,17 +258,19 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                             ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
                         }
                         currentFragment = fragment2;
+                        currentImages = null;
                         return true;
 
                     case R.id.navigation_favorite:
                         if (fragment3 == null) {
-                            fragment3 = new GridPhotosFragment(FavoriteImages.list, "favorites");
+                            fragment3 = new GridPhotosFragment(FavoriteImages.get(), "favorites");
                             fm.beginTransaction().hide(currentFragment).add(R.id.body_main, fragment3, "3").commit();
                         } else {
                             fm.beginTransaction().hide(currentFragment).show(fragment3).commit();
-                            ((GridPhotosFragment) fragment3).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                            ((GridPhotosFragment) fragment3).sendFromActivityToFragment("main", "update", -1);
                         }
                         currentFragment = fragment3;
+                        currentImages = FavoriteImages.get();
                         return true;
                 }
                 return false;
@@ -321,30 +339,35 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     private void onSelectAll() {
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "select_all", 0);
         selectedIndices.clear();
-        for (int i = 0; i < ImagesProvider.allImages.size(); i++) {
+        for (int i = 0; i < currentImages.size(); i++) {
             selectedIndices.add(i);
         }
-        int allCount = ImagesProvider.allImages.size();
+        int allCount = currentImages.size();
         appbar.setTitle(allCount + "/" + allCount);
     }
 
     private void onDeleteSelectedPhoto() {
         TrashManager trashManager = TrashManager.getInstance(this);
         for (int i : selectedIndices) {
-            trashManager.delete(ImagesProvider.allImages.get(i));
+            trashManager.delete(currentImages.get(i));
         }
-        Collections.sort(selectedIndices);
-        for (int i = selectedIndices.size() - 1; i >= 0; i--) {
-            ImagesProvider.allImages.remove(selectedIndices.get(i).intValue());
+        selectedIndices.sort(Collections.reverseOrder());
+        for (Integer index : selectedIndices) {
+            String path = currentImages.get(index);
+            ImagesProvider.allImages.remove(path);
         }
         selectedIndices.clear();
-        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
+        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", -1);
+        if (currentFragment == fragment3) {
+            ((GridPhotosFragment) fragment1).sendFromActivityToFragment("main", "remove", -1);
+        }
+
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
 
         if (fragment2 != null) {
             ImagesProvider.divideAllImagesToAlbums();
-            ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
+            ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
         }
     }
 
@@ -360,15 +383,14 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     private void onGenerateGifSelectedPhoto() {
-        // Trên 10 ảnh vẫn xuất được GIF, nhưng giới hạn lại cho đỡ xuất lâu
-        if (selectedIndices.size() == 1 || selectedIndices.size() > 10) {
+        if (selectedIndices.size() <= 1) {
             Toast.makeText(this, R.string.main_toast_generate_gif_invalid_number, Toast.LENGTH_SHORT).show();
             return;
         }
 
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
         for (Integer index : selectedIndices) {
-            String imagePath = ImagesProvider.allImages.get(index);
+            String imagePath = currentImages.get(index);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             bitmaps.add(bitmap);
         }
@@ -381,7 +403,9 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
         if (ok) {
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
-            ImagesProvider.allImages.add(0, filePath);
+            if (currentFragment == fragment1) {
+                ImagesProvider.allImages.add(0, filePath);
+            }
             Toast.makeText(this, R.string.main_toast_generate_gif_done, Toast.LENGTH_SHORT).show();
 
             if (fragment2 != null) {
@@ -399,6 +423,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     }
 
     private void onNewAlbumSelectedPhoto() {
+        if (currentFragment == fragment3) {
+            Toast.makeText(this, "Sorry! Currently not supported.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_new_album);
@@ -416,18 +445,21 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
 
                 for (Integer index : selectedIndices) {
                     String imagePath = ImagesProvider.allImages.get(index);
-                    File newFile = FileUtils.moveImageFile(imagePath, albumFolder, MainActivity.this);
+                    File newFile = FileUtils.moveFile(imagePath, albumFolder);
                     if (newFile != null) {
+                        FileUtils.removeImageMedia(MainActivity.this, new File(imagePath));
                         newFileList.add(newFile.toString());
                         ImagesProvider.allImages.set(index, newFile.getPath());
                     }
                 }
 
-                String[] newFiles = new String[newFileList.size()];
-                newFiles = newFileList.toArray(newFiles);
-                MediaScannerConnection.scanFile(MainActivity.this,
-                        newFiles,
-                        null, null);
+                if (newFileList.size() > 0) {
+                    String[] newFiles = new String[newFileList.size()];
+                    newFiles = newFileList.toArray(newFiles);
+                    MediaScannerConnection.scanFile(MainActivity.this,
+                            newFiles,
+                            null, null);
+                }
 
                 selectedIndices.clear();
                 appbar.setTitle(getResources().getString(R.string.main_title));
@@ -449,11 +481,12 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
     private void moveSelectedImagesToVault() {
         VaultManager vaultManager = VaultManager.getInstance(this);
         for (int i : selectedIndices) {
-            vaultManager.moveImageToVault(ImagesProvider.allImages.get(i));
+            vaultManager.moveImageToVault(currentImages.get(i));
         }
-        Collections.sort(selectedIndices);
-        for (int i = selectedIndices.size() - 1; i >= 0; i--) {
-            ImagesProvider.allImages.remove(selectedIndices.get(i).intValue());
+        selectedIndices.sort(Collections.reverseOrder());
+        for (Integer index : selectedIndices) {
+            String path = currentImages.get(index);
+            ImagesProvider.allImages.remove(path);
         }
         selectedIndices.clear();
         ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "remove", 0);
@@ -487,18 +520,13 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
                         appbar.setTitle(getResources().getString(R.string.main_title));
                         invalidateOptionsMenu();
                     } else {
-                        int allCount = 0;
-                        if (currentNavID == R.id.navigation_photos) {
-                            allCount = ImagesProvider.allImages.size();
-                        } else if (currentNavID == R.id.navigation_favorite) {
-                            allCount = FavoriteImages.list.size();
-                        }
+                        int allCount = currentImages.size();
                         appbar.setTitle(selectedCount + "/" + allCount);
                     }
                     break;
                 case "should_reload":
                     if (currentNavID == R.id.navigation_favorite) {
-                        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "update_favorite_images", -1);
+                        ((GridPhotosFragment) currentFragment).sendFromActivityToFragment("main", "update", -1);
                     }
             }
 

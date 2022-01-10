@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/background_color"
@@ -27,13 +26,18 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="15dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:focusable="auto"
+        android:inputType="textPersonName|text"
+        android:minHeight="48dp"
         android:textColor="?android:attr/textColor"
         android:textSize="@dimen/dialog_content_size"
         app:layout_constraintBottom_toTopOf="@+id/ok_dialog_new_album"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_dialog_new_album" />
+        app:layout_constraintTop_toBottomOf="@+id/title_dialog_new_album">
+
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/ok_dialog_new_album"

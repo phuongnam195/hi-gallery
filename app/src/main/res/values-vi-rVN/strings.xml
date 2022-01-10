@@ -110,7 +110,6 @@
 
     <string name="photo_slideshow">Trình diễn</string>
     <string name="settings_delete_duplicates_title">Xóa ảnh trùng lặp</string>
-    <string name="settings_delete_duplicates_result">Xóa thành công! Số lượng: </string>
     <string name="main_toast_move_to_vault_done">Đã chuyển tới Bí mật</string>
     <string name="main_toast_move_to_vault_failed">Chuyển tới Bí mật thất bại!</string>
     <string name="photo_toast_edit_gif">Không thể chỉnh sửa ảnh GIF!</string>
@@ -128,4 +127,7 @@
     <string name="get_insta_toast_failed">Thất bại!</string>
     <string name="get_insta_empty">Xin lỗi! Hiện tại không thể truy cập hình ảnh.</string>
     <string name="main_toast_generate_gif_invalid_number">Số lượng hình ảnh không hợp lệ!</string>
+    <string name="find_duplicates_result_content">Đã xóa %1$d ảnh trung lặp!</string>
+    <string name="settings_delete_duplicates_start">Bắt đầu tìm kiếm trùng lặp…</string>
+    <string name="find_duplicates_not_detected_content">Không tìm thấy ảnh trùng lặp.</string>
 </resources>

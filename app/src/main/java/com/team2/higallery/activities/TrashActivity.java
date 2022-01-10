@@ -46,7 +46,7 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
     @Override
     protected void onResume() {
         super.onResume();
-        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update", -1);
     }
 
     private void setupAppBar() {
@@ -96,7 +96,7 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
                 trashManager.deletePermanently(index);
             }
         }
-        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update", -1);
         disableSelectionMode();
     }
 
@@ -110,7 +110,7 @@ public class TrashActivity extends AppCompatActivity implements GridPhotosFragme
                 trashManager.restore(index);
             }
         }
-        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update_deleted_images", -1);
+        ((GridPhotosFragment) fragmentBody).sendFromActivityToFragment("trash", "update", -1);
         disableSelectionMode();
     }
 

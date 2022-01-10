@@ -39,7 +39,9 @@
     <string name="settings_grid_type_menu_1">6 columns</string>
     <string name="settings_grid_type_menu_2">8 columns</string>
     <string name="settings_delete_duplicates_title">Delete duplicated images</string>
-    <string name="settings_delete_duplicates_result">Deleted successfully! Count: </string>
+    <string name="settings_delete_duplicates_start">Start to find duplicates…</string>
+    <string name="find_duplicates_result_content">Detected %1$d duplicate images! Tap to delete.</string>
+    <string name="find_duplicates_not_detected_content">No duplicate images detected.</string>
 
     <string name="login_vault_title">Vault Album</string>
     <string name="login_vault_subtitle">Please enter your passcode.</string>

@@ -9,16 +9,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.fragments.GridPhotosFragment;
 import com.team2.higallery.models.Album;
 import com.team2.higallery.providers.ImagesProvider;
-import com.team2.higallery.providers.TrashManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AlbumActivity extends AppCompatActivity implements GridPhotosFragment.ActivityCallbacks {
     int albumIndex;
@@ -50,7 +49,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     protected void onResume() {
         super.onResume();
         if (needUpdate) {
-            ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "update_album_images", albumIndex);
+            ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "update", albumIndex);
         } else {
             needUpdate = true;
         }
@@ -128,32 +127,36 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     }
 
     private void onDeleteSelectedPhoto() {
-        TrashManager trashManager = TrashManager.getInstance(this);
-        for (int i : selectedPhotoIndices) {
-            trashManager.delete(imagePaths.get(i));
-        }
-        Collections.sort(selectedPhotoIndices);
-        for (int i = selectedPhotoIndices.size() - 1; i >= 0; i--) {
-            String imagePath = imagePaths.get(selectedPhotoIndices.get(i));
-            imagePaths.remove(selectedPhotoIndices.get(i).intValue());
-        }
+        Toast.makeText(this, "Sorry! Currently not supported.", Toast.LENGTH_SHORT).show();
+        return;
 
-        if (imagePaths.isEmpty()) {
-            finish();
-            return;
-        }
-
-        album.setImages(imagePaths);
-        ImagesProvider.allAlbums.set(albumIndex, album);
-
-        selectedPhotoIndices.clear();
-        ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "remove", 0);
-        appbar.setTitle(albumName);
-        invalidateOptionsMenu();
+//        TrashManager trashManager = TrashManager.getInstance(this);
+//        for (int i : selectedPhotoIndices) {
+//            trashManager.delete(imagePaths.get(i));
+//        }
+//        Collections.sort(selectedPhotoIndices);
+//        for (int i = selectedPhotoIndices.size() - 1; i >= 0; i--) {
+//            String imagePath = imagePaths.get(selectedPhotoIndices.get(i));
+//            imagePaths.remove(selectedPhotoIndices.get(i).intValue());
+//        }
+//
+//        if (imagePaths.isEmpty()) {
+//            finish();
+//            return;
+//        }
+//
+//        album.setImages(imagePaths);
+//        ImagesProvider.allAlbums.set(albumIndex, album);
+//
+//        selectedPhotoIndices.clear();
+//        ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "remove", 0);
+//        appbar.setTitle(albumName);
+//        invalidateOptionsMenu();
     }
 
-    private  void onVaultSelectedPhoto() {
-        // TODO: CHƯA LÀM
+    private void onVaultSelectedPhoto() {
+        Toast.makeText(this, "Sorry! Currently not supported.", Toast.LENGTH_SHORT).show();
+        return;
     }
 
     @Override

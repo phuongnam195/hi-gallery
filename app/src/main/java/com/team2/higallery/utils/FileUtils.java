@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 
@@ -51,8 +52,12 @@ public class FileUtils {
         return Bitmap.CompressFormat.PNG;
     }
 
-    public static File moveImageFile(String imagePath, File newFolder, Context context) {
+    public static File moveFile(String imagePath, File newFolder) {
         File oldFile = new File(imagePath);
+        if (oldFile.getParentFile().equals(newFolder)) {
+            Log.d("FileUtils-moveFile", "Duplicate folder path!");
+            return null;
+        }
 
         if (!newFolder.exists()) {
             if (!newFolder.mkdirs()) {

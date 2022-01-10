@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.team2.higallery.Configuration;
 import com.team2.higallery.R;
 import com.team2.higallery.models.Account;
 import com.team2.higallery.providers.VaultManager;
@@ -37,6 +38,7 @@ public class LoginVaultActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Configuration.set(this);
         setContentView(R.layout.activity_login_vault);
 
         //Add animation

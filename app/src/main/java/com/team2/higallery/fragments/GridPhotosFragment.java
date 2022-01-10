@@ -139,22 +139,29 @@ public class GridPhotosFragment extends Fragment implements FragmentCallbacks {
                 break;
             case "remove":          // Vừa có các ảnh (được select) đã bị xóa
                 selectedIndices.clear();
-                gridPhotosAdapter.setImagePaths(ImagesProvider.allImages);
-                imagePaths = ImagesProvider.allImages;
+                updateData(value);
                 break;
-            case "update_all_photos":       // Cập nhật lại danh sách tất cả ảnh
+            case "update":       // Cập nhật lại danh sách ảnh
+                updateData(value);
+                break;
+        }
+    }
+
+    private void updateData(int value) {
+        switch (source) {
+            case "all_photos":
                 imagePaths = ImagesProvider.allImages;
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
-            case "update_favorite_images":  // Cập nhật lại danh sách ảnh được yêu thích
-                imagePaths = FavoriteImages.list;
+            case "favorites":
+                imagePaths = FavoriteImages.get();
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
-            case "update_deleted_images":   // Cập nhật lại danh sách ảnh bị xóa
+            case "trash":
                 imagePaths = TrashManager.getInstance(context).getAllPaths();
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;
-            case "update_album_images":     // Cập nhật lại danh sách ảnh của album có index là value
+            case "album":
                 imagePaths = ImagesProvider.allAlbums.get(value).getImages();
                 gridPhotosAdapter.setImagePaths(imagePaths);
                 break;

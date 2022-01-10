@@ -2,7 +2,6 @@ package com.team2.higallery.providers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -64,7 +63,7 @@ public class TrashManager {
             return false;
         }
 
-        File trashFile = FileUtils.moveImageFile(imagePath, trashFolder, context);
+        File trashFile = FileUtils.moveFile(imagePath, trashFolder);
 
         if (trashFile == null) {
             return false;
@@ -108,7 +107,7 @@ public class TrashManager {
         String trashPath = deletedImage.getTrashPath();
         String oldPath = deletedImage.getOldPath();
 
-        File oldFile = FileUtils.moveImageFile(trashPath, new File(FileUtils.getParentFolder(oldPath)), context);
+        File oldFile = FileUtils.moveFile(trashPath, new File(FileUtils.getParentFolder(oldPath)));
 
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(oldFile)));
 
