@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         for (String path : duplicateImagePaths) {
             TrashManager.getInstance(this).delete(path);
         }
+        Toast.makeText(this, R.string.delete_duplicates_done, Toast.LENGTH_SHORT).show();
     }
 
     @Override

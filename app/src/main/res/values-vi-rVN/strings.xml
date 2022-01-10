@@ -130,4 +130,5 @@
     <string name="find_duplicates_result_content">Đã xóa %1$d ảnh trung lặp!</string>
     <string name="settings_delete_duplicates_start">Bắt đầu tìm kiếm trùng lặp…</string>
     <string name="find_duplicates_not_detected_content">Không tìm thấy ảnh trùng lặp.</string>
+    <string name="delete_duplicates_done">Đã xóa ảnh trùng lặp!</string>
 </resources>
