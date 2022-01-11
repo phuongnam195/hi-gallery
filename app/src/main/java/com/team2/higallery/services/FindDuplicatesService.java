@@ -128,6 +128,7 @@ public class FindDuplicatesService extends Service {
                         resultList.add(currPath);
                         break;
                     }
+                    oldBitmap.recycle();
                 }
                 // Nếu không có bitmap (cùng hashCode) nào giống currBitmap, thì thêm vào danh sách
                 if (notFound) {
@@ -141,14 +142,10 @@ public class FindDuplicatesService extends Service {
                 newValue.add(currPath);
                 hashMap.put(hashCode, newValue);
             }
+
+            currBitmap.recycle();
         }
 
         return resultList;
-
-//        for (String path : resultList) {
-//            trashManager.delete(path);
-//        }
-//
-//        return resultList.size();
     }
 }
