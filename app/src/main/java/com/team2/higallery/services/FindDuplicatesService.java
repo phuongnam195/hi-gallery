@@ -100,44 +100,45 @@ public class FindDuplicatesService extends Service {
     // Loại bỏ ảnh trùng lặp, trả về số lượng ảnh bị loại bỏ
     public static ArrayList<String> findDuplicateImages(ArrayList<String> imagePaths) {
         ArrayList<String> resultList = new ArrayList<>();
-        HashMap<Integer, ArrayList<Bitmap>> hashMap = new HashMap<>();
+        HashMap<Integer, ArrayList<String>> hashMap = new HashMap<>();
 
         // Duyệt tất cả các path ảnh
-        for (String imagePath : imagePaths) {
-            if (FileUtils.getExtension(imagePath).equalsIgnoreCase("gif")) {
+        for (String currPath : imagePaths) {
+            if (FileUtils.getExtension(currPath).equalsIgnoreCase("gif")) {
                 continue;
             }
 
-            Bitmap currBitmap = BitmapFactory.decodeFile(imagePath);
+            Bitmap currBitmap = BitmapFactory.decodeFile(currPath);
 
             // Lấy mã hash của bitmap
             int hashCode = BitmapUtils.getHashCode(currBitmap);
 
             // Nếu trong map đã có hashCode này
             if (hashMap.containsKey(hashCode)) {
-                ArrayList<Bitmap> insertedBitmaps = hashMap.get(hashCode);
+                ArrayList<String> insertedImagePaths = hashMap.get(hashCode);
                 boolean notFound = true;
 
                 // Thì duyệt các bitmap có cùng hashCode
-                for (Bitmap ibm : insertedBitmaps) {
+                for (String oldPath : insertedImagePaths) {
+                    Bitmap oldBitmap = BitmapFactory.decodeFile(oldPath);
                     // Nếu đã tồn tại bitmap giống 100%
-                    if (BitmapUtils.compare(ibm, currBitmap)) {
+                    if (BitmapUtils.compare(oldBitmap, currBitmap)) {
                         notFound = false;
                         // Xóa ảnh cũ hơn (cũng chính là ảnh hiện tại của vòng lặp) và không cần kiểm tra thêm
-                        resultList.add(imagePath);
+                        resultList.add(currPath);
                         break;
                     }
                 }
                 // Nếu không có bitmap (cùng hashCode) nào giống currBitmap, thì thêm vào danh sách
                 if (notFound) {
-                    insertedBitmaps.add(currBitmap);
-                    hashMap.put(hashCode, insertedBitmaps);
+                    insertedImagePaths.add(currPath);
+                    hashMap.put(hashCode, insertedImagePaths);
                 }
             }
             // Nếu trong map chưa có hashCode này
             else {
-                ArrayList<Bitmap> newValue = new ArrayList<>();
-                newValue.add(currBitmap);
+                ArrayList<String> newValue = new ArrayList<>();
+                newValue.add(currPath);
                 hashMap.put(hashCode, newValue);
             }
         }
