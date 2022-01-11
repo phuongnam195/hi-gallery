@@ -42,25 +42,27 @@ public class BitmapUtils {
     }
 
     public static boolean compare(Bitmap bitmap1, Bitmap bitmap2) {
-        int w1 = bitmap1.getWidth();
-        int h1 = bitmap1.getHeight();
+        return bitmap1.sameAs(bitmap2);
 
-        int w2 = bitmap2.getWidth();
-        int h2 = bitmap2.getHeight();
-
-        if (w1 != w2 || h1 != h2) {
-            return false;
-        }
-
-        for (int x = 0; x < w1; x++) {
-            for (int y = 0; y < h1; y++) {
-                if (bitmap1.getPixel(x, y) != bitmap2.getPixel(x, y)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+//        int w1 = bitmap1.getWidth();
+//        int h1 = bitmap1.getHeight();
+//
+//        int w2 = bitmap2.getWidth();
+//        int h2 = bitmap2.getHeight();
+//
+//        if (w1 != w2 || h1 != h2) {
+//            return false;
+//        }
+//
+//        for (int x = 0; x < w1; x++) {
+//            for (int y = 0; y < h1; y++) {
+//                if (bitmap1.getPixel(x, y) != bitmap2.getPixel(x, y)) {
+//                    return false;
+//                }
+//            }
+//        }
+//
+//        return true;
     }
 
     public static boolean save(Bitmap bitmap, String filePath, Context context) {

@@ -127,7 +127,7 @@
     <string name="get_insta_toast_failed">Thất bại!</string>
     <string name="get_insta_empty">Xin lỗi! Hiện tại không thể truy cập hình ảnh.</string>
     <string name="main_toast_generate_gif_invalid_number">Số lượng hình ảnh không hợp lệ!</string>
-    <string name="find_duplicates_result_content">Đã xóa %1$d ảnh trung lặp!</string>
+    <string name="find_duplicates_result_content">Phát hiện %1$d ảnh trùng lặp!</string>
     <string name="settings_delete_duplicates_start">Bắt đầu tìm kiếm trùng lặp…</string>
     <string name="find_duplicates_not_detected_content">Không tìm thấy ảnh trùng lặp.</string>
     <string name="delete_duplicates_done">Đã xóa ảnh trùng lặp!</string>

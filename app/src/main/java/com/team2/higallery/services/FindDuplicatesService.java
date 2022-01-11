@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.bumptech.glide.Glide;
 import com.team2.higallery.MainActivity;
 import com.team2.higallery.R;
 import com.team2.higallery.providers.ImagesProvider;
@@ -19,6 +21,7 @@ import com.team2.higallery.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class FindDuplicatesService extends Service {
     final String CHANNEL_ID = "HiGalley_DeleteDuplicates";
@@ -81,7 +84,7 @@ public class FindDuplicatesService extends Service {
                                 FindDuplicatesService.this,
                                 0,
                                 backToHome,
-                                0);
+                                PendingIntent.FLAG_UPDATE_CURRENT);
 
                         notiBuilder.setContentText(getString(R.string.find_duplicates_result_content, count))
                                 .setContentIntent(pendingIntent);                      // mở activity khi click
@@ -98,9 +101,11 @@ public class FindDuplicatesService extends Service {
     }
 
     // Loại bỏ ảnh trùng lặp, trả về số lượng ảnh bị loại bỏ
-    public static ArrayList<String> findDuplicateImages(ArrayList<String> imagePaths) {
+    private ArrayList<String> findDuplicateImages(ArrayList<String> imagePaths) {
         ArrayList<String> resultList = new ArrayList<>();
         HashMap<Integer, ArrayList<String>> hashMap = new HashMap<>();
+
+        long startTime = System.currentTimeMillis();
 
         // Duyệt tất cả các path ảnh
         for (String currPath : imagePaths) {
@@ -108,21 +113,34 @@ public class FindDuplicatesService extends Service {
                 continue;
             }
 
-            Bitmap currBitmap = BitmapFactory.decodeFile(currPath);
+            Bitmap curThumbnail;
+            try {
+                curThumbnail = Glide.with(this)
+                        .asBitmap()
+                        .load(currPath)
+                        .override(300, 300)
+                        .centerCrop()
+                        .submit().get();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
 
             // Lấy mã hash của bitmap
-            int hashCode = BitmapUtils.getHashCode(currBitmap);
+            int hashCode = BitmapUtils.getHashCode(curThumbnail);
 
             // Nếu trong map đã có hashCode này
             if (hashMap.containsKey(hashCode)) {
                 ArrayList<String> insertedImagePaths = hashMap.get(hashCode);
                 boolean notFound = true;
 
+                Bitmap curBitmap = BitmapFactory.decodeFile(currPath);
+
                 // Thì duyệt các bitmap có cùng hashCode
                 for (String oldPath : insertedImagePaths) {
                     Bitmap oldBitmap = BitmapFactory.decodeFile(oldPath);
                     // Nếu đã tồn tại bitmap giống 100%
-                    if (BitmapUtils.compare(oldBitmap, currBitmap)) {
+                    if (BitmapUtils.compare(oldBitmap, curBitmap)) {
                         notFound = false;
                         // Xóa ảnh cũ hơn (cũng chính là ảnh hiện tại của vòng lặp) và không cần kiểm tra thêm
                         resultList.add(currPath);
@@ -130,11 +148,14 @@ public class FindDuplicatesService extends Service {
                     }
                     oldBitmap.recycle();
                 }
+
                 // Nếu không có bitmap (cùng hashCode) nào giống currBitmap, thì thêm vào danh sách
                 if (notFound) {
                     insertedImagePaths.add(currPath);
                     hashMap.put(hashCode, insertedImagePaths);
                 }
+
+                curBitmap.recycle();
             }
             // Nếu trong map chưa có hashCode này
             else {
@@ -143,9 +164,10 @@ public class FindDuplicatesService extends Service {
                 hashMap.put(hashCode, newValue);
             }
 
-            currBitmap.recycle();
+            curThumbnail.recycle();
         }
 
+        Log.d("FindDuplicates-RunningTime", String.valueOf(System.currentTimeMillis() - startTime));
         return resultList;
     }
 }
