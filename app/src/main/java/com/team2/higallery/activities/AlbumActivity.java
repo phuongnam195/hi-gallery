@@ -24,7 +24,7 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     Album album;
     String albumName;
     ArrayList<String> imagePaths;
-    ArrayList<Integer> selectedPhotoIndices = new ArrayList<>();;
+    ArrayList<Integer> selectedPhotoIndices = new ArrayList<>();
     boolean needUpdate = false;
 
     ActionBar appbar;
@@ -49,10 +49,13 @@ public class AlbumActivity extends AppCompatActivity implements GridPhotosFragme
     protected void onResume() {
         super.onResume();
         if (needUpdate) {
-            ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "update", albumIndex);
+            if (ImagesProvider.updateAllImagesFromExternalStorage(this)) {
+                ((GridPhotosFragment)fragment).sendFromActivityToFragment("album", "update", albumIndex);
+            }
         } else {
             needUpdate = true;
         }
+
     }
 
     private void setupAppBar() {

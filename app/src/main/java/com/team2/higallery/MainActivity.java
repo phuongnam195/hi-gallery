@@ -120,7 +120,11 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             }
         }
 
-        currentImages = ImagesProvider.allImages;
+        if (currentFragment == fragment1) {
+            currentImages = ImagesProvider.allImages;
+        } else if (currentFragment == fragment3) {
+            currentImages = FavoriteImages.get();
+        }
     }
 
     @Override
@@ -366,8 +370,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
 
+        ImagesProvider.divideAllImagesToAlbums();
         if (fragment2 != null) {
-            ImagesProvider.divideAllImagesToAlbums();
             ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", -1);
         }
     }
@@ -409,8 +413,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
             }
             Toast.makeText(this, R.string.main_toast_generate_gif_done, Toast.LENGTH_SHORT).show();
 
+            ImagesProvider.divideAllImagesToAlbums();
             if (fragment2 != null) {
-                ImagesProvider.divideAllImagesToAlbums();
                 ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
             }
         } else {
@@ -494,8 +498,8 @@ public class MainActivity extends AppCompatActivity implements GridPhotosFragmen
         appbar.setTitle(getResources().getString(R.string.main_title));
         invalidateOptionsMenu();
 
+        ImagesProvider.divideAllImagesToAlbums();
         if (fragment2 != null) {
-            ImagesProvider.divideAllImagesToAlbums();
             ((GridAlbumsFragment) fragment2).sendFromActivityToFragment("main", "update", 0);
         }
     }

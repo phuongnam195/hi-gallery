@@ -44,6 +44,12 @@ public class GridAlbumsFragment extends Fragment implements FragmentCallbacks {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        gridAlbumsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_grid_albums, null);
