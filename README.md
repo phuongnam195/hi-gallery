@@ -3,8 +3,14 @@
 Tan Loc, Van Loi, Duy Minh, Anh Minh, Phuong Nam
 ## Video demo
 [![free-youtube-logo-icon-2431-thumb](https://user-images.githubusercontent.com/90912187/149267617-05c7c70d-2156-44b7-bbf9-59517cb9f2b2.png)](https://youtu.be/n2c7FSQ6rh8)
-
-
+## Highlight features
+- Vault & sync
+- Delete duplicate images
+- Edit image: filter, text, draw, rotate, flip
+- Trash manager (auto clean)
+- Get Instagram image(s)
+- Make GIF sequence
+- Slideshow
 ## Screenshots
 <p float="left">
   <img src="https://user-images.githubusercontent.com/90912187/146320195-b987f2de-76da-4f0b-9cb0-4aef11b796ce.png" width="220" />
